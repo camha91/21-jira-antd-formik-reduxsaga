@@ -2,7 +2,7 @@ import { Layout } from "antd";
 import React from "react";
 import { Route } from "react-router-dom";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 export const LoginTemplate = (props) => {
     let { Component, ...restRoute } = props;
@@ -19,7 +19,8 @@ export const LoginTemplate = (props) => {
                                 style={{
                                     height: window.innerHeight,
                                     backgroundImage:
-                                        "url(https://picsum.photos/500)",
+                                        "url(https://picsum.photos/2000)",
+                                    backgroundSize: "100%",
                                 }}
                             ></Sider>
                             <Content>

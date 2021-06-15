@@ -6,10 +6,18 @@ import {
     FacebookOutlined,
 } from "@ant-design/icons";
 import { Button, Input } from "antd";
+import { withFormik } from "formik";
+import * as Yup from "yup";
 
-export default function LoginCyberBugs(props) {
+function LoginCyberBugs(props) {
+    const { errors, handleChange, handleSubmit } = props;
+
     return (
-        <form className="container" style={{ height: window.innerHeight }}>
+        <form
+            onSubmit={handleSubmit}
+            className="container"
+            style={{ height: window.innerHeight }}
+        >
             <div
                 className="d-flex flex-column justify-content-center align-items-center"
                 style={{ height: window.innerHeight }}
@@ -23,6 +31,7 @@ export default function LoginCyberBugs(props) {
 
                 <div className="d-flex mt-3">
                     <Input
+                        onChange={handleChange}
                         style={{ width: "100%", minWidth: 300 }}
                         name="email"
                         size="large"
@@ -30,8 +39,10 @@ export default function LoginCyberBugs(props) {
                         prefix={<UserOutlined />}
                     />
                 </div>
+                <div className="text-danger">{errors.email}</div>
                 <div className="d-flex mt-3">
                     <Input
+                        onChange={handleChange}
                         style={{ width: "100%", minWidth: 300 }}
                         name="password"
                         size="large"
@@ -39,7 +50,9 @@ export default function LoginCyberBugs(props) {
                         prefix={<LockOutlined />}
                     />
                 </div>
+                <div className="text-danger">{errors.password}</div>
                 <Button
+                    htmlType="submit"
                     size="large"
                     style={{
                         minWidth: 300,
@@ -71,3 +84,27 @@ export default function LoginCyberBugs(props) {
         </form>
     );
 }
+
+const LoginCyberBugsWithFormik = withFormik({
+    mapPropsToValues: () => ({ email: "", password: "" }),
+
+    validationSchema: Yup.object().shape({
+        email: Yup.string()
+            .required("Email is required!")
+            .email("Email is invalid!"),
+        password: Yup.string()
+            .min(6, "Password must have min 6 characters!")
+            .max(32, "Password have max 32 characters!"),
+    }),
+
+    handleSubmit: (values, { setSubmitting }) => {
+        setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+        }, 1000);
+    },
+
+    displayName: "Login CyberBugs",
+})(LoginCyberBugs);
+
+export default LoginCyberBugsWithFormik;
