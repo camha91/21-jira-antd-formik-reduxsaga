@@ -1,13 +1,15 @@
-import React from "react";
 import {
-    UserOutlined,
+    FacebookOutlined,
     LockOutlined,
     TwitterOutlined,
-    FacebookOutlined,
+    UserOutlined,
 } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { withFormik } from "formik";
+import React from "react";
+import { connect } from "react-redux";
 import * as Yup from "yup";
+import { signinCyberBugsAction } from "../../../redux/actions/CyberBugsAction";
 
 function LoginCyberBugs(props) {
     const { errors, handleChange, handleSubmit } = props;
@@ -97,14 +99,12 @@ const LoginCyberBugsWithFormik = withFormik({
             .max(32, "Password have max 32 characters!"),
     }),
 
-    handleSubmit: (values, { setSubmitting }) => {
-        setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-        }, 1000);
+    handleSubmit: ({ email, password }, { props, setSubmitting }) => {
+        setSubmitting(true);
+        props.dispatch(signinCyberBugsAction(email, password));
     },
 
     displayName: "Login CyberBugs",
 })(LoginCyberBugs);
 
-export default LoginCyberBugsWithFormik;
+export default connect()(LoginCyberBugsWithFormik);
