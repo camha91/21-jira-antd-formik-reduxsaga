@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Switch, useHistory } from "react-router-dom";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent/LoadingComponent";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
@@ -11,8 +12,18 @@ import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
 
 function App() {
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({
+            type: "ADD_HISTORY",
+            history,
+        });
+    }, []);
+
     return (
-        <BrowserRouter>
+        <>
             <LoadingComponent />
             <Switch>
                 <HomeTemplate exact path="/home" Component={Home} />
@@ -23,7 +34,7 @@ function App() {
                 <HomeTemplate exact path="/" Component={Home} />
                 <HomeTemplate path="*" Component={PageNotFound} />
             </Switch>
-        </BrowserRouter>
+        </>
     );
 }
 
