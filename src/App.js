@@ -8,6 +8,8 @@ import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import Register from "./pages/Register/Register";
+import indexCyberBugs from "./redux/sagas/CyberBugs/indexCyberBugs";
+import { CyberBugsTemplate } from "./templates/CyberBugsTemplate";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
 
@@ -31,6 +33,11 @@ function App() {
                 <HomeTemplate exact path="/contact" Component={Contact} />
                 <LoginTemplate exact path="/login" Component={LoginCyberBugs} />
                 <HomeTemplate exact path="/register" Component={Register} />
+                <CyberBugsTemplate
+                    exact
+                    path="/cyberbugs"
+                    Component={indexCyberBugs}
+                />
                 <HomeTemplate exact path="/" Component={Home} />
                 <HomeTemplate path="*" Component={PageNotFound} />
             </Switch>
