@@ -1,14 +1,15 @@
 import React from "react";
+import logo from "../../assets/img/logo.jfif";
 
 export default function Menu() {
     return (
         <div className="menu">
             <div className="account">
                 <div className="avatar">
-                    <img src="./assets/img/download.jfif" alt />
+                    <img src={logo} alt="logo" />
                 </div>
                 <div className="account-info">
-                    <p>CyberLearn.vn</p>
+                    <p>CyberLearn</p>
                     <p>Report bugs</p>
                 </div>
             </div>

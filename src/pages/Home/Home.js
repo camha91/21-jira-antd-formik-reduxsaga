@@ -8,8 +8,8 @@ export default function Home(props) {
 
     return (
         <div>
-            {userLogin.name}
-            <img src={userLogin.avatar} alt="avatar" />
+            {userLogin?.name}
+            <img src={userLogin?.avatar} alt="avatar" />
         </div>
     );
 }

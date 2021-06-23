@@ -1,9 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
-import ContentMain from "../components/CyberBugs/Main/ContentMain";
-import HeaderMain from "../components/CyberBugs/Main/HeaderMain";
-import InfoMain from "../components/CyberBugs/Main/InfoMain";
 import Menu from "../components/CyberBugs/Menu";
+import ModalCyberBugs from "../components/CyberBugs/ModalCyberBugs/ModalCyberBugs";
 import SideBar from "../components/CyberBugs/SideBar";
 import "../index.css";
 
@@ -19,12 +17,8 @@ export const CyberBugsTemplate = (props) => {
                         <div className="jira">
                             <SideBar />
                             <Menu />
-                            <div className="main">
-                                <h3>Cyber Board</h3>
-                                <HeaderMain />
-                                <ContentMain />
-                                <InfoMain />
-                            </div>
+                            <Component {...propsRoute} />
+                            <ModalCyberBugs />
                         </div>
                     </>
                 );

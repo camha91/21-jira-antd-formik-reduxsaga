@@ -1,4 +1,6 @@
 import React from "react";
+import avatar1 from "../../../assets/img/avatar1.jfif";
+import avatar2 from "../../../assets/img/avatar2.jfif";
 
 export default function ContentMain() {
     return (
@@ -27,16 +29,10 @@ export default function ContentMain() {
                                     style={{ display: "flex" }}
                                 >
                                     <div className="avatar">
-                                        <img
-                                            src="./assets/img/download (1).jfif"
-                                            alt
-                                        />
+                                        <img src={avatar1} alt="avatar1" />
                                     </div>
                                     <div className="avatar">
-                                        <img
-                                            src="./assets/img/download (2).jfif"
-                                            alt
-                                        />
+                                        <img src={avatar2} alt="avatar2" />
                                     </div>
                                 </div>
                             </div>
@@ -58,16 +54,10 @@ export default function ContentMain() {
                                     style={{ display: "flex" }}
                                 >
                                     <div className="avatar">
-                                        <img
-                                            src="./assets/img/download (1).jfif"
-                                            alt
-                                        />
+                                        <img src={avatar1} alt="avatar1" />
                                     </div>
                                     <div className="avatar">
-                                        <img
-                                            src="./assets/img/download (2).jfif"
-                                            alt
-                                        />
+                                        <img src={avatar2} alt="avatar2" />
                                     </div>
                                 </div>
                             </div>
