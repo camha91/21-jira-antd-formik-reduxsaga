@@ -29,10 +29,10 @@ export default function ContentMain() {
                                     style={{ display: "flex" }}
                                 >
                                     <div className="avatar">
-                                        <img src={avatar1} alt="avatar1" />
+                                        <img src={avatar1} alt="1" />
                                     </div>
                                     <div className="avatar">
-                                        <img src={avatar2} alt="avatar2" />
+                                        <img src={avatar2} alt="2" />
                                     </div>
                                 </div>
                             </div>
@@ -54,10 +54,10 @@ export default function ContentMain() {
                                     style={{ display: "flex" }}
                                 >
                                     <div className="avatar">
-                                        <img src={avatar1} alt="avatar1" />
+                                        <img src={avatar1} alt="1" />
                                     </div>
                                     <div className="avatar">
-                                        <img src={avatar2} alt="avatar2" />
+                                        <img src={avatar2} alt="2" />
                                     </div>
                                 </div>
                             </div>
