@@ -4,6 +4,7 @@ import { Switch, useHistory } from "react-router-dom";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent/LoadingComponent";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
+import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
@@ -37,6 +38,11 @@ function App() {
                     exact
                     path="/cyberbugs"
                     Component={indexCyberBugs}
+                />
+                <CyberBugsTemplate
+                    exact
+                    path="/createproject"
+                    Component={CreateProject}
                 />
                 <HomeTemplate exact path="/" Component={Home} />
                 <HomeTemplate path="*" Component={PageNotFound} />
