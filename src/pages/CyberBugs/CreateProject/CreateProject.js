@@ -1,16 +1,28 @@
-import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { withFormik } from "formik";
+import React, { useEffect } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { GET_ALL_PROJECT_CATEGORY_SAGA } from "../../../redux/constants/CyberBugsConst";
 
-export default function CreateProject() {
-    const handleEditorChange = (content, editor) => {
-        console.log("Content was updated:", content);
-        console.log("Content was updated:", editor);
-    };
+function CreateProject(props) {
+    const arrProjectCategory = useSelector(
+        (state) => state.ProjectCategoryReducer.arrProjectCategory
+    );
+    const { errors, handleChange, handleSubmit } = props;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // Call API to get data for select option
+        dispatch({ type: GET_ALL_PROJECT_CATEGORY_SAGA });
+    }, []);
+
+    const handleEditorChange = (content, editor) => {};
 
     return (
         <div className="container m-5">
             <h3>Create Project</h3>
-            <form className="container">
+            <form className="container" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <p>Name</p>
                     <input className="form-control" name="projectName" />
@@ -42,9 +54,13 @@ export default function CreateProject() {
                 </div>
                 <div className="form-group">
                     <select name="categoryId" className="form-control">
-                        <option>Software</option>
-                        <option>Web</option>
-                        <option>App</option>
+                        {arrProjectCategory.map((item, index) => {
+                            return (
+                                <option key={index} value={item.id}>
+                                    {item.projectCategoryName}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
                 <button className="btn btn-outline-primary">
@@ -54,3 +70,17 @@ export default function CreateProject() {
         </div>
     );
 }
+
+const CreateProjectForm = withFormik({
+    mapPropsToValues: () => ({ abc: "" }),
+
+    validationSchema: Yup.object().shape({}),
+
+    handleSubmit: (values, { props, setSubmitting }) => {
+        console.log(values);
+    },
+
+    displayName: "CreateProjectFormik",
+})(CreateProject);
+
+export default connect()(CreateProjectForm);

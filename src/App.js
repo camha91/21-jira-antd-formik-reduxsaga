@@ -10,7 +10,7 @@ import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import Register from "./pages/Register/Register";
 import indexCyberBugs from "./redux/sagas/CyberBugs/indexCyberBugs";
-import { CyberBugsTemplate } from "./templates/CyberBugsTemplate";
+import { CyberBugsTemplate } from "./templates/CyberBugsTemplate/CyberBugsTemplate";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
 
