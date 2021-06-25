@@ -1,12 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 export default function CreateProject() {
-    const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
+    const handleEditorChange = (content, editor) => {
+        console.log("Content was updated:", content);
+        console.log("Content was updated:", editor);
     };
 
     return (
@@ -20,9 +18,9 @@ export default function CreateProject() {
                 <div className="form-group">
                     <p>Description</p>
                     <Editor
+                        apiKey="g27fj6m5418u3qhmks29fe5reido8j9q0a4nerxvir4xxnvu"
                         name="Description"
-                        onInit={(evt, editor) => (editorRef.current = editor)}
-                        initialValue="<p>This is the initial content of the editor.</p>"
+                        initialValue=""
                         init={{
                             height: 500,
                             menubar: false,
@@ -39,6 +37,7 @@ export default function CreateProject() {
                             content_style:
                                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                         }}
+                        onEditorChange={handleEditorChange}
                     />
                 </div>
                 <div className="form-group">
