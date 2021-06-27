@@ -3,13 +3,16 @@ import { withFormik } from "formik";
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { GET_ALL_PROJECT_CATEGORY_SAGA } from "../../../redux/constants/CyberBugsConst";
+import {
+    CREATE_PROJECT_SAGA,
+    GET_ALL_PROJECT_CATEGORY_SAGA,
+} from "../../../redux/constants/CyberBugsConst";
 
 function CreateProject(props) {
     const arrProjectCategory = useSelector(
         (state) => state.ProjectCategoryReducer.arrProjectCategory
     );
-    const { errors, handleChange, handleSubmit } = props;
+    const { setFieldValue, handleChange, handleSubmit } = props;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,12 +20,18 @@ function CreateProject(props) {
         dispatch({ type: GET_ALL_PROJECT_CATEGORY_SAGA });
     }, []);
 
-    const handleEditorChange = (content, editor) => {};
+    const handleEditorChange = (content, editor) => {
+        setFieldValue("description", content);
+    };
 
     return (
         <div className="container m-5">
             <h3>Create Project</h3>
-            <form className="container" onSubmit={handleSubmit}>
+            <form
+                className="container"
+                onSubmit={handleSubmit}
+                onChange={handleChange}
+            >
                 <div className="form-group">
                     <p>Name</p>
                     <input className="form-control" name="projectName" />
@@ -53,7 +62,11 @@ function CreateProject(props) {
                     />
                 </div>
                 <div className="form-group">
-                    <select name="categoryId" className="form-control">
+                    <select
+                        name="categoryId"
+                        className="form-control"
+                        onChange={handleChange}
+                    >
                         {arrProjectCategory.map((item, index) => {
                             return (
                                 <option key={index} value={item.id}>
@@ -72,15 +85,31 @@ function CreateProject(props) {
 }
 
 const CreateProjectForm = withFormik({
-    mapPropsToValues: () => ({ abc: "" }),
+    enableReinitialize: true,
+
+    mapPropsToValues: (props) => {
+        console.log("propsValue", props);
+        return {
+            projectName: "",
+            description: "",
+            categoryId: props.arrProjectCategory[0]?.id,
+        };
+    },
 
     validationSchema: Yup.object().shape({}),
 
     handleSubmit: (values, { props, setSubmitting }) => {
-        console.log(values);
+        props.dispatch({
+            type: CREATE_PROJECT_SAGA,
+            newProject: values,
+        });
     },
 
     displayName: "CreateProjectFormik",
 })(CreateProject);
 
-export default connect()(CreateProjectForm);
+const mapStateToProps = (state) => ({
+    arrProjectCategory: state.ProjectCategoryReducer.arrProjectCategory,
+});
+
+export default connect(mapStateToProps)(CreateProjectForm);

@@ -41,7 +41,7 @@ function App() {
                 />
                 <CyberBugsTemplate
                     exact
-                    path="/createproject"
+                    path="/createProject"
                     Component={CreateProject}
                 />
                 <HomeTemplate exact path="/" Component={Home} />
