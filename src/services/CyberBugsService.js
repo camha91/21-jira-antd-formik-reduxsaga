@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { DOMAIN_CYBERBUGS } from "../utils/constants/settingSystem";
+import { DOMAIN_CYBERBUGS, TOKEN } from "../utils/constants/settingSystem";
 
 export const cyberBugsService = {
     signinCyberBugs: (userLogin) => {
@@ -7,6 +7,27 @@ export const cyberBugsService = {
             url: `${DOMAIN_CYBERBUGS}/users/signin`,
             method: "POST",
             data: userLogin,
+        });
+    },
+    getAllProjectCategory: () => {
+        return Axios({
+            url: `${DOMAIN_CYBERBUGS}/ProjectCategory`,
+            method: "GET",
+        });
+    },
+    createProject: (newProject) => {
+        return Axios({
+            url: `${DOMAIN_CYBERBUGS}/Project/createProject`,
+            method: "POST",
+            data: newProject,
+        });
+    },
+    createProjectAuthorization: (newProject) => {
+        return Axios({
+            url: `${DOMAIN_CYBERBUGS}/Project/createProjectAuthorize`,
+            method: "POST",
+            data: newProject,
+            headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
         });
     },
 };

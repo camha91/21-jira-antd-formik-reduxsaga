@@ -225,7 +225,7 @@ export default function ModalCyberBugs() {
                                     <div className="status">
                                         <h6>STATUS</h6>
                                         <select className="custom-select">
-                                            <option selected>
+                                            <option value={''}>
                                                 SELECTED FOR DEVELOPMENT
                                             </option>
                                             <option value={1}>One</option>
