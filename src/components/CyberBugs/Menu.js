@@ -29,12 +29,23 @@ export default function Menu() {
                 <div>
                     <i className="fa fa-cog" />
                     <NavLink
-                        to="/createproject"
+                        to="/createProject"
                         className="text-dark"
                         activeStyle={{ color: "pink" }}
                         activeClassName="active font-weight-bold"
                     >
                         Create Project
+                    </NavLink>
+                </div>
+                <div>
+                    <i className="fa fa-cog" />
+                    <NavLink
+                        to="/projectManagement"
+                        className="text-dark"
+                        activeStyle={{ color: "pink" }}
+                        activeClassName="active font-weight-bold"
+                    >
+                        Project Management
                     </NavLink>
                 </div>
             </div>

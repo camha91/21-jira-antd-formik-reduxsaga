@@ -6,6 +6,7 @@ import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
+import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import Register from "./pages/Register/Register";
@@ -43,6 +44,11 @@ function App() {
                     exact
                     path="/createProject"
                     Component={CreateProject}
+                />
+                <CyberBugsTemplate
+                    exact
+                    path="/projectManagement"
+                    Component={ProjectManagement}
                 />
                 <HomeTemplate exact path="/" Component={Home} />
                 <HomeTemplate path="*" Component={PageNotFound} />
