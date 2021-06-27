@@ -19,7 +19,7 @@ function* createProjectSaga(action) {
     try {
         // Call api to get data
         const { data, status } = yield call(() =>
-            cyberBugsService.createProject(action.newProject)
+            cyberBugsService.createProjectAuthorization(action.newProject)
         );
 
         if (status === STATUS_CODE.SUCCESS) {
