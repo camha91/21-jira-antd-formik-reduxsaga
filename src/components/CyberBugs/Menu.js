@@ -6,9 +6,9 @@ export default function Menu() {
     return (
         <div className="menu">
             <div className="account">
-                <div className="avatar">
+                <NavLink className="avatar" to="/">
                     <img src={logo} alt="logo" />
-                </div>
+                </NavLink>
                 <div className="account-info">
                     <p>CyberLearn</p>
                     <p>Report bugs</p>
@@ -29,12 +29,23 @@ export default function Menu() {
                 <div>
                     <i className="fa fa-cog" />
                     <NavLink
-                        to="/createproject"
+                        to="/createProject"
                         className="text-dark"
                         activeStyle={{ color: "pink" }}
                         activeClassName="active font-weight-bold"
                     >
                         Create Project
+                    </NavLink>
+                </div>
+                <div>
+                    <i className="fa fa-cog" />
+                    <NavLink
+                        to="/projectManagement"
+                        className="text-dark"
+                        activeStyle={{ color: "pink" }}
+                        activeClassName="active font-weight-bold"
+                    >
+                        Project Management
                     </NavLink>
                 </div>
             </div>

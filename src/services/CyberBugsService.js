@@ -30,4 +30,11 @@ export const cyberBugsService = {
             headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
         });
     },
+    getAllProjects: () => {
+        return Axios({
+            url: `${DOMAIN_CYBERBUGS}/Project/getAllProject`,
+            method: "GET",
+            headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
+        });
+    },
 };
