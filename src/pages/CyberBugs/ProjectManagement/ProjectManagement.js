@@ -57,11 +57,24 @@ export default function ProjectManagement() {
             title: "ID",
             dataIndex: "id",
             key: "id",
+            sorter: (item2, item1) => {
+                return item2.id - item1.id;
+            },
+            sortDirections: ["descent"],
         },
         {
             title: "Project Name",
             dataIndex: "projectName",
             key: "projectName",
+            sorter: (item2, item1) => {
+                const projectName1 = item1.projectName?.trim().toLowerCase();
+                const projectName2 = item2.projectName?.trim().toLowerCase();
+                if (projectName2 < projectName1) {
+                    return -1;
+                }
+                return 1;
+            },
+            sortDirections: ["descent"],
         },
         // {
         //     title: "Description",
@@ -76,6 +89,15 @@ export default function ProjectManagement() {
             title: "Category",
             dataIndex: "categoryName",
             key: "categoryName",
+            sorter: (item1, item2) => {
+                const categoryName1 = item1.categoryName?.trim().toLowerCase();
+                const categoryName2 = item2.categoryName?.trim().toLowerCase();
+                if (categoryName2 < categoryName1) {
+                    return -1;
+                }
+                return 1;
+            },
+            sortDirections: ["descent"],
         },
         {
             title: "Creator",
@@ -83,6 +105,15 @@ export default function ProjectManagement() {
             render: (text, record, index) => {
                 return <Tag color="green">{record.creator?.name}</Tag>;
             },
+            sorter: (item1, item2) => {
+                const creator1 = item1.creator?.name.trim().toLowerCase();
+                const creator2 = item2.creator?.name.trim().toLowerCase();
+                if (creator2 < creator1) {
+                    return -1;
+                }
+                return 1;
+            },
+            sortDirections: ["descent"],
         },
         {
             title: "Action",
