@@ -72,6 +72,16 @@ export default function Header() {
                                 Register
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink
+                                activeClassName="activeNavItem"
+                                activeStyle={{ fontWeight: "bold" }}
+                                className="nav-link"
+                                to="/cyberbugs"
+                            >
+                                Cyber Bugs
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
             </nav>

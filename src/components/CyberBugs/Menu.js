@@ -6,9 +6,9 @@ export default function Menu() {
     return (
         <div className="menu">
             <div className="account">
-                <div className="avatar">
+                <NavLink className="avatar" to="/">
                     <img src={logo} alt="logo" />
-                </div>
+                </NavLink>
                 <div className="account-info">
                     <p>CyberLearn</p>
                     <p>Report bugs</p>
