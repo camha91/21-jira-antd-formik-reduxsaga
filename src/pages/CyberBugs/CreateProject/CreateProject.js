@@ -88,7 +88,6 @@ const CreateProjectForm = withFormik({
     enableReinitialize: true,
 
     mapPropsToValues: (props) => {
-        console.log("propsValue", props);
         return {
             projectName: "",
             description: "",
