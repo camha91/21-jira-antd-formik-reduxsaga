@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, useHistory } from "react-router-dom";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent/LoadingComponent";
+import DrawerCyberBugs from "./HOC/Modal/DrawerCyberBugs";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
@@ -29,6 +30,7 @@ function App() {
     return (
         <>
             <LoadingComponent />
+            <DrawerCyberBugs />
             <Switch>
                 <HomeTemplate exact path="/home" Component={Home} />
                 <HomeTemplate exact path="/about" Component={About} />

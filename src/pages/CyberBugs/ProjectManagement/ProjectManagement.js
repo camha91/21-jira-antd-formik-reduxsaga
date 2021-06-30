@@ -2,7 +2,11 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Space, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GET_ALL_PROJECT_SAGA } from "../../../redux/constants/CyberBugsConst";
+import FormEditProject from "../../../components/Forms/FormEditProject";
+import {
+    GET_ALL_PROJECT_SAGA,
+    OPEN_FORM_EDIT_PROJECT,
+} from "../../../redux/constants/CyberBugsConst";
 
 export default function ProjectManagement() {
     const [state, setState] = useState({
@@ -117,15 +121,35 @@ export default function ProjectManagement() {
         },
         {
             title: "Action",
-            key: "action",
+            dataIndex: "",
+            key: "x",
             render: (text, record) => (
                 <Space size="middle">
-                    <a className="btn btn-primary">
+                    <button
+                        onClick={() => {
+                            // dispatch to reducer drawer content
+                            const action = {
+                                type: OPEN_FORM_EDIT_PROJECT,
+                                Component: <FormEditProject />,
+                            };
+
+                            dispatch(action);
+
+                            // dispatch current line data to reducer
+                            const actionEditProject = {
+                                type: "EDIT_PROJECT",
+                                projectEditModel: record,
+                            };
+
+                            dispatch(actionEditProject);
+                        }}
+                        className="btn btn-primary"
+                    >
                         <EditOutlined />
-                    </a>
-                    <a className="btn btn-danger">
+                    </button>
+                    <button className="btn btn-danger">
                         <DeleteOutlined />
-                    </a>
+                    </button>
                 </Space>
             ),
         },
