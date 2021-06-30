@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Popconfirm, Space, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditProject from "../../../components/Forms/FormEditProject";
@@ -147,9 +147,22 @@ export default function ProjectManagement() {
                     >
                         <EditOutlined />
                     </button>
-                    <button className="btn btn-danger">
-                        <DeleteOutlined />
-                    </button>
+                    <Popconfirm
+                        title="Are you sure to delete this project?"
+                        onConfirm={() => {
+                            dispatch({
+                                type: "DELETE_PROJECT_SAGA",
+                                idProject: record.id,
+                            });
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <button className="btn btn-danger">
+                            <DeleteOutlined />
+                        </button>
+                    </Popconfirm>
+                    ,
                 </Space>
             ),
         },
