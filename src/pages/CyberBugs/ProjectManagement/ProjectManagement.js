@@ -127,12 +127,21 @@ export default function ProjectManagement() {
                 <Space size="middle">
                     <button
                         onClick={() => {
+                            // dispatch to reducer drawer content
                             const action = {
                                 type: OPEN_FORM_EDIT_PROJECT,
                                 Component: <FormEditProject />,
                             };
 
                             dispatch(action);
+
+                            // dispatch current line data to reducer
+                            const actionEditProject = {
+                                type: "EDIT_PROJECT",
+                                projectEditModel: record,
+                            };
+
+                            dispatch(actionEditProject);
                         }}
                         className="btn btn-primary"
                     >

@@ -11,5 +11,6 @@ export function* rootSaga() {
 
         ProjectSaga.followCreateProjectSaga(),
         ProjectSaga.followGetAllProjects(),
+        ProjectSaga.followUpdateProjectSaga(),
     ]);
 }

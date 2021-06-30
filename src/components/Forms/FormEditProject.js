@@ -64,7 +64,6 @@ function FormEditProject(props) {
                     <div className="form-group">
                         <p className="font-weight-bold">Project Name</p>
                         <input
-                            disabled
                             className="form-control"
                             name="projectName"
                             onChange={handleChange}
@@ -95,8 +94,10 @@ function FormEditProject(props) {
                         <p className="font-weight-bold">Description</p>
                         <Editor
                             name="Description"
-                            initialValue={values.categoryId}
+                            initialValue={values.description}
+                            value={values.description}
                             init={{
+                                selector: "textarea#myTextArea",
                                 height: 500,
                                 menubar: false,
                                 plugins: [
@@ -137,7 +138,11 @@ const EditProjectForm = withFormik({
     validationSchema: Yup.object().shape({}),
 
     handleSubmit: (values, { props, setSubmitting }) => {
-        console.log("values", values);
+        // Submit updated data to backend through api
+        props.dispatch({
+            type: "UPDATE_PROJECT_SAGA",
+            projectUpdate: values,
+        });
     },
 
     displayName: "EditProjectFormik",
