@@ -1,5 +1,6 @@
 import { call, delay, put, select, takeLatest } from "redux-saga/effects";
 import { cyberBugsService } from "../../../services/CyberBugsService";
+import { userService } from "../../../services/UserService";
 import { TOKEN, USER_LOGIN } from "../../../utils/constants/settingSystem";
 import { LOGIN_INFO, USER_SIGNIN_API } from "../../constants/CyberBugsConst";
 import {
@@ -41,4 +42,23 @@ function* signInSaga(action) {
 
 export function* followSignIn() {
     yield takeLatest(USER_SIGNIN_API, signInSaga);
+}
+
+function* getUserSaga(action) {
+    try {
+        const { data, status } = yield call(() =>
+            userService.getUser(action.keyword)
+        );
+
+        yield put({
+            type: "GET_USER_SEARCH",
+            listOfUser: data.content,
+        });
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}
+
+export function* followGetUserSaga() {
+    yield takeLatest("GET_USER_API", getUserSaga);
 }

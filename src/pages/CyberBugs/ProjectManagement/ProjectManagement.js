@@ -27,6 +27,8 @@ export default function ProjectManagement() {
         (state) => state.ProjectCyberBugsReducer.projectList
     );
 
+    const { userSearch } = useSelector((state) => state.UserCyberBugsReducer);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -145,7 +147,27 @@ export default function ProjectManagement() {
                             title={"Add user"}
                             content={() => {
                                 return (
-                                    <AutoComplete style={{ width: "100%" }} />
+                                    <AutoComplete
+                                        options={userSearch?.map(
+                                            (user, index) => {
+                                                return {
+                                                    label: user.name,
+                                                    user: user.userId,
+                                                };
+                                            }
+                                        )}
+                                        onSelect={(value, option) => {
+                                            console.log("userId", value);
+                                            console.log("option", option);
+                                        }}
+                                        style={{ width: "100%" }}
+                                        onSearch={(value) => {
+                                            dispatch({
+                                                type: "GET_USER_API",
+                                                keyword: value,
+                                            });
+                                        }}
+                                    />
                                 );
                             }}
                             trigger="click"
