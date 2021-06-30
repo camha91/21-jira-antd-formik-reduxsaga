@@ -1,8 +1,10 @@
 import { call, delay, put, takeLatest } from "@redux-saga/core/effects";
+import { notification } from "antd";
 import { cyberBugsService } from "../../../services/CyberBugsService";
 import { projectService } from "../../../services/ProjectService";
 import { STATUS_CODE } from "../../../utils/constants/settingSystem";
 import { history } from "../../../utils/libs/history";
+import { notifiFunction } from "../../../utils/notification/notificationCyberbugs";
 import {
     CLOSE_DRAWER,
     CREATE_PROJECT_SAGA,
@@ -134,6 +136,9 @@ function* deleteProjectSaga(action) {
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
             console.log(data);
+            notifiFunction("success", "Delete project successfully!");
+        } else {
+            notifiFunction("error", "Delete project fail!");
         }
 
         yield put({
@@ -145,6 +150,7 @@ function* deleteProjectSaga(action) {
         });
     } catch (error) {
         console.log(error);
+        notifiFunction("error", "Delete project fail!");
     }
     yield put({
         type: HIDE_LOADING,
