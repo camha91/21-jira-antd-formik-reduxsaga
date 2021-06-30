@@ -1,5 +1,14 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Space, Table, Tag } from "antd";
+import {
+    AutoComplete,
+    Button,
+    Popconfirm,
+    Popover,
+    Space,
+    Table,
+    Tag,
+} from "antd";
+import Avatar from "antd/lib/avatar/avatar";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditProject from "../../../components/Forms/FormEditProject";
@@ -118,6 +127,34 @@ export default function ProjectManagement() {
                 return 1;
             },
             sortDirections: ["descent"],
+        },
+        {
+            title: "Members",
+            key: "members",
+            render: (text, record, index) => {
+                return (
+                    <div>
+                        {record.members?.slice(0, 3).map((member, index) => {
+                            return <Avatar key={index} src={member.avatar} />;
+                        })}
+
+                        {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+
+                        <Popover
+                            placement="rightTop"
+                            title={"Add user"}
+                            content={() => {
+                                return (
+                                    <AutoComplete style={{ width: "100%" }} />
+                                );
+                            }}
+                            trigger="click"
+                        >
+                            <Button style={{ borderRadius: "50%" }}>+</Button>
+                        </Popover>
+                    </div>
+                );
+            },
         },
         {
             title: "Action",
