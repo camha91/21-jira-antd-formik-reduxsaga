@@ -147,7 +147,15 @@ export default function ProjectManagement() {
                     >
                         <EditOutlined />
                     </button>
-                    <button className="btn btn-danger">
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                            dispatch({
+                                type: "DELETE_PROJECT_SAGA",
+                                idProject: record.id,
+                            });
+                        }}
+                    >
                         <DeleteOutlined />
                     </button>
                 </Space>
