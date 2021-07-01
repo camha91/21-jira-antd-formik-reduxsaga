@@ -7,6 +7,7 @@ export function* rootSaga() {
     yield all([
         CyberBugs.followSignIn(),
         CyberBugs.followGetUserSaga(),
+        CyberBugs.followAddUserProjectSaga(),
 
         ProjectCategory.followGetAllProjectCategory(),
 

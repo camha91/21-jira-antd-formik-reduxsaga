@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import {
     AutoComplete,
+    Avatar,
     Button,
     Popconfirm,
     Popover,
@@ -8,7 +9,6 @@ import {
     Table,
     Tag,
 } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditProject from "../../../components/Forms/FormEditProject";
@@ -22,6 +22,8 @@ export default function ProjectManagement() {
         filteredInfo: null,
         sortedInfo: null,
     });
+
+    const [value, setValue] = useState("");
 
     const projectList = useSelector(
         (state) => state.ProjectCyberBugsReducer.projectList
@@ -152,13 +154,26 @@ export default function ProjectManagement() {
                                             (user, index) => {
                                                 return {
                                                     label: user.name,
-                                                    user: user.userId,
+                                                    value: user.userId.toString(),
                                                 };
                                             }
                                         )}
-                                        onSelect={(value, option) => {
-                                            console.log("userId", value);
-                                            console.log("option", option);
+                                        value={value}
+                                        onChange={(text) => {
+                                            setValue(text);
+                                        }}
+                                        onSelect={(valueSelect, option) => {
+                                            // Set member select = option.label
+                                            setValue(option.label);
+
+                                            // Call api to send data to backend
+                                            dispatch({
+                                                type: "ADD_USER_PROJECT_API",
+                                                userProject: {
+                                                    projectId: record.id,
+                                                    userId: valueSelect,
+                                                },
+                                            });
                                         }}
                                         style={{ width: "100%" }}
                                         onSearch={(value) => {

@@ -2,12 +2,17 @@ import { call, delay, put, select, takeLatest } from "redux-saga/effects";
 import { cyberBugsService } from "../../../services/CyberBugsService";
 import { userService } from "../../../services/UserService";
 import { TOKEN, USER_LOGIN } from "../../../utils/constants/settingSystem";
-import { LOGIN_INFO, USER_SIGNIN_API } from "../../constants/CyberBugsConst";
+import {
+    GET_ALL_PROJECT_SAGA,
+    LOGIN_INFO,
+    USER_SIGNIN_API,
+} from "../../constants/CyberBugsConst";
 import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
 
+// Sign in
 function* signInSaga(action) {
     console.log(action);
     yield put({
@@ -44,6 +49,7 @@ export function* followSignIn() {
     yield takeLatest(USER_SIGNIN_API, signInSaga);
 }
 
+// Get the list of user using keyword
 function* getUserSaga(action) {
     try {
         const { data, status } = yield call(() =>
@@ -61,4 +67,24 @@ function* getUserSaga(action) {
 
 export function* followGetUserSaga() {
     yield takeLatest("GET_USER_API", getUserSaga);
+}
+
+// Assign users to a project
+function* addUserSaga(action) {
+    try {
+        const { data, status } = yield call(() =>
+            userService.assignUserProject(action.userProject)
+        );
+        console.log("data", data);
+
+        yield put({
+            type: GET_ALL_PROJECT_SAGA,
+        });
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}
+
+export function* followAddUserProjectSaga() {
+    yield takeLatest("ADD_USER_PROJECT_API", addUserSaga);
 }
