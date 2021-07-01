@@ -6,6 +6,8 @@ import * as ProjectSaga from "./CyberBugs/ProjectSaga";
 export function* rootSaga() {
     yield all([
         CyberBugs.followSignIn(),
+        CyberBugs.followGetUserSaga(),
+        CyberBugs.followAddUserProjectSaga(),
 
         ProjectCategory.followGetAllProjectCategory(),
 

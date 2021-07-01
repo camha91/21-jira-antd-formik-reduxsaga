@@ -1,5 +1,14 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Space, Table, Tag } from "antd";
+import {
+    AutoComplete,
+    Avatar,
+    Button,
+    Popconfirm,
+    Popover,
+    Space,
+    Table,
+    Tag,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditProject from "../../../components/Forms/FormEditProject";
@@ -14,9 +23,13 @@ export default function ProjectManagement() {
         sortedInfo: null,
     });
 
+    const [value, setValue] = useState("");
+
     const projectList = useSelector(
         (state) => state.ProjectCyberBugsReducer.projectList
     );
+
+    const { userSearch } = useSelector((state) => state.UserCyberBugsReducer);
 
     const dispatch = useDispatch();
 
@@ -118,6 +131,67 @@ export default function ProjectManagement() {
                 return 1;
             },
             sortDirections: ["descent"],
+        },
+        {
+            title: "Members",
+            key: "members",
+            render: (text, record, index) => {
+                return (
+                    <div>
+                        {record.members?.slice(0, 3).map((member, index) => {
+                            return <Avatar key={index} src={member.avatar} />;
+                        })}
+
+                        {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+
+                        <Popover
+                            placement="rightTop"
+                            title={"Add user"}
+                            content={() => {
+                                return (
+                                    <AutoComplete
+                                        options={userSearch?.map(
+                                            (user, index) => {
+                                                return {
+                                                    label: user.name,
+                                                    value: user.userId.toString(),
+                                                };
+                                            }
+                                        )}
+                                        value={value}
+                                        onChange={(text) => {
+                                            setValue(text);
+                                        }}
+                                        onSelect={(valueSelect, option) => {
+                                            // Set member select = option.label
+                                            setValue(option.label);
+
+                                            // Call api to send data to backend
+                                            dispatch({
+                                                type: "ADD_USER_PROJECT_API",
+                                                userProject: {
+                                                    projectId: record.id,
+                                                    userId: valueSelect,
+                                                },
+                                            });
+                                        }}
+                                        style={{ width: "100%" }}
+                                        onSearch={(value) => {
+                                            dispatch({
+                                                type: "GET_USER_API",
+                                                keyword: value,
+                                            });
+                                        }}
+                                    />
+                                );
+                            }}
+                            trigger="click"
+                        >
+                            <Button style={{ borderRadius: "50%" }}>+</Button>
+                        </Popover>
+                    </div>
+                );
+            },
         },
         {
             title: "Action",
