@@ -186,6 +186,19 @@ export default function ProjectManagement() {
                                                                     </td>
                                                                     <td>
                                                                         <button
+                                                                            onClick={() => {
+                                                                                dispatch(
+                                                                                    {
+                                                                                        type: "REMOVE_USER_PROJECT",
+                                                                                        userProject:
+                                                                                            {
+                                                                                                projectId:
+                                                                                                    record.id,
+                                                                                                userId: member.userId,
+                                                                                            },
+                                                                                    }
+                                                                                );
+                                                                            }}
                                                                             className="btn btn-danger"
                                                                             style={{
                                                                                 borderRadius:
