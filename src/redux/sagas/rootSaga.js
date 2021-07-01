@@ -8,6 +8,7 @@ export function* rootSaga() {
         CyberBugs.followSignIn(),
         CyberBugs.followGetUserSaga(),
         CyberBugs.followAddUserProjectSaga(),
+        CyberBugs.followRemoveUserProjectSaga(),
 
         ProjectCategory.followGetAllProjectCategory(),
 

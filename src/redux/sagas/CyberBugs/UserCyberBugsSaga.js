@@ -88,3 +88,23 @@ function* addUserSaga(action) {
 export function* followAddUserProjectSaga() {
     yield takeLatest("ADD_USER_PROJECT_API", addUserSaga);
 }
+
+// Remove users to a project
+function* removeUserSaga(action) {
+    try {
+        const { data, status } = yield call(() =>
+            userService.removeUserProject(action.userProject)
+        );
+        console.log("data", data);
+
+        yield put({
+            type: GET_ALL_PROJECT_SAGA,
+        });
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}
+
+export function* followRemoveUserProjectSaga() {
+    yield takeLatest("REMOVE_USER_PROJECT", removeUserSaga);
+}
