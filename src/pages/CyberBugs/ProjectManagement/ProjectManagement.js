@@ -9,7 +9,7 @@ import {
     Table,
     Tag,
 } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditProject from "../../../components/Forms/FormEditProject";
 import {
@@ -32,6 +32,8 @@ export default function ProjectManagement() {
     const { userSearch } = useSelector((state) => state.UserCyberBugsReducer);
 
     const dispatch = useDispatch();
+
+    const searchRef = useRef(null);
 
     useEffect(() => {
         dispatch({ type: GET_ALL_PROJECT_SAGA });
@@ -257,10 +259,19 @@ export default function ProjectManagement() {
                                         }}
                                         style={{ width: "100%" }}
                                         onSearch={(value) => {
-                                            dispatch({
-                                                type: "GET_USER_API",
-                                                keyword: value,
-                                            });
+                                            if (searchRef.current) {
+                                                clearTimeout(searchRef.current);
+                                            }
+
+                                            searchRef.current = setTimeout(
+                                                () => {
+                                                    dispatch({
+                                                        type: "GET_USER_API",
+                                                        keyword: value,
+                                                    });
+                                                },
+                                                300
+                                            );
                                         }}
                                     />
                                 );

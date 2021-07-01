@@ -60,9 +60,8 @@ function* getUserSaga(action) {
             type: "GET_USER_SEARCH",
             listOfUser: data.content,
         });
-    } catch (error) {
-        console.log(error.response.data);
-    }
+        console.log("data", data);
+    } catch (error) {}
 }
 
 export function* followGetUserSaga() {
