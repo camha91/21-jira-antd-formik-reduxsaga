@@ -139,7 +139,74 @@ export default function ProjectManagement() {
                 return (
                     <div>
                         {record.members?.slice(0, 3).map((member, index) => {
-                            return <Avatar key={index} src={member.avatar} />;
+                            return (
+                                <Popover
+                                    key={index}
+                                    placement="top"
+                                    title={"members"}
+                                    content={() => {
+                                        return (
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Avatar</th>
+                                                        <th>Name</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {record.members?.map(
+                                                        (member, index) => {
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td>
+                                                                        {
+                                                                            member.userId
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        <img
+                                                                            src={
+                                                                                member.avatar
+                                                                            }
+                                                                            alt="avatar"
+                                                                            width="30"
+                                                                            height="30"
+                                                                            style={{
+                                                                                borderRadius:
+                                                                                    "15px",
+                                                                            }}
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            member.name
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        <button
+                                                                            className="btn btn-danger"
+                                                                            style={{
+                                                                                borderRadius:
+                                                                                    "50%",
+                                                                            }}
+                                                                        >
+                                                                            X
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        }
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        );
+                                    }}
+                                >
+                                    <Avatar key={index} src={member.avatar} />;
+                                </Popover>
+                            );
                         })}
 
                         {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
