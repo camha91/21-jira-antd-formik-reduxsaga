@@ -11,6 +11,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import FormEditProject from "../../../components/Forms/FormEditProject";
 import {
     GET_ALL_PROJECT_SAGA,
@@ -83,6 +84,11 @@ export default function ProjectManagement() {
             title: "Project Name",
             dataIndex: "projectName",
             key: "projectName",
+            render: (text, record, index) => {
+                return (
+                    <NavLink to={`/projectDetail/${record.id}`}>{text}</NavLink>
+                );
+            },
             sorter: (item2, item1) => {
                 const projectName1 = item1.projectName?.trim().toLowerCase();
                 const projectName2 = item2.projectName?.trim().toLowerCase();
@@ -189,7 +195,7 @@ export default function ProjectManagement() {
                                                                             onClick={() => {
                                                                                 dispatch(
                                                                                     {
-                                                                                        type: "REMOVE_USER_PROJECT",
+                                                                                        type: "REMOVE_USER_PROJECT_API",
                                                                                         userProject:
                                                                                             {
                                                                                                 projectId:
@@ -305,7 +311,7 @@ export default function ProjectManagement() {
                         title="Are you sure to delete this project?"
                         onConfirm={() => {
                             dispatch({
-                                type: "DELETE_PROJECT_SAGA",
+                                type: "DELETE_PROJECT_SAGA_API",
                                 idProject: record.id,
                             });
                         }}

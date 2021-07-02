@@ -140,7 +140,7 @@ const EditProjectForm = withFormik({
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
         props.dispatch({
-            type: "UPDATE_PROJECT_SAGA",
+            type: "UPDATE_PROJECT_SAGA_API",
             projectUpdate: values,
         });
     },
