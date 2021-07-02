@@ -16,5 +16,6 @@ export function* rootSaga() {
         ProjectSaga.followGetAllProjects(),
         ProjectSaga.followUpdateProjectSaga(),
         ProjectSaga.followDeleteProjectSaga(),
+        ProjectSaga.followGetProjectDetailSaga(),
     ]);
 }

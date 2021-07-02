@@ -1,5 +1,4 @@
 import { call, delay, put, takeLatest } from "@redux-saga/core/effects";
-import { notification } from "antd";
 import { cyberBugsService } from "../../../services/CyberBugsService";
 import { projectService } from "../../../services/ProjectService";
 import { STATUS_CODE } from "../../../utils/constants/settingSystem";
@@ -116,7 +115,7 @@ function* updateProjectSaga(action) {
 }
 
 export function* followUpdateProjectSaga() {
-    yield takeLatest("UPDATE_PROJECT_SAGA", updateProjectSaga);
+    yield takeLatest("UPDATE_PROJECT_SAGA_API", updateProjectSaga);
 }
 
 //Delete Project
@@ -158,5 +157,37 @@ function* deleteProjectSaga(action) {
 }
 
 export function* followDeleteProjectSaga() {
-    yield takeLatest("DELETE_PROJECT_SAGA", deleteProjectSaga);
+    yield takeLatest("DELETE_PROJECT_SAGA_API", deleteProjectSaga);
+}
+
+//Get Project Detail
+function* getProjectDetailSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING,
+    });
+    yield delay(500);
+
+    try {
+        // Call api to get data
+        const { data, status } = yield call(() =>
+            projectService.getProjectDetail(action.projectId)
+        );
+
+        // After calling api successfull then dispatch to reducer using put
+        console.log(data);
+        yield put({
+            type: "GET_PROJECT_DETAIL",
+            projectDetail: data.content,
+        });
+    } catch (error) {
+        console.log(error);
+        history.push("/projectManagement");
+    }
+    yield put({
+        type: HIDE_LOADING,
+    });
+}
+
+export function* followGetProjectDetailSaga() {
+    yield takeLatest("GET_PROJECT_DETAIL_API", getProjectDetailSaga);
 }

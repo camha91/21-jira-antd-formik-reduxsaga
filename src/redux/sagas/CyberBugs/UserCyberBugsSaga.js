@@ -105,5 +105,5 @@ function* removeUserSaga(action) {
 }
 
 export function* followRemoveUserProjectSaga() {
-    yield takeLatest("REMOVE_USER_PROJECT", removeUserSaga);
+    yield takeLatest("REMOVE_USER_PROJECT_API", removeUserSaga);
 }
