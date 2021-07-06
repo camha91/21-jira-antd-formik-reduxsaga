@@ -1,9 +1,9 @@
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useState, useEffect } from "react";
 import { Select, Slider } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { GET_PROJECT_DROPDOWN_API } from "../../../redux/constants/ProjectCyberBugsConst";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
+import { GET_PROJECT_DROPDOWN_API } from "../../../redux/constants/ProjectCyberBugsConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
 
 const { Option } = Select;
@@ -59,10 +59,6 @@ export default function FormCreateTask(props) {
                         );
                     })}
                 </select>
-            </div>
-            <div className="form-group">
-                <p>Task type</p>
-                <input className="form-control" name="typeId" />
             </div>
             <div className="form-group">
                 <div className="row">

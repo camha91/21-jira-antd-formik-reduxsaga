@@ -7,9 +7,9 @@ import {
 
 function* getAllTaskTypeSaga(action) {
     try {
-        const { data, status } = yield call(() => {
-            taskTypeService.getAllTaskType();
-        });
+        const { data, status } = yield call(() =>
+            taskTypeService.getAllTaskType()
+        );
 
         yield put({
             type: GET_ALL_TASK_TYPE,
