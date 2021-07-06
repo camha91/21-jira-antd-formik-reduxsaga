@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_PROJECT_DROPDOWN_API } from "../../../redux/constants/ProjectCyberBugsConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
+import { GET_USER_API } from "../../../redux/constants/UserCyberBugsConst";
 
 const { Option } = Select;
 
@@ -33,15 +34,21 @@ export default function FormCreateTask(props) {
 
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
 
-    console.log("arrPriority", arrPriority);
-
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
-    console.log("arrTaskType", arrTaskType);
+
+    const { userSearch } = useSelector((state) => state.UserCyberBugsReducer);
+
+    console.log("userSearch", userSearch);
+    // function to change options for assignees select
+    const userOptions = userSearch.map((user, index) => {
+        return { value: user.userId, label: user.name };
+    });
 
     useEffect(() => {
         dispatch({ type: GET_PROJECT_DROPDOWN_API });
         dispatch({ type: GET_ALL_PRIORITY_API });
         dispatch({ type: GET_ALL_TASK_TYPE_API });
+        dispatch({ type: GET_USER_API, keyword: "" });
     }, []);
 
     const handleEditorChange = () => {};
@@ -93,14 +100,39 @@ export default function FormCreateTask(props) {
             </div>
             <div className="form-group">
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-12">
                         <p>Assingnees</p>
                         <Select
                             mode="multiple"
                             allowClear
+                            options={userOptions}
                             style={{ width: "100%" }}
                             placeholder="Please select"
-                            defaultValue={["a10", "c12"]}
+                            optionFilterProp="label"
+                            onSelect={(value) => {
+                                console.log(value);
+                            }}
+                            onChange={handleChange}
+                        >
+                            {children}
+                        </Select>
+                    </div>
+                </div>
+            </div>
+            <div className="form-group">
+                <div className="row">
+                    <div className="col-6">
+                        <p>Reporter</p>
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            options={userOptions}
+                            style={{ width: "100%" }}
+                            placeholder="Please select"
+                            optionFilterProp="label"
+                            onSelect={(value) => {
+                                console.log(value);
+                            }}
                             onChange={handleChange}
                         >
                             {children}
