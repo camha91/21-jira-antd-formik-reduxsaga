@@ -8,6 +8,7 @@ import {
 
 const initialState = {
     visible: false,
+    title: "",
     ComponentContentDrawer: <p>default</p>,
     callBackSubmit: (propsValue) => {
         alert("click demo");
@@ -25,11 +26,19 @@ const DrawerReducer = (state = initialState, action) => {
                 ...state,
                 visible: true,
                 ComponentContentDrawer: action.Component,
+                title: action.title,
             };
         case SET_SUBMIT_EDIT_PROJECT:
             return {
                 ...state,
                 callBackSubmit: action.submitFunction,
+            };
+        case "OPEN_FORM_CREATE_TASK":
+            return {
+                ...state,
+                visible: true,
+                ComponentContentDrawer: action.Component,
+                title: action.title,
             };
         default:
             return state;
