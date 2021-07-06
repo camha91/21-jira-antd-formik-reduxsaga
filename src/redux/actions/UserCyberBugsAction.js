@@ -1,4 +1,4 @@
-import { USER_SIGNIN_API } from "../constants/CyberBugsConst";
+import { USER_SIGNIN_API } from "../constants/UserCyberBugsConst";
 
 export const signinCyberBugsAction = (email, password) => {
     return {

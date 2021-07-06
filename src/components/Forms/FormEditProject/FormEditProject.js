@@ -3,10 +3,9 @@ import { withFormik } from "formik";
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import {
-    GET_ALL_PROJECT_CATEGORY_SAGA,
-    SET_SUBMIT_EDIT_PROJECT,
-} from "../../redux/constants/CyberBugsConst";
+import { SET_SUBMIT_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
+import { GET_ALL_PROJECT_CATEGORY_SAGA } from "../../../redux/constants/ProjectCategoryConst";
+import { UPDATE_PROJECT_SAGA } from "../../../redux/constants/ProjectConst";
 
 function FormEditProject(props) {
     const arrProjectCategory = useSelector(
@@ -139,7 +138,7 @@ const EditProjectForm = withFormik({
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
         props.dispatch({
-            type: "UPDATE_PROJECT_SAGA_API",
+            type: UPDATE_PROJECT_SAGA,
             projectUpdate: values,
         });
     },

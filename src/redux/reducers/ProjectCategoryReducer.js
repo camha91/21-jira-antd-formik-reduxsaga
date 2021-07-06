@@ -1,4 +1,4 @@
-import { GET_ALL_PROJECT_CATEGORY } from "../constants/CyberBugsConst";
+import { GET_ALL_PROJECT_CATEGORY } from "../constants/ProjectCategoryConst";
 
 const stateDefault = {
     arrProjectCategory: [],

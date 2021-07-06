@@ -9,14 +9,15 @@ import {
     Table,
     Tag,
 } from "antd";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import FormEditProject from "../../../components/Forms/FormEditProject";
+import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
+import { OPEN_FORM_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
 import {
+    DELETE_PROJECT_SAGA,
     GET_ALL_PROJECT_SAGA,
-    OPEN_FORM_EDIT_PROJECT,
-} from "../../../redux/constants/CyberBugsConst";
+} from "../../../redux/constants/ProjectConst";
 
 export default function ProjectManagement() {
     const [state, setState] = useState({
@@ -323,7 +324,7 @@ export default function ProjectManagement() {
                         title="Are you sure to delete this project?"
                         onConfirm={() => {
                             dispatch({
-                                type: "DELETE_PROJECT_SAGA_API",
+                                type: DELETE_PROJECT_SAGA,
                                 idProject: record.id,
                             });
                         }}

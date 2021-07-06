@@ -1,10 +1,12 @@
+import { ADD_HISTORY } from "../constants/HistoryConst";
+
 const historyState = {
     history: {},
 };
 
 const HistoryReducer = (state = historyState, action) => {
     switch (action.type) {
-        case "ADD_HISTORY": {
+        case ADD_HISTORY: {
             state.history = action.history;
             console.log(state.history);
             return { ...state };

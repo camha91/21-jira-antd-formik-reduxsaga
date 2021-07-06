@@ -2,7 +2,7 @@ import { BarsOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import FormCreateTask from "../Forms/FormCreateTask";
+import FormCreateTask from "../Forms/FormCreateTask/FormCreateTask";
 
 const { Sider } = Layout;
 

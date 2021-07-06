@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     CLOSE_DRAWER,
     OPEN_DRAWER,
-} from "../../redux/constants/CyberBugsConst";
+} from "../../redux/constants/DrawerCyberBugsConst";
 
 export default function DrawerCyberBugs(props) {
     const { visible, ComponentContentDrawer, callBackSubmit, title } =

@@ -3,18 +3,21 @@ import { cyberBugsService } from "../../../services/CyberBugsService";
 import { userService } from "../../../services/UserService";
 import { TOKEN, USER_LOGIN } from "../../../utils/constants/settingSystem";
 import {
-    GET_ALL_PROJECT_SAGA,
-    LOGIN_INFO,
-    USER_SIGNIN_API,
-} from "../../constants/CyberBugsConst";
-import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
+import { GET_ALL_PROJECT_SAGA } from "../../constants/ProjectConst";
+import {
+    ADD_USER_PROJECT_API,
+    GET_USER_API,
+    GET_USER_SEARCH,
+    LOGIN_INFO,
+    REMOVE_USER_PROJECT_API,
+    USER_SIGNIN_API,
+} from "../../constants/UserCyberBugsConst";
 
 // Sign in
 function* signInSaga(action) {
-    console.log(action);
     yield put({
         type: DISPLAY_LOADING,
     });
@@ -57,7 +60,7 @@ function* getUserSaga(action) {
         );
 
         yield put({
-            type: "GET_USER_SEARCH",
+            type: GET_USER_SEARCH,
             listOfUser: data.content,
         });
         console.log("data", data);
@@ -65,7 +68,7 @@ function* getUserSaga(action) {
 }
 
 export function* followGetUserSaga() {
-    yield takeLatest("GET_USER_API", getUserSaga);
+    yield takeLatest(GET_USER_API, getUserSaga);
 }
 
 // Assign users to a project
@@ -85,7 +88,7 @@ function* addUserSaga(action) {
 }
 
 export function* followAddUserProjectSaga() {
-    yield takeLatest("ADD_USER_PROJECT_API", addUserSaga);
+    yield takeLatest(ADD_USER_PROJECT_API, addUserSaga);
 }
 
 // Remove users to a project
@@ -105,5 +108,5 @@ function* removeUserSaga(action) {
 }
 
 export function* followRemoveUserProjectSaga() {
-    yield takeLatest("REMOVE_USER_PROJECT_API", removeUserSaga);
+    yield takeLatest(REMOVE_USER_PROJECT_API, removeUserSaga);
 }
