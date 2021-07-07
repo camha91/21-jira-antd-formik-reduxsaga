@@ -9,14 +9,21 @@ import {
     Table,
     Tag,
 } from "antd";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import FormEditProject from "../../../components/Forms/FormEditProject";
+import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
+import { OPEN_FORM_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
 import {
+    DELETE_PROJECT_SAGA,
+    EDIT_PROJECT,
     GET_ALL_PROJECT_SAGA,
-    OPEN_FORM_EDIT_PROJECT,
-} from "../../../redux/constants/CyberBugsConst";
+} from "../../../redux/constants/ProjectConst";
+import {
+    ADD_USER_PROJECT_API,
+    GET_USER_API,
+    REMOVE_USER_PROJECT_API,
+} from "../../../redux/constants/UserCyberBugsConst";
 
 export default function ProjectManagement() {
     const [state, setState] = useState({
@@ -197,7 +204,7 @@ export default function ProjectManagement() {
                                                                             onClick={() => {
                                                                                 dispatch(
                                                                                     {
-                                                                                        type: "REMOVE_USER_PROJECT_API",
+                                                                                        type: REMOVE_USER_PROJECT_API,
                                                                                         userProject:
                                                                                             {
                                                                                                 projectId:
@@ -256,7 +263,7 @@ export default function ProjectManagement() {
 
                                             // Call api to send data to backend
                                             dispatch({
-                                                type: "ADD_USER_PROJECT_API",
+                                                type: ADD_USER_PROJECT_API,
                                                 userProject: {
                                                     projectId: record.id,
                                                     userId: valueSelect,
@@ -272,7 +279,7 @@ export default function ProjectManagement() {
                                             searchRef.current = setTimeout(
                                                 () => {
                                                     dispatch({
-                                                        type: "GET_USER_API",
+                                                        type: GET_USER_API,
                                                         keyword: value,
                                                     });
                                                 },
@@ -302,13 +309,14 @@ export default function ProjectManagement() {
                             const action = {
                                 type: OPEN_FORM_EDIT_PROJECT,
                                 Component: <FormEditProject />,
+                                title: "Edit Project",
                             };
 
                             dispatch(action);
 
                             // dispatch current line data to reducer
                             const actionEditProject = {
-                                type: "EDIT_PROJECT",
+                                type: EDIT_PROJECT,
                                 projectEditModel: record,
                             };
 
@@ -322,7 +330,7 @@ export default function ProjectManagement() {
                         title="Are you sure to delete this project?"
                         onConfirm={() => {
                             dispatch({
-                                type: "DELETE_PROJECT_SAGA_API",
+                                type: DELETE_PROJECT_SAGA,
                                 idProject: record.id,
                             });
                         }}

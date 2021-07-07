@@ -12,6 +12,10 @@ export class ProjectService extends baseService {
     getProjectDetail = (projectId) => {
         return this.get(`Project/getProjectDetail?id=${projectId}`);
     };
+
+    getDropDownProject = () => {
+        return this.get("Project/getAllProject");
+    };
 }
 
 export const projectService = new ProjectService();

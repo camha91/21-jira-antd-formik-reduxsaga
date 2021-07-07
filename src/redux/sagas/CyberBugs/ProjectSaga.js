@@ -4,21 +4,29 @@ import { projectService } from "../../../services/ProjectService";
 import { STATUS_CODE } from "../../../utils/constants/settingSystem";
 import { history } from "../../../utils/libs/history";
 import { notifiFunction } from "../../../utils/notification/notificationCyberbugs";
-import {
-    CLOSE_DRAWER,
-    CREATE_PROJECT_SAGA,
-    GET_ALL_PROJECTS_API,
-    GET_ALL_PROJECT_SAGA,
-} from "../../constants/CyberBugsConst";
+import { CLOSE_DRAWER } from "../../constants/DrawerCyberBugsConst";
 import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
+import {
+    CREATE_PROJECT_SAGA,
+    DELETE_PROJECT_SAGA,
+    EDIT_PROJECT,
+    GET_ALL_PROJECT_SAGA,
+    GET_PROJECT_DETAIL,
+    GET_PROJECT_DETAIL_API,
+    UPDATE_PROJECT_SAGA,
+} from "../../constants/ProjectConst";
+import {
+    GET_ALL_PROJECTS_API,
+    GET_PROJECT_DROPDOWN,
+    GET_PROJECT_DROPDOWN_API,
+} from "../../constants/ProjectCyberBugsConst";
+import { GET_USER_PROJECT_BY_ID_API } from "../../constants/UserCyberBugsConst";
 
 // Create Project
 function* createProjectSaga(action) {
-    console.log("create Project Saga", action);
-
     // Show loading
     yield put({
         type: DISPLAY_LOADING,
@@ -68,6 +76,11 @@ function* getAllProjects(action) {
                 projectList: data.content,
             });
         }
+
+        yield put({
+            type: GET_USER_PROJECT_BY_ID_API,
+            idProject: data.content[0].id,
+        });
     } catch (error) {
         console.log(error);
     }
@@ -93,6 +106,7 @@ function* updateProjectSaga(action) {
         const { data, status } = yield call(() =>
             cyberBugsService.updateProject(action.projectUpdate)
         );
+        console.log("dataUpdate", data);
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
@@ -115,7 +129,7 @@ function* updateProjectSaga(action) {
 }
 
 export function* followUpdateProjectSaga() {
-    yield takeLatest("UPDATE_PROJECT_SAGA_API", updateProjectSaga);
+    yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }
 
 //Delete Project
@@ -157,7 +171,7 @@ function* deleteProjectSaga(action) {
 }
 
 export function* followDeleteProjectSaga() {
-    yield takeLatest("DELETE_PROJECT_SAGA_API", deleteProjectSaga);
+    yield takeLatest(DELETE_PROJECT_SAGA, deleteProjectSaga);
 }
 
 //Get Project Detail
@@ -176,7 +190,7 @@ function* getProjectDetailSaga(action) {
         // After calling api successfull then dispatch to reducer using put
         console.log(data);
         yield put({
-            type: "GET_PROJECT_DETAIL",
+            type: GET_PROJECT_DETAIL,
             projectDetail: data.content,
         });
     } catch (error) {
@@ -189,5 +203,28 @@ function* getProjectDetailSaga(action) {
 }
 
 export function* followGetProjectDetailSaga() {
-    yield takeLatest("GET_PROJECT_DETAIL_API", getProjectDetailSaga);
+    yield takeLatest(GET_PROJECT_DETAIL_API, getProjectDetailSaga);
+}
+
+//Get All Projects for Dropdown
+function* getAllDropdownProject(action) {
+    try {
+        // Call api to get data
+        const { data, status } = yield call(() =>
+            projectService.getDropDownProject()
+        );
+
+        // After calling api successfull then dispatch to reducer using put
+        console.log(data);
+        yield put({
+            type: GET_PROJECT_DROPDOWN,
+            arrProject: data.content,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export function* followGetAllDropdownProject() {
+    yield takeLatest(GET_PROJECT_DROPDOWN_API, getAllDropdownProject);
 }

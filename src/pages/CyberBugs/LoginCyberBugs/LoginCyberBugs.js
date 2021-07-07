@@ -9,7 +9,7 @@ import { withFormik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
 import * as Yup from "yup";
-import { signinCyberBugsAction } from "../../../redux/actions/CyberBugsAction";
+import { signinCyberBugsAction } from "../../../redux/actions/UserCyberBugsAction";
 
 function LoginCyberBugs(props) {
     const { errors, handleChange, handleSubmit } = props;

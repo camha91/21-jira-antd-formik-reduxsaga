@@ -3,10 +3,8 @@ import { withFormik } from "formik";
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import {
-    CREATE_PROJECT_SAGA,
-    GET_ALL_PROJECT_CATEGORY_SAGA,
-} from "../../../redux/constants/CyberBugsConst";
+import { GET_ALL_PROJECT_CATEGORY_SAGA } from "../../../redux/constants/ProjectCategoryConst";
+import { CREATE_PROJECT_SAGA } from "../../../redux/constants/ProjectConst";
 
 function CreateProject(props) {
     const arrProjectCategory = useSelector(

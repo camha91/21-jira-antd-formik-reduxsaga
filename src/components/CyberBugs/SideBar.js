@@ -1,6 +1,8 @@
 import { BarsOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import FormCreateTask from "../Forms/FormCreateTask/FormCreateTask";
 
 const { Sider } = Layout;
 
@@ -14,6 +16,9 @@ export default function SideBar() {
             collapsed: !state.collapsed,
         });
     };
+
+    const dispatch = useDispatch();
+
     return (
         <div>
             <Sider
@@ -32,8 +37,18 @@ export default function SideBar() {
                     />
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-                    <Menu.Item key="1" icon={<PlusOutlined />}>
-                        Create Issues
+                    <Menu.Item
+                        key="1"
+                        icon={<PlusOutlined />}
+                        onClick={() => {
+                            dispatch({
+                                type: "OPEN_FORM_CREATE_TASK",
+                                Component: <FormCreateTask />,
+                                title: "Create Task",
+                            });
+                        }}
+                    >
+                        Create Task
                     </Menu.Item>
                     <Menu.Item key="2" icon={<SearchOutlined />}>
                         Search

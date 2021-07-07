@@ -1,0 +1,2 @@
+export const GET_ALL_STATUS = "GET_ALL_STATUS";
+export const GET_ALL_STATUS_API = "GET_ALL_STATUS_API";

@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     CLOSE_DRAWER,
     OPEN_DRAWER,
-} from "../../redux/constants/CyberBugsConst";
+} from "../../redux/constants/DrawerCyberBugsConst";
 
 export default function DrawerCyberBugs(props) {
-    const { visible, ComponentContentDrawer, callBackSubmit } = useSelector(
-        (state) => state.DrawerReducer
-    );
+    const { visible, ComponentContentDrawer, callBackSubmit, title } =
+        useSelector((state) => state.DrawerReducer);
 
     const dispatch = useDispatch();
 
@@ -24,7 +23,7 @@ export default function DrawerCyberBugs(props) {
         <>
             {/* <button onClick={showDrawer}>Show Drawer</button> */}
             <Drawer
-                title="Create a new account"
+                title={title}
                 width={720}
                 onClose={onClose}
                 visible={visible}
