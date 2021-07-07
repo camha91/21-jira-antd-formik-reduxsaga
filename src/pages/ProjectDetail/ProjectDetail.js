@@ -6,7 +6,7 @@ import InfoMain from "../../../components/CyberBugs/Main/InfoMain";
 import { USER_LOGIN } from "../../../utils/constants/settingSystem";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function IndexCyberBugs(props) {
+export default function ProjectDetail(props) {
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
     const dispatch = useDispatch();
 
