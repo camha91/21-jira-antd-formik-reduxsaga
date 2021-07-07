@@ -3,11 +3,17 @@ import { Select, Slider } from "antd";
 import { withFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { SET_SUBMIT_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_PROJECT_DROPDOWN_API } from "../../../redux/constants/ProjectCyberBugsConst";
+import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
+import { CREATE_TASK_API } from "../../../redux/constants/TaskConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
-import { GET_USER_API } from "../../../redux/constants/UserCyberBugsConst";
-import * as Yup from "yup";
+import {
+    GET_USER_API,
+    GET_USER_PROJECT_BY_ID_API,
+} from "../../../redux/constants/UserCyberBugsConst";
 
 const { Option } = Select;
 
@@ -26,18 +32,9 @@ function FormCreateTask(props) {
         timeTrackingRemaining: 0,
     });
 
-    const { arrProject } = useSelector(
-        (state) => state.ProjectCyberBugsReducer
-    );
-
-    const { arrPriority } = useSelector((state) => state.PriorityReducer);
-
-    const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
-
-    const { userSearch } = useSelector((state) => state.UserCyberBugsReducer);
-
+    const { arrUser } = useSelector((state) => state.UserCyberBugsReducer);
     // function to change options for assignees select
-    const userOptions = userSearch.map((user, index) => {
+    const userOptions = arrUser.map((user, index) => {
         return { value: user.userId, label: user.name };
     });
 
@@ -46,9 +43,13 @@ function FormCreateTask(props) {
         dispatch({ type: GET_ALL_PRIORITY_API });
         dispatch({ type: GET_ALL_TASK_TYPE_API });
         dispatch({ type: GET_USER_API, keyword: "" });
+        dispatch({ type: GET_ALL_STATUS_API });
+        // Put handle submit function to drawer reducer to submit
+        dispatch({
+            type: SET_SUBMIT_EDIT_PROJECT,
+            submitFunction: handleSubmit,
+        });
     }, []);
-
-    const handleEditorChange = () => {};
 
     const {
         values,
@@ -68,12 +69,46 @@ function FormCreateTask(props) {
                 <select
                     name="projectId"
                     className="form-control"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        // Dispatch value to change arrUser
+                        const { value } = e.target;
+                        dispatch({
+                            type: GET_USER_PROJECT_BY_ID_API,
+                            idProject: value,
+                        });
+
+                        // Update projectId value
+                        setFieldValue("projectId", e.target.value);
+                    }}
                 >
-                    {arrProject.map((project, index) => {
+                    {props.arrProject.map((project, index) => {
                         return (
                             <option key={index} value={project.id}>
                                 {project.projectName}
+                            </option>
+                        );
+                    })}
+                </select>
+            </div>
+            <div className="form-group">
+                <p>Task Name</p>
+                <input
+                    name="taskName"
+                    className="form-control"
+                    onChange={handleChange}
+                />
+            </div>
+            <div className="form-group">
+                <p>Status</p>
+                <select
+                    name="statusId"
+                    className="form-control"
+                    onChange={handleChange}
+                >
+                    {props.arrStatus.map((status, index) => {
+                        return (
+                            <option key={index} value={status.statusId}>
+                                {status.statusName}
                             </option>
                         );
                     })}
@@ -88,7 +123,7 @@ function FormCreateTask(props) {
                             name="priorityId"
                             onChange={handleChange}
                         >
-                            {arrPriority.map((priority, index) => {
+                            {props.arrPriority.map((priority, index) => {
                                 return (
                                     <option
                                         key={index}
@@ -107,7 +142,7 @@ function FormCreateTask(props) {
                             name="typeId"
                             onChange={handleChange}
                         >
-                            {arrTaskType.map((taskType, index) => {
+                            {props.arrTaskType.map((taskType, index) => {
                                 return (
                                     <option key={index} value={taskType.id}>
                                         {taskType.taskType}
@@ -269,23 +304,24 @@ function FormCreateTask(props) {
                     }}
                 />
             </div>
-            <button type="submit">Submit</button>
         </form>
     );
 }
 
 const CreateTaskForm = withFormik({
+    enableReinitialize: true,
     mapPropsToValues: (props) => {
+        const { arrProject, arrPriority, arrStatus, arrTaskType } = props;
         return {
             taskName: "",
             description: "",
-            statusId: "",
+            statusId: arrStatus[0]?.statusId,
             originalEstimate: 0,
             timeTrackingSpent: 0,
             timeTrackingRemaining: 0,
-            projectId: 0,
-            typeId: 0,
-            priorityId: 0,
+            projectId: arrProject[0]?.id,
+            typeId: arrTaskType[0]?.id,
+            priorityId: arrPriority[0]?.priorityId,
             listUserAsign: [],
         };
     },
@@ -294,15 +330,24 @@ const CreateTaskForm = withFormik({
 
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
-        props.dispatch({});
+        props.dispatch({
+            type: CREATE_TASK_API,
+            taskObject: values,
+        });
+
+        console.log("createTask value", values);
     },
 
     displayName: "CreateTaskFormik",
 })(FormCreateTask);
 
-// Use this instead of useSelector because to use this in Formik function not component
-const mapStateToProps = (state) => ({
-    projectEdit: state.ProjectReducer.projectEdit,
-});
+const mapStateToProps = (state) => {
+    return {
+        arrProject: state.ProjectCyberBugsReducer.arrProject,
+        arrTaskType: state.TaskTypeReducer.arrTaskType,
+        arrPriority: state.PriorityReducer.arrPriority,
+        arrStatus: state.StatusReducer.arrStatus,
+    };
+};
 
 export default connect(mapStateToProps)(CreateTaskForm);

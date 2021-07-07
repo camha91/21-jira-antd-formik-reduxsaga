@@ -1,7 +1,11 @@
 import { call, delay, put, select, takeLatest } from "redux-saga/effects";
 import { cyberBugsService } from "../../../services/CyberBugsService";
 import { userService } from "../../../services/UserService";
-import { TOKEN, USER_LOGIN } from "../../../utils/constants/settingSystem";
+import {
+    STATUS_CODE,
+    TOKEN,
+    USER_LOGIN,
+} from "../../../utils/constants/settingSystem";
 import {
     DISPLAY_LOADING,
     HIDE_LOADING,
@@ -14,6 +18,8 @@ import {
     LOGIN_INFO,
     REMOVE_USER_PROJECT_API,
     USER_SIGNIN_API,
+    GET_USER_PROJECT_BY_ID,
+    GET_USER_PROJECT_BY_ID_API,
 } from "../../constants/UserCyberBugsConst";
 
 // Sign in
@@ -77,7 +83,6 @@ function* addUserSaga(action) {
         const { data, status } = yield call(() =>
             userService.assignUserProject(action.userProject)
         );
-        console.log("data", data);
 
         yield put({
             type: GET_ALL_PROJECT_SAGA,
@@ -97,7 +102,6 @@ function* removeUserSaga(action) {
         const { data, status } = yield call(() =>
             userService.removeUserProject(action.userProject)
         );
-        console.log("data", data);
 
         yield put({
             type: GET_ALL_PROJECT_SAGA,
@@ -109,4 +113,36 @@ function* removeUserSaga(action) {
 
 export function* followRemoveUserProjectSaga() {
     yield takeLatest(REMOVE_USER_PROJECT_API, removeUserSaga);
+}
+
+// Get user by projectId
+function* getUserByProjectIdSaga(action) {
+    const { idProject } = action;
+    console.log("action", idProject);
+
+    try {
+        const { data, status } = yield call(() =>
+            userService.getUserByProjectId(idProject)
+        );
+        console.log("checkData", data);
+
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_USER_PROJECT_BY_ID,
+                arrUser: data.content,
+            });
+        }
+    } catch (error) {
+        console.log(error.response.data);
+        if (error.response?.data.statusCode === STATUS_CODE.NOT_FOUND) {
+            yield put({
+                type: GET_USER_PROJECT_BY_ID,
+                arrUser: [],
+            });
+        }
+    }
+}
+
+export function* followGetUserByProjectIdSaga() {
+    yield takeLatest(GET_USER_PROJECT_BY_ID_API, getUserByProjectIdSaga);
 }

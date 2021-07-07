@@ -23,6 +23,7 @@ import {
     GET_PROJECT_DROPDOWN,
     GET_PROJECT_DROPDOWN_API,
 } from "../../constants/ProjectCyberBugsConst";
+import { GET_USER_PROJECT_BY_ID_API } from "../../constants/UserCyberBugsConst";
 
 // Create Project
 function* createProjectSaga(action) {
@@ -75,6 +76,11 @@ function* getAllProjects(action) {
                 projectList: data.content,
             });
         }
+
+        yield put({
+            type: GET_USER_PROJECT_BY_ID_API,
+            idProject: data.content[0].id,
+        });
     } catch (error) {
         console.log(error);
     }

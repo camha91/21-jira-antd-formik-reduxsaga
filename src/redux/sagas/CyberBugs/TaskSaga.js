@@ -7,28 +7,26 @@ import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
+import { CREATE_TASK_API } from "../../constants/TaskConst";
 
 function* createTaskSaga(action) {
-    yield put({
-        type: DISPLAY_LOADING,
-    });
-
-    yield delay(500);
-
     try {
+        yield put({
+            type: DISPLAY_LOADING,
+        });
+
+        yield delay(300);
+
         const { data, status } = yield call(() =>
             taskService.createTask(action.taskObject)
         );
 
-        // After successfully call api, dispatch to reducer via put
         if (status === STATUS_CODE.SUCCESS) {
             console.log(data);
         }
-
         yield put({
             type: CLOSE_DRAWER,
         });
-
         notifiFunction("success", "Create task successfully!");
     } catch (error) {
         console.log(error.response.data);
@@ -40,5 +38,5 @@ function* createTaskSaga(action) {
 }
 
 export function* followCreateTaskSaga() {
-    yield takeLatest("CREATE_TASK_API", createTaskSaga);
+    yield takeLatest(CREATE_TASK_API, createTaskSaga);
 }

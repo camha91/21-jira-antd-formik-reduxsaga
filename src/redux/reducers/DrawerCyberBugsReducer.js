@@ -2,9 +2,10 @@ import React from "react";
 import {
     CLOSE_DRAWER,
     OPEN_DRAWER,
-    OPEN_FORM_EDIT_PROJECT,
-    SET_SUBMIT_EDIT_PROJECT,
     OPEN_FORM_CREATE_TASK,
+    OPEN_FORM_EDIT_PROJECT,
+    SET_SUBMIT_CREATE_TASK,
+    SET_SUBMIT_EDIT_PROJECT,
 } from "../constants/DrawerCyberBugsConst";
 
 const initialState = {
@@ -40,6 +41,11 @@ const DrawerReducer = (state = initialState, action) => {
                 visible: true,
                 ComponentContentDrawer: action.Component,
                 title: action.title,
+            };
+        case SET_SUBMIT_CREATE_TASK:
+            return {
+                ...state,
+                callBackSubmit: action.submitFunction,
             };
         default:
             return state;
