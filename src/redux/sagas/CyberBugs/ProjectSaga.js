@@ -12,6 +12,7 @@ import {
 import {
     CREATE_PROJECT_SAGA,
     DELETE_PROJECT_SAGA,
+    EDIT_PROJECT,
     GET_ALL_PROJECT_SAGA,
     GET_PROJECT_DETAIL,
     GET_PROJECT_DETAIL_API,
@@ -99,6 +100,7 @@ function* updateProjectSaga(action) {
         const { data, status } = yield call(() =>
             cyberBugsService.updateProject(action.projectUpdate)
         );
+        console.log("dataUpdate", data);
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put

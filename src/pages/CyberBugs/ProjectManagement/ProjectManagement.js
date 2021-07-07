@@ -16,8 +16,14 @@ import FormEditProject from "../../../components/Forms/FormEditProject/FormEditP
 import { OPEN_FORM_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
 import {
     DELETE_PROJECT_SAGA,
+    EDIT_PROJECT,
     GET_ALL_PROJECT_SAGA,
 } from "../../../redux/constants/ProjectConst";
+import {
+    ADD_USER_PROJECT_API,
+    GET_USER_API,
+    REMOVE_USER_PROJECT_API,
+} from "../../../redux/constants/UserCyberBugsConst";
 
 export default function ProjectManagement() {
     const [state, setState] = useState({
@@ -198,7 +204,7 @@ export default function ProjectManagement() {
                                                                             onClick={() => {
                                                                                 dispatch(
                                                                                     {
-                                                                                        type: "REMOVE_USER_PROJECT_API",
+                                                                                        type: REMOVE_USER_PROJECT_API,
                                                                                         userProject:
                                                                                             {
                                                                                                 projectId:
@@ -257,7 +263,7 @@ export default function ProjectManagement() {
 
                                             // Call api to send data to backend
                                             dispatch({
-                                                type: "ADD_USER_PROJECT_API",
+                                                type: ADD_USER_PROJECT_API,
                                                 userProject: {
                                                     projectId: record.id,
                                                     userId: valueSelect,
@@ -273,7 +279,7 @@ export default function ProjectManagement() {
                                             searchRef.current = setTimeout(
                                                 () => {
                                                     dispatch({
-                                                        type: "GET_USER_API",
+                                                        type: GET_USER_API,
                                                         keyword: value,
                                                     });
                                                 },
@@ -310,7 +316,7 @@ export default function ProjectManagement() {
 
                             // dispatch current line data to reducer
                             const actionEditProject = {
-                                type: "EDIT_PROJECT",
+                                type: EDIT_PROJECT,
                                 projectEditModel: record,
                             };
 

@@ -74,6 +74,7 @@ function FormEditProject(props) {
                     <div className="form-group">
                         <p className="font-weight-bold">Project Category</p>
                         <select
+                            onChange={handleChange}
                             className="form-control"
                             value={values.categoryId}
                             name="categoryId"
@@ -137,6 +138,7 @@ const EditProjectForm = withFormik({
 
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
+        console.log(values);
         props.dispatch({
             type: UPDATE_PROJECT_SAGA,
             projectUpdate: values,

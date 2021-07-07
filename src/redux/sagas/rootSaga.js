@@ -4,6 +4,7 @@ import * as ProjectCategory from "./CyberBugs/ProjectCategorySaga";
 import * as ProjectSaga from "./CyberBugs/ProjectSaga";
 import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
 import * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
+import * as TaskSaga from "./CyberBugs/TaskSaga";
 
 export function* rootSaga() {
     yield all([
@@ -24,5 +25,7 @@ export function* rootSaga() {
         PrioritySaga.followGetAllPrioritySaga(),
 
         TaskTypeSaga.followGetAllTaskTypeSaga(),
+
+        TaskSaga.followCreateTaskSaga(),
     ]);
 }
