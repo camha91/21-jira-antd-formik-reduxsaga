@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Redirect } from "react-router";
-import ContentMain from "../../../components/CyberBugs/Main/ContentMain";
-import HeaderMain from "../../../components/CyberBugs/Main/HeaderMain";
-import InfoMain from "../../../components/CyberBugs/Main/InfoMain";
-import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+import ContentMain from "../../components/CyberBugs/Main/ContentMain";
+import HeaderMain from "../../components/CyberBugs/Main/HeaderMain";
+import InfoMain from "../../components/CyberBugs/Main/InfoMain";
+import { USER_LOGIN } from "../../utils/constants/settingSystem";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function IndexCyberBugs(props) {
+export default function ProjectDetail(props) {
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
     const dispatch = useDispatch();
 
