@@ -7,10 +7,12 @@ import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
+import { GET_PROJECT_DETAIL_API } from "../../constants/ProjectConst";
 import {
     CREATE_TASK_API,
     GET_TASK_DETAIL,
     GET_TASK_DETAIL_API,
+    UPDATE_TASK_STATUS_API,
 } from "../../constants/TaskConst";
 
 function* createTaskSaga(action) {
@@ -67,4 +69,38 @@ function* getTaskDetailSaga(action) {
 
 export function* followGetTaskDetailSaga() {
     yield takeLatest(GET_TASK_DETAIL_API, getTaskDetailSaga);
+}
+
+// Update task status
+function* updateTaskStatusSaga(action) {
+    const { taskStatusUpdate } = action;
+    console.log("taskStatusUpdate", action);
+
+    try {
+        // Update api status for current task
+        const { data, status } = yield call(() =>
+            taskService.updateTaskStatus(taskStatusUpdate)
+        );
+
+        // After calling api successfully, call getProjectDetail saga to organize all task info
+        if (status === STATUS_CODE.SUCCESS) {
+            console.log(data);
+
+            yield put({
+                type: GET_PROJECT_DETAIL_API,
+                projectId: taskStatusUpdate.projectId,
+            });
+
+            yield put({
+                type: GET_TASK_DETAIL_API,
+                taskId: taskStatusUpdate.taskId,
+            });
+        }
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}
+
+export function* followUpdateTaskStatusSaga() {
+    yield takeLatest(UPDATE_TASK_STATUS_API, updateTaskStatusSaga);
 }

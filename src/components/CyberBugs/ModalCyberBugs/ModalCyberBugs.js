@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
+import { UPDATE_TASK_STATUS_API } from "../../../redux/constants/TaskConst";
 
 export default function ModalCyberBugs(props) {
     const { taskDetailModal } = useSelector((state) => state.TaskReducer);
@@ -224,7 +225,30 @@ export default function ModalCyberBugs(props) {
                                         <select
                                             className="custom-select"
                                             value={taskDetailModal.statusId}
-                                            onChange={(e) => {}}
+                                            onChange={(e) => {
+                                                const action = {
+                                                    type: UPDATE_TASK_STATUS_API,
+                                                    taskStatusUpdate: {
+                                                        taskId: taskDetailModal.taskId,
+                                                        statusId:
+                                                            e.target.value,
+                                                        projectId:
+                                                            taskDetailModal.projectId,
+                                                    },
+                                                };
+
+                                                // // console.log('action',action);
+                                                console.log(
+                                                    "taskupdatestatus",
+                                                    {
+                                                        taskId: taskDetailModal.taskId,
+                                                        statusId:
+                                                            e.target.value,
+                                                    }
+                                                );
+
+                                                dispatch(action);
+                                            }}
                                         >
                                             {arrStatus.map((status, index) => {
                                                 return (
@@ -346,6 +370,7 @@ export default function ModalCyberBugs(props) {
                                             value={
                                                 taskDetailModal.originalEstimate
                                             }
+                                            onChange={(e) => {}}
                                         />
                                     </div>
                                     <div className="time-tracking">
