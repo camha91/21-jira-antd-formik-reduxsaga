@@ -1,5 +1,7 @@
 export const GET_TASK_DETAIL = "GET_TASK_DETAIL";
 export const CHANGE_TASK_MODAL = "CHANGE_TASK_MODAL";
+export const CHANGE_ASSIGNEES = "CHANGE_ASSIGNEES";
+export const REMOVE_USER_ASSIGN = "REMOVE_USER_ASSIGN";
 
 //------------------------ Saga -------------------
 export const CREATE_TASK_API = "CREATE_TASK_API";

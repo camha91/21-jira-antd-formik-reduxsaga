@@ -1,18 +1,26 @@
 import { Editor } from "@tinymce/tinymce-react";
+import { Select } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
-import { CHANGE_TASK_MODAL } from "../../../redux/constants/TaskConst";
+import {
+    CHANGE_ASSIGNEES,
+    CHANGE_TASK_MODAL,
+    REMOVE_USER_ASSIGN,
+} from "../../../redux/constants/TaskConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
+
+const { Option } = Select;
 
 export default function ModalCyberBugs(props) {
     const { taskDetailModal } = useSelector((state) => state.TaskReducer);
     const { arrStatus } = useSelector((state) => state.StatusReducer);
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+    const { projectDetail } = useSelector((state) => state.ProjectReducer);
 
     const [visibleEditor, setVisibleEditor] = useState(false);
     const [historyContent, setHistoryContent] = useState(
@@ -385,10 +393,6 @@ export default function ModalCyberBugs(props) {
                                         <div className="row">
                                             {taskDetailModal.assigness.map(
                                                 (member, index) => {
-                                                    console.log(
-                                                        "assignees",
-                                                        taskDetailModal.assigness
-                                                    );
                                                     return (
                                                         <div className="col-6 mt-2 mb-2">
                                                             <div
@@ -409,7 +413,7 @@ export default function ModalCyberBugs(props) {
                                                                         }
                                                                     />
                                                                 </div>
-                                                                <p className="name">
+                                                                <p className="name mt-1 ml-1">
                                                                     {
                                                                         member.name
                                                                     }
@@ -417,6 +421,14 @@ export default function ModalCyberBugs(props) {
                                                                         className="fa fa-times"
                                                                         style={{
                                                                             marginLeft: 5,
+                                                                        }}
+                                                                        onClick={() => {
+                                                                            dispatch(
+                                                                                {
+                                                                                    type: REMOVE_USER_ASSIGN,
+                                                                                    userId: member.id,
+                                                                                }
+                                                                            );
                                                                         }}
                                                                     />
                                                                 </p>
@@ -426,17 +438,56 @@ export default function ModalCyberBugs(props) {
                                                 }
                                             )}
 
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <i
-                                                    className="fa fa-plus"
-                                                    style={{ marginRight: 5 }}
-                                                />
-                                                <span>Add more</span>
+                                            <div className="col-6 mt-2 mb-2">
+                                                <Select
+                                                    options={projectDetail.members
+                                                        ?.filter((member) => {
+                                                            const index =
+                                                                taskDetailModal.assigness?.findIndex(
+                                                                    (user) =>
+                                                                        user.id ===
+                                                                        member.userId
+                                                                );
+                                                            // if the user is already existed in the list
+                                                            if (index !== -1) {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        })
+                                                        .map(
+                                                            (member, index) => {
+                                                                return {
+                                                                    value: member.userId,
+                                                                    label: member.name,
+                                                                };
+                                                            }
+                                                        )}
+                                                    style={{ width: "100%" }}
+                                                    optionFilterProp="label"
+                                                    name="lstUser"
+                                                    value="+ Add more"
+                                                    className="form-control"
+                                                    onSelect={(value) => {
+                                                        if (value == "0") {
+                                                            return;
+                                                        }
+                                                        let userSelected =
+                                                            projectDetail.members.find(
+                                                                (mem) =>
+                                                                    mem.userId ==
+                                                                    value
+                                                            );
+                                                        userSelected = {
+                                                            ...userSelected,
+                                                            id: userSelected.userId,
+                                                        };
+                                                        //dispatchReducer
+                                                        dispatch({
+                                                            type: CHANGE_ASSIGNEES,
+                                                            userSelected,
+                                                        });
+                                                    }}
+                                                ></Select>
                                             </div>
                                         </div>
                                     </div>
@@ -462,7 +513,7 @@ export default function ModalCyberBugs(props) {
                                         </div>
                                     </div> */}
                                     <div
-                                        className="priority"
+                                        className="priority mt-2"
                                         style={{ marginBottom: 20 }}
                                     >
                                         <h6>PRIORITY</h6>
