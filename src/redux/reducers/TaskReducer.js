@@ -1,5 +1,7 @@
+import { GET_TASK_DETAIL } from "../constants/TaskConst";
+
 const initialState = {
-    taskDetailModel: {
+    taskDetailModal: {
         priorityTask: {
             priorityId: 2,
             priority: "Medium",
@@ -34,6 +36,8 @@ const initialState = {
 
 const TaskReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_TASK_DETAIL:
+            return { ...state, taskDetailModal: action.taskDetailModal };
         default:
             return state;
     }

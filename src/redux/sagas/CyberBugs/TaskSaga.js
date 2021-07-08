@@ -7,7 +7,11 @@ import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
-import { CREATE_TASK_API } from "../../constants/TaskConst";
+import {
+    CREATE_TASK_API,
+    GET_TASK_DETAIL,
+    GET_TASK_DETAIL_API,
+} from "../../constants/TaskConst";
 
 function* createTaskSaga(action) {
     try {
@@ -39,4 +43,28 @@ function* createTaskSaga(action) {
 
 export function* followCreateTaskSaga() {
     yield takeLatest(CREATE_TASK_API, createTaskSaga);
+}
+
+// Get task detail
+function* getTaskDetailSaga(action) {
+    try {
+        const { data, status } = yield call(() =>
+            taskService.getTaskDetail(action.taskId)
+        );
+
+        if (status === STATUS_CODE.SUCCESS) {
+            console.log(data);
+        }
+
+        yield put({
+            type: GET_TASK_DETAIL,
+            taskDetailModal: data.content,
+        });
+    } catch (error) {
+        console.log(error.response?.data);
+    }
+}
+
+export function* followGetTaskDetailSaga() {
+    yield takeLatest(GET_TASK_DETAIL_API, getTaskDetailSaga);
 }

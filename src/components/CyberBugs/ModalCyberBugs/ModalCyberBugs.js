@@ -6,18 +6,18 @@ import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 
 export default function ModalCyberBugs(props) {
-    const { taskDetailModel } = useSelector((state) => state.TaskReducer);
+    const { taskDetailModal } = useSelector((state) => state.TaskReducer);
     const { arrStatus } = useSelector((state) => state.StatusReducer);
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const dispatch = useDispatch();
 
     const renderDescription = () => {
-        const jsxDescription = ReactHtmlParser(taskDetailModel.description);
+        const jsxDescription = ReactHtmlParser(taskDetailModal.description);
         return jsxDescription;
     };
 
     const renderTimeTracking = () => {
-        const { timeTrackingSpent, timeTrackingRemaining } = taskDetailModel;
+        const { timeTrackingSpent, timeTrackingRemaining } = taskDetailModal;
 
         const max = Number(timeTrackingSpent) + Number(timeTrackingRemaining);
         const percent = Math.round((Number(timeTrackingSpent) / max) * 100);
@@ -73,7 +73,7 @@ export default function ModalCyberBugs(props) {
                     <div className="modal-header">
                         <div className="task-title">
                             <i className="fa fa-bookmark" />
-                            <span>{taskDetailModel.taskName}</span>
+                            <span>{taskDetailModal.taskName}</span>
                         </div>
                         <div style={{ display: "flex" }} className="task-click">
                             <div>
@@ -223,7 +223,7 @@ export default function ModalCyberBugs(props) {
                                         <h6>STATUS</h6>
                                         <select
                                             className="custom-select"
-                                            value={taskDetailModel.statusId}
+                                            value={taskDetailModal.statusId}
                                             onChange={(e) => {}}
                                         >
                                             {arrStatus.map((status, index) => {
@@ -241,7 +241,7 @@ export default function ModalCyberBugs(props) {
                                     <div className="assignees">
                                         <h6>ASSIGNEES</h6>
                                         <div style={{ display: "flex" }}>
-                                            {taskDetailModel.assigness.map(
+                                            {taskDetailModal.assigness.map(
                                                 (member, index) => {
                                                     return (
                                                         <div
@@ -317,7 +317,7 @@ export default function ModalCyberBugs(props) {
                                         <select
                                             className="form-control"
                                             value={
-                                                taskDetailModel.priorityTask
+                                                taskDetailModal.priorityTask
                                                     ?.priorityId
                                             }
                                             onChange={(e) => {}}
@@ -344,7 +344,7 @@ export default function ModalCyberBugs(props) {
                                             type="text"
                                             className="estimate-hours"
                                             value={
-                                                taskDetailModel.originalEstimate
+                                                taskDetailModal.originalEstimate
                                             }
                                         />
                                     </div>

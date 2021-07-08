@@ -29,6 +29,7 @@ export function* rootSaga() {
         TaskTypeSaga.followGetAllTaskTypeSaga(),
 
         TaskSaga.followCreateTaskSaga(),
+        TaskSaga.followGetTaskDetailSaga(),
 
         StatusSaga.followGetAllStatusSaga(),
     ]);
