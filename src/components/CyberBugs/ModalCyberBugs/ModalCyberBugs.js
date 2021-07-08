@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
-import avatar1 from "../../../assets/img/avatar1.jfif";
-import { useSelector, useDispatch } from "react-redux";
+import { Editor } from "@tinymce/tinymce-react";
+import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
-import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
+import { useDispatch, useSelector } from "react-redux";
+import avatar1 from "../../../assets/img/avatar1.jfif";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
-import {
-    UPDATE_TASK_STATUS_API,
-    CHANGE_TASK_MODAL,
-} from "../../../redux/constants/TaskConst";
+import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
+import { CHANGE_TASK_MODAL } from "../../../redux/constants/TaskConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
 
 export default function ModalCyberBugs(props) {
@@ -15,11 +13,81 @@ export default function ModalCyberBugs(props) {
     const { arrStatus } = useSelector((state) => state.StatusReducer);
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+
+    const [visibleEditor, setVisibleEditor] = useState(false);
+    const [historyContent, setHistoryContent] = useState(
+        taskDetailModal.description
+    );
+    const [content, setContent] = useState(taskDetailModal.description);
     const dispatch = useDispatch();
 
     const renderDescription = () => {
         const jsxDescription = ReactHtmlParser(taskDetailModal.description);
-        return jsxDescription;
+
+        return (
+            <div>
+                {visibleEditor ? (
+                    <div>
+                        <Editor
+                            name="description"
+                            initialValue={taskDetailModal.description}
+                            init={{
+                                selector: "textarea#myTextArea",
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                    "advlist autolink lists link image charmap print preview anchor",
+                                    "searchreplace visualblocks code fullscreen",
+                                    "insertdatetime media table paste code help wordcount",
+                                ],
+                                toolbar:
+                                    "undo redo | formatselect | bold italic backcolor | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat | help",
+                            }}
+                            onEditorChange={(content, editor) => {
+                                setContent(content);
+                            }}
+                        />
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: CHANGE_TASK_MODAL,
+                                    name: "description",
+                                    value: content,
+                                });
+                                setVisibleEditor(false);
+                            }}
+                        >
+                            Save
+                        </button>
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: CHANGE_TASK_MODAL,
+                                    name: "description",
+                                    value: historyContent,
+                                });
+                                setVisibleEditor(false);
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        onClick={() => {
+                            setHistoryContent(taskDetailModal.description);
+                            setVisibleEditor(!visibleEditor);
+                        }}
+                    >
+                        {jsxDescription}
+                    </div>
+                )}
+            </div>
+        );
     };
 
     const renderTimeTracking = () => {
