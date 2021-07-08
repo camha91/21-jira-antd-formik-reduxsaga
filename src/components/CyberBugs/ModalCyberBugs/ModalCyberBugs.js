@@ -4,12 +4,17 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
-import { UPDATE_TASK_STATUS_API } from "../../../redux/constants/TaskConst";
+import {
+    UPDATE_TASK_STATUS_API,
+    CHANGE_TASK_MODAL,
+} from "../../../redux/constants/TaskConst";
+import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
 
 export default function ModalCyberBugs(props) {
     const { taskDetailModal } = useSelector((state) => state.TaskReducer);
     const { arrStatus } = useSelector((state) => state.StatusReducer);
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
+    const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
     const dispatch = useDispatch();
 
     const renderDescription = () => {
@@ -24,31 +29,50 @@ export default function ModalCyberBugs(props) {
         const percent = Math.round((Number(timeTrackingSpent) / max) * 100);
 
         return (
-            <div style={{ display: "flex" }}>
-                <i className="fa fa-clock" />
-                <div style={{ width: "100%" }}>
-                    <div className="progress">
+            <div>
+                <div style={{ display: "flex" }}>
+                    <i className="fa fa-clock" />
+                    <div style={{ width: "100%" }}>
+                        <div className="progress">
+                            <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: `${percent}%` }}
+                                aria-valuenow={Number(timeTrackingSpent)}
+                                aria-valuemin={Number(timeTrackingRemaining)}
+                                aria-valuemax={max}
+                            />
+                        </div>
                         <div
-                            className="progress-bar"
-                            role="progressbar"
-                            style={{ width: `${percent}%` }}
-                            aria-valuenow={Number(timeTrackingSpent)}
-                            aria-valuemin={Number(timeTrackingRemaining)}
-                            aria-valuemax={max}
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <p className="logged">
+                                {Number(timeTrackingSpent)}h logged
+                            </p>
+                            <p className="estimate-time">
+                                {Number(timeTrackingRemaining)}h estimated
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-6">
+                        <input
+                            className="form-control"
+                            name="timeTrackingSpent"
+                            onChange={handleUpdateTask}
                         />
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <p className="logged">
-                            {Number(timeTrackingSpent)}h logged
-                        </p>
-                        <p className="estimate-time">
-                            {Number(timeTrackingRemaining)}h estimated
-                        </p>
+                    <div className="col-6">
+                        <input
+                            className="form-control"
+                            name="timeTrackingRemaining"
+                            onChange={handleUpdateTask}
+                        />
                     </div>
                 </div>
             </div>
@@ -58,7 +82,18 @@ export default function ModalCyberBugs(props) {
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_API });
         dispatch({ type: GET_ALL_PRIORITY_API });
+        dispatch({ type: GET_ALL_TASK_TYPE_API });
     }, []);
+
+    const handleUpdateTask = (e) => {
+        const { name, value } = e.target;
+
+        dispatch({
+            type: CHANGE_TASK_MODAL,
+            name,
+            value,
+        });
+    };
 
     return (
         <div
@@ -74,6 +109,19 @@ export default function ModalCyberBugs(props) {
                     <div className="modal-header">
                         <div className="task-title">
                             <i className="fa fa-bookmark" />
+                            <select
+                                name="typeId"
+                                value={taskDetailModal.typeId}
+                                onChange={handleUpdateTask}
+                            >
+                                {arrTaskType.map((taskType, index) => {
+                                    return (
+                                        <option key={index} value={taskType.id}>
+                                            {taskType.taskType}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                             <span>{taskDetailModal.taskName}</span>
                         </div>
                         <div style={{ display: "flex" }} className="task-click">
@@ -223,31 +271,33 @@ export default function ModalCyberBugs(props) {
                                     <div className="status">
                                         <h6>STATUS</h6>
                                         <select
+                                            name="statusId"
                                             className="custom-select"
                                             value={taskDetailModal.statusId}
                                             onChange={(e) => {
-                                                const action = {
-                                                    type: UPDATE_TASK_STATUS_API,
-                                                    taskStatusUpdate: {
-                                                        taskId: taskDetailModal.taskId,
-                                                        statusId:
-                                                            e.target.value,
-                                                        projectId:
-                                                            taskDetailModal.projectId,
-                                                    },
-                                                };
+                                                handleUpdateTask(e);
+                                                // const action = {
+                                                //     type: UPDATE_TASK_STATUS_API,
+                                                //     taskStatusUpdate: {
+                                                //         taskId: taskDetailModal.taskId,
+                                                //         statusId:
+                                                //             e.target.value,
+                                                //         projectId:
+                                                //             taskDetailModal.projectId,
+                                                //     },
+                                                // };
 
-                                                // // console.log('action',action);
-                                                console.log(
-                                                    "taskupdatestatus",
-                                                    {
-                                                        taskId: taskDetailModal.taskId,
-                                                        statusId:
-                                                            e.target.value,
-                                                    }
-                                                );
+                                                // // // console.log('action',action);
+                                                // console.log(
+                                                //     "taskupdatestatus",
+                                                //     {
+                                                //         taskId: taskDetailModal.taskId,
+                                                //         statusId:
+                                                //             e.target.value,
+                                                //     }
+                                                // );
 
-                                                dispatch(action);
+                                                // dispatch(action);
                                             }}
                                         >
                                             {arrStatus.map((status, index) => {
@@ -269,6 +319,7 @@ export default function ModalCyberBugs(props) {
                                                 (member, index) => {
                                                     return (
                                                         <div
+                                                            key={index}
                                                             style={{
                                                                 display: "flex",
                                                             }}
@@ -339,12 +390,12 @@ export default function ModalCyberBugs(props) {
                                     >
                                         <h6>PRIORITY</h6>
                                         <select
+                                            name="priorityId"
                                             className="form-control"
-                                            value={
-                                                taskDetailModal.priorityTask
-                                                    ?.priorityId
-                                            }
-                                            onChange={(e) => {}}
+                                            value={taskDetailModal.priorityId}
+                                            onChange={(e) => {
+                                                handleUpdateTask(e);
+                                            }}
                                         >
                                             {arrPriority.map(
                                                 (priority, index) => {
@@ -365,12 +416,15 @@ export default function ModalCyberBugs(props) {
                                     <div className="estimate">
                                         <h6>ORIGINAL ESTIMATE (HOURS)</h6>
                                         <input
+                                            name="originalEstimate"
                                             type="text"
                                             className="estimate-hours"
                                             value={
                                                 taskDetailModal.originalEstimate
                                             }
-                                            onChange={(e) => {}}
+                                            onChange={(e) => {
+                                                handleUpdateTask(e);
+                                            }}
                                         />
                                     </div>
                                     <div className="time-tracking">

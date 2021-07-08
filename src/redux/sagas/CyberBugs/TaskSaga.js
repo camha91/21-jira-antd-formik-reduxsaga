@@ -74,7 +74,6 @@ export function* followGetTaskDetailSaga() {
 // Update task status
 function* updateTaskStatusSaga(action) {
     const { taskStatusUpdate } = action;
-    console.log("taskStatusUpdate", action);
 
     try {
         // Update api status for current task

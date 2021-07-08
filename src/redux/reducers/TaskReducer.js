@@ -1,4 +1,4 @@
-import { GET_TASK_DETAIL } from "../constants/TaskConst";
+import { CHANGE_TASK_MODAL, GET_TASK_DETAIL } from "../constants/TaskConst";
 
 const initialState = {
     taskDetailModal: {
@@ -38,6 +38,14 @@ const TaskReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_TASK_DETAIL:
             return { ...state, taskDetailModal: action.taskDetailModal };
+        case CHANGE_TASK_MODAL:
+            const { name, value } = action;
+            console.log(state.taskDetailModal);
+
+            return {
+                ...state,
+                taskDetailModal: { ...state.taskDetailModal, [name]: value },
+            };
         default:
             return state;
     }
