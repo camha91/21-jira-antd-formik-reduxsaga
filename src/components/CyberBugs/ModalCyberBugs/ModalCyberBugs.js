@@ -9,6 +9,7 @@ import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import {
     CHANGE_ASSIGNEES,
     CHANGE_TASK_MODAL,
+    HANDLE_CHANGE_POST_API_SAGA,
     REMOVE_USER_ASSIGN,
 } from "../../../redux/constants/TaskConst";
 import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
@@ -61,10 +62,16 @@ export default function ModalCyberBugs(props) {
                             className="btn btn-primary m-2"
                             onClick={() => {
                                 dispatch({
-                                    type: CHANGE_TASK_MODAL,
+                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                    actionType: CHANGE_TASK_MODAL,
                                     name: "description",
                                     value: content,
                                 });
+                                // dispatch({
+                                //     type: CHANGE_TASK_MODAL,
+                                //     name: "description",
+                                //     value: content,
+                                // });
                                 setVisibleEditor(false);
                             }}
                         >
@@ -74,10 +81,16 @@ export default function ModalCyberBugs(props) {
                             className="btn btn-primary m-2"
                             onClick={() => {
                                 dispatch({
-                                    type: CHANGE_TASK_MODAL,
+                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                    actionType: CHANGE_TASK_MODAL,
                                     name: "description",
                                     value: historyContent,
                                 });
+                                // dispatch({
+                                //     type: CHANGE_TASK_MODAL,
+                                //     name: "description",
+                                //     value: historyContent,
+                                // });
                                 setVisibleEditor(false);
                             }}
                         >
@@ -165,10 +178,17 @@ export default function ModalCyberBugs(props) {
         const { name, value } = e.target;
 
         dispatch({
-            type: CHANGE_TASK_MODAL,
+            type: HANDLE_CHANGE_POST_API_SAGA,
+            actionType: CHANGE_TASK_MODAL,
             name,
             value,
         });
+
+        // dispatch({
+        //     type: CHANGE_TASK_MODAL,
+        //     name,
+        //     value,
+        // });
     };
 
     return (
@@ -425,10 +445,18 @@ export default function ModalCyberBugs(props) {
                                                                         onClick={() => {
                                                                             dispatch(
                                                                                 {
-                                                                                    type: REMOVE_USER_ASSIGN,
+                                                                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                                                                    actionType:
+                                                                                        REMOVE_USER_ASSIGN,
                                                                                     userId: member.id,
                                                                                 }
                                                                             );
+                                                                            // dispatch(
+                                                                            //     {
+                                                                            //         type: REMOVE_USER_ASSIGN,
+                                                                            //         userId: member.id,
+                                                                            //     }
+                                                                            // );
                                                                         }}
                                                                     />
                                                                 </p>
@@ -483,9 +511,15 @@ export default function ModalCyberBugs(props) {
                                                         };
                                                         //dispatchReducer
                                                         dispatch({
-                                                            type: CHANGE_ASSIGNEES,
+                                                            type: HANDLE_CHANGE_POST_API_SAGA,
+                                                            actionType:
+                                                                CHANGE_ASSIGNEES,
                                                             userSelected,
                                                         });
+                                                        // dispatch({
+                                                        //     type: CHANGE_ASSIGNEES,
+                                                        //     userSelected,
+                                                        // });
                                                     }}
                                                 ></Select>
                                             </div>
@@ -521,9 +555,7 @@ export default function ModalCyberBugs(props) {
                                             name="priorityId"
                                             className="form-control"
                                             value={taskDetailModal.priorityId}
-                                            onChange={(e) => {
-                                                handleUpdateTask(e);
-                                            }}
+                                            onChange={handleUpdateTask}
                                         >
                                             {arrPriority.map(
                                                 (priority, index) => {
