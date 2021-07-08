@@ -178,42 +178,7 @@ function FormCreateTask(props) {
             </div>
             <div className="form-group">
                 <div className="row">
-                    <div className="col-6">
-                        <p>Reporter</p>
-                        <Select
-                            mode="multiple"
-                            allowClear
-                            options={userOptions}
-                            style={{ width: "100%" }}
-                            placeholder="Please select"
-                            optionFilterProp="label"
-                            onSelect={(value) => {
-                                console.log(value);
-                            }}
-                            onChange={(values) => {
-                                setFieldValue("listUserAsign", values);
-                            }}
-                        >
-                            {children}
-                        </Select>
-
-                        <div className="row mt-3">
-                            <div className="col-12">
-                                <p className="mt-1">Original Estimate</p>
-                                <input
-                                    className="form-control"
-                                    type="number"
-                                    min="0"
-                                    name="originalEstimate"
-                                    defaultValue="0"
-                                    height="30"
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-6">
+                    <div className="col-12">
                         <p>Time Tracking</p>
                         <Slider
                             defaultValue={30}
@@ -223,58 +188,69 @@ function FormCreateTask(props) {
                                 Number(timeTracting.timeTrackingRemaining)
                             }
                         />
-                        <div className="row">
-                            <div className="col-6 text-left">
-                                {timeTracting.timeTrackingSpent}h logged
-                            </div>
-                            <div className="col-6 text-right">
-                                {timeTracting.timeTrackingRemaining}h logged
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-6 text-left">
+                        {timeTracting.timeTrackingSpent}h logged
+                    </div>
+                    <div className="col-6 text-right">
+                        {timeTracting.timeTrackingRemaining}h logged
+                    </div>
+                </div>
+                <div className="row mt-2">
+                    <div className="col-4">
+                        <p className="mt-1">Original Estimate</p>
+                        <input
+                            className="form-control"
+                            type="number"
+                            min="0"
+                            name="originalEstimate"
+                            defaultValue="0"
+                            height="30"
+                            onChange={handleChange}
+                        />
+                    </div>
 
-                        <div className="row mt-2" style={{ marginTop: 5 }}>
-                            <div className="col-6">
-                                <p>Time Spent</p>
-                                <input
-                                    type="number"
-                                    defaultValue="0"
-                                    min="0"
-                                    className="form-control"
-                                    name="timeTrackingSpent"
-                                    onChange={(e) => {
-                                        setTimeTracking({
-                                            ...timeTracting,
-                                            timeTrackingSpent: e.target.value,
-                                        });
-                                        setFieldValue(
-                                            "timeTrackingSpent",
-                                            e.target.value
-                                        );
-                                    }}
-                                />
-                            </div>
-                            <div className="col-6">
-                                <p>Time Remaining</p>
-                                <input
-                                    type="number"
-                                    defaultValue="0"
-                                    min="0"
-                                    className="form-control"
-                                    name="timeTrackingRemaining"
-                                    onChange={(e) => {
-                                        setTimeTracking({
-                                            ...timeTracting,
-                                            timeTrackingRemaining:
-                                                e.target.value,
-                                        });
-                                        setFieldValue(
-                                            "timeTrackingRemaining",
-                                            e.target.value
-                                        );
-                                    }}
-                                />
-                            </div>
-                        </div>
+                    <div className="col-4">
+                        <p>Time Spent</p>
+                        <input
+                            type="number"
+                            defaultValue="0"
+                            min="0"
+                            className="form-control"
+                            name="timeTrackingSpent"
+                            onChange={(e) => {
+                                setTimeTracking({
+                                    ...timeTracting,
+                                    timeTrackingSpent: e.target.value,
+                                });
+                                setFieldValue(
+                                    "timeTrackingSpent",
+                                    e.target.value
+                                );
+                            }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <p>Time Remaining</p>
+                        <input
+                            type="number"
+                            defaultValue="0"
+                            min="0"
+                            className="form-control"
+                            name="timeTrackingRemaining"
+                            onChange={(e) => {
+                                setTimeTracking({
+                                    ...timeTracting,
+                                    timeTrackingRemaining: e.target.value,
+                                });
+                                setFieldValue(
+                                    "timeTrackingRemaining",
+                                    e.target.value
+                                );
+                            }}
+                        />
                     </div>
                 </div>
             </div>

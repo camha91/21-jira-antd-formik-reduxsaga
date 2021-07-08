@@ -42,8 +42,8 @@ export default function ModalCyberBugs(props) {
                                 ],
                                 toolbar:
                                     "undo redo | formatselect | bold italic backcolor | \
-                            alignleft aligncenter alignright alignjustify | \
-                            bullist numlist outdent indent | removeformat | help",
+                                    alignleft aligncenter alignright alignjustify | \
+                                    bullist numlist outdent indent | removeformat | help",
                             }}
                             onEditorChange={(content, editor) => {
                                 setContent(content);
@@ -382,36 +382,45 @@ export default function ModalCyberBugs(props) {
                                     </div>
                                     <div className="assignees">
                                         <h6>ASSIGNEES</h6>
-                                        <div style={{ display: "flex" }}>
+                                        <div className="row">
                                             {taskDetailModal.assigness.map(
                                                 (member, index) => {
+                                                    console.log(
+                                                        "assignees",
+                                                        taskDetailModal.assigness
+                                                    );
                                                     return (
-                                                        <div
-                                                            key={index}
-                                                            style={{
-                                                                display: "flex",
-                                                            }}
-                                                            className="item"
-                                                        >
-                                                            <div className="avatar">
-                                                                <img
-                                                                    src={
-                                                                        member.avatar
+                                                        <div className="col-6 mt-2 mb-2">
+                                                            <div
+                                                                key={index}
+                                                                style={{
+                                                                    display:
+                                                                        "flex",
+                                                                }}
+                                                                className="item"
+                                                            >
+                                                                <div className="avatar">
+                                                                    <img
+                                                                        src={
+                                                                            member.avatar
+                                                                        }
+                                                                        alt={
+                                                                            member.avatar
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                                <p className="name">
+                                                                    {
+                                                                        member.name
                                                                     }
-                                                                    alt={
-                                                                        member.avatar
-                                                                    }
-                                                                />
+                                                                    <i
+                                                                        className="fa fa-times"
+                                                                        style={{
+                                                                            marginLeft: 5,
+                                                                        }}
+                                                                    />
+                                                                </p>
                                                             </div>
-                                                            <p className="name">
-                                                                {member.name}
-                                                                <i
-                                                                    className="fa fa-times"
-                                                                    style={{
-                                                                        marginLeft: 5,
-                                                                    }}
-                                                                />
-                                                            </p>
                                                         </div>
                                                     );
                                                 }
