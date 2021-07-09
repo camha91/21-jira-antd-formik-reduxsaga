@@ -176,11 +176,6 @@ export function* followDeleteProjectSaga() {
 
 //Get Project Detail
 function* getProjectDetailSaga(action) {
-    yield put({
-        type: DISPLAY_LOADING,
-    });
-    yield delay(500);
-
     try {
         // Call api to get data
         const { data, status } = yield call(() =>
@@ -197,9 +192,6 @@ function* getProjectDetailSaga(action) {
         console.log(error);
         history.push("/projectManagement");
     }
-    yield put({
-        type: HIDE_LOADING,
-    });
 }
 
 export function* followGetProjectDetailSaga() {

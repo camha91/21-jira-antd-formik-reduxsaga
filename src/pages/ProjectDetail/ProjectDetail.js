@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Redirect } from "react-router";
-import ContentMain from "../../../components/CyberBugs/Main/ContentMain";
-import HeaderMain from "../../../components/CyberBugs/Main/HeaderMain";
-import InfoMain from "../../../components/CyberBugs/Main/InfoMain";
-import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+import ContentMain from "../../components/CyberBugs/Main/ContentMain";
+import HeaderMain from "../../components/CyberBugs/Main/HeaderMain";
+import InfoMain from "../../components/CyberBugs/Main/InfoMain";
+import { USER_LOGIN } from "../../utils/constants/settingSystem";
 import { useSelector, useDispatch } from "react-redux";
+import { GET_PROJECT_DETAIL_API } from "../../redux/constants/ProjectConst";
 
-export default function IndexCyberBugs(props) {
+export default function ProjectDetail(props) {
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
     const dispatch = useDispatch();
 
@@ -17,7 +18,7 @@ export default function IndexCyberBugs(props) {
         // we use params from url to call saga action
         const { projectId } = props.match.params;
         dispatch({
-            type: "GET_PROJECT_DETAIL_API",
+            type: GET_PROJECT_DETAIL_API,
             projectId,
         });
     }, []);

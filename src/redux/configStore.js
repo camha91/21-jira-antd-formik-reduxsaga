@@ -9,6 +9,7 @@ import ProjectCategoryReducer from "./reducers/ProjectCategoryReducer";
 import ProjectCyberBugsReducer from "./reducers/ProjectCyberBugsReducer";
 import ProjectReducer from "./reducers/ProjectReducer";
 import StatusReducer from "./reducers/StatusReducer";
+import TaskReducer from "./reducers/TaskReducer";
 import TaskTypeReducer from "./reducers/TaskTypeReducer";
 import UserCyberBugsReducer from "./reducers/UserCyberBugsReducer";
 import { rootSaga } from "./sagas/rootSaga";
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     PriorityReducer,
     TaskTypeReducer,
     StatusReducer,
+    TaskReducer,
 });
 
 const store = createStore(

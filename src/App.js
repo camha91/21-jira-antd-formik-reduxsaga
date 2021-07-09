@@ -10,8 +10,8 @@ import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
 import Register from "./pages/Register/Register";
-import IndexCyberBugs from "./redux/sagas/CyberBugs/IndexCyberBugs";
 import { CyberBugsTemplate } from "./templates/CyberBugsTemplate/CyberBugsTemplate";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
@@ -40,7 +40,7 @@ function App() {
                 <CyberBugsTemplate
                     exact
                     path="/cyberbugs"
-                    Component={IndexCyberBugs}
+                    Component={ProjectDetail}
                 />
                 <CyberBugsTemplate
                     exact
@@ -55,7 +55,7 @@ function App() {
                 <CyberBugsTemplate
                     exact
                     path="/projectDetail/:projectId"
-                    Component={IndexCyberBugs}
+                    Component={ProjectDetail}
                 />
                 <HomeTemplate exact path="/" Component={Home} />
                 <HomeTemplate path="*" Component={PageNotFound} />

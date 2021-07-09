@@ -1,7 +1,196 @@
-import React from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Select } from "antd";
+import React, { useEffect, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
+import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
+import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
+import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
+import {
+    CHANGE_ASSIGNEES,
+    CHANGE_TASK_MODAL,
+    HANDLE_CHANGE_POST_API_SAGA,
+    REMOVE_USER_ASSIGN,
+} from "../../../redux/constants/TaskConst";
+import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
 
-export default function ModalCyberBugs() {
+const { Option } = Select;
+
+export default function ModalCyberBugs(props) {
+    const { taskDetailModal } = useSelector((state) => state.TaskReducer);
+    const { arrStatus } = useSelector((state) => state.StatusReducer);
+    const { arrPriority } = useSelector((state) => state.PriorityReducer);
+    const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+    const { projectDetail } = useSelector((state) => state.ProjectReducer);
+
+    const [visibleEditor, setVisibleEditor] = useState(false);
+    const [historyContent, setHistoryContent] = useState(
+        taskDetailModal.description
+    );
+    const [content, setContent] = useState(taskDetailModal.description);
+    const dispatch = useDispatch();
+
+    const renderDescription = () => {
+        const jsxDescription = ReactHtmlParser(taskDetailModal.description);
+
+        return (
+            <div>
+                {visibleEditor ? (
+                    <div>
+                        <Editor
+                            name="description"
+                            initialValue={taskDetailModal.description}
+                            init={{
+                                selector: "textarea#myTextArea",
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                    "advlist autolink lists link image charmap print preview anchor",
+                                    "searchreplace visualblocks code fullscreen",
+                                    "insertdatetime media table paste code help wordcount",
+                                ],
+                                toolbar:
+                                    "undo redo | formatselect | bold italic backcolor | \
+                                    alignleft aligncenter alignright alignjustify | \
+                                    bullist numlist outdent indent | removeformat | help",
+                            }}
+                            onEditorChange={(content, editor) => {
+                                setContent(content);
+                            }}
+                        />
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                    actionType: CHANGE_TASK_MODAL,
+                                    name: "description",
+                                    value: content,
+                                });
+                                // dispatch({
+                                //     type: CHANGE_TASK_MODAL,
+                                //     name: "description",
+                                //     value: content,
+                                // });
+                                setVisibleEditor(false);
+                            }}
+                        >
+                            Save
+                        </button>
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                    actionType: CHANGE_TASK_MODAL,
+                                    name: "description",
+                                    value: historyContent,
+                                });
+                                // dispatch({
+                                //     type: CHANGE_TASK_MODAL,
+                                //     name: "description",
+                                //     value: historyContent,
+                                // });
+                                setVisibleEditor(false);
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        onClick={() => {
+                            setHistoryContent(taskDetailModal.description);
+                            setVisibleEditor(!visibleEditor);
+                        }}
+                    >
+                        {jsxDescription}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const renderTimeTracking = () => {
+        const { timeTrackingSpent, timeTrackingRemaining } = taskDetailModal;
+
+        const max = Number(timeTrackingSpent) + Number(timeTrackingRemaining);
+        const percent = Math.round((Number(timeTrackingSpent) / max) * 100);
+
+        return (
+            <div>
+                <div style={{ display: "flex" }}>
+                    <i className="fa fa-clock" />
+                    <div style={{ width: "100%" }}>
+                        <div className="progress">
+                            <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: `${percent}%` }}
+                                aria-valuenow={Number(timeTrackingSpent)}
+                                aria-valuemin={Number(timeTrackingRemaining)}
+                                aria-valuemax={max}
+                            />
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <p className="logged">
+                                {Number(timeTrackingSpent)}h logged
+                            </p>
+                            <p className="estimate-time">
+                                {Number(timeTrackingRemaining)}h estimated
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-6">
+                        <input
+                            className="form-control"
+                            name="timeTrackingSpent"
+                            onChange={handleUpdateTask}
+                        />
+                    </div>
+                    <div className="col-6">
+                        <input
+                            className="form-control"
+                            name="timeTrackingRemaining"
+                            onChange={handleUpdateTask}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    useEffect(() => {
+        dispatch({ type: GET_ALL_STATUS_API });
+        dispatch({ type: GET_ALL_PRIORITY_API });
+        dispatch({ type: GET_ALL_TASK_TYPE_API });
+    }, []);
+
+    const handleUpdateTask = (e) => {
+        const { name, value } = e.target;
+
+        dispatch({
+            type: HANDLE_CHANGE_POST_API_SAGA,
+            actionType: CHANGE_TASK_MODAL,
+            name,
+            value,
+        });
+
+        // dispatch({
+        //     type: CHANGE_TASK_MODAL,
+        //     name,
+        //     value,
+        // });
+    };
+
     return (
         <div
             className="modal fade"
@@ -16,7 +205,20 @@ export default function ModalCyberBugs() {
                     <div className="modal-header">
                         <div className="task-title">
                             <i className="fa fa-bookmark" />
-                            <span>TASK-217871</span>
+                            <select
+                                name="typeId"
+                                value={taskDetailModal.typeId}
+                                onChange={handleUpdateTask}
+                            >
+                                {arrTaskType.map((taskType, index) => {
+                                    return (
+                                        <option key={index} value={taskType.id}>
+                                            {taskType.taskType}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <span>{taskDetailModal.taskName}</span>
                         </div>
                         <div style={{ display: "flex" }} className="task-click">
                             <div>
@@ -54,67 +256,7 @@ export default function ModalCyberBugs() {
                                     </p>
                                     <div className="description">
                                         <p>Description</p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet
-                                            consectetur, adipisicing elit. Esse
-                                            expedita quis vero tempora error sed
-                                            reprehenderit sequi laborum,
-                                            repellendus quod laudantium tenetur
-                                            nobis modi reiciendis sint
-                                            architecto. Autem libero quibusdam
-                                            odit assumenda fugiat? Beatae
-                                            aliquid labore vitae obcaecati
-                                            sapiente asperiores quia amet id
-                                            aut, natus quo molestiae quod
-                                            voluptas, temporibus iusto
-                                            laudantium sit tempora sequi. Rem,
-                                            itaque id, fugit magnam asperiores
-                                            voluptas consectetur aliquid vel
-                                            error illum, delectus eum eveniet
-                                            laudantium at repudiandae!
-                                        </p>
-                                    </div>
-                                    <div
-                                        style={{
-                                            fontWeight: 500,
-                                            marginBottom: 10,
-                                        }}
-                                    >
-                                        Jira Software (software projects) issue
-                                        types:
-                                    </div>
-                                    <div className="title">
-                                        <div className="title-item">
-                                            <h3>
-                                                BUG <i className="fa fa-bug" />
-                                            </h3>
-                                            <p>
-                                                A bug is a problem which impairs
-                                                or prevents the function of a
-                                                product.
-                                            </p>
-                                        </div>
-                                        <div className="title-item">
-                                            <h3>
-                                                STORY{" "}
-                                                <i className="fa fa-book-reader" />
-                                            </h3>
-                                            <p>
-                                                A user story is the smallest
-                                                unit of work that needs to be
-                                                done.
-                                            </p>
-                                        </div>
-                                        <div className="title-item">
-                                            <h3>
-                                                TASK{" "}
-                                                <i className="fa fa-tasks" />
-                                            </h3>
-                                            <p>
-                                                A task represents work that
-                                                needs to be done
-                                            </p>
-                                        </div>
+                                        {renderDescription()}
                                     </div>
                                     <div className="comment">
                                         <h6>Comment</h6>
@@ -224,53 +366,166 @@ export default function ModalCyberBugs() {
                                 <div className="col-4">
                                     <div className="status">
                                         <h6>STATUS</h6>
-                                        <select className="custom-select">
-                                            <option value={''}>
-                                                SELECTED FOR DEVELOPMENT
-                                            </option>
-                                            <option value={1}>One</option>
-                                            <option value={2}>Two</option>
-                                            <option value={3}>Three</option>
+                                        <select
+                                            name="statusId"
+                                            className="custom-select"
+                                            value={taskDetailModal.statusId}
+                                            onChange={(e) => {
+                                                handleUpdateTask(e);
+                                                // const action = {
+                                                //     type: UPDATE_TASK_STATUS_API,
+                                                //     taskStatusUpdate: {
+                                                //         taskId: taskDetailModal.taskId,
+                                                //         statusId:
+                                                //             e.target.value,
+                                                //         projectId:
+                                                //             taskDetailModal.projectId,
+                                                //     },
+                                                // };
+
+                                                // // // console.log('action',action);
+                                                // console.log(
+                                                //     "taskupdatestatus",
+                                                //     {
+                                                //         taskId: taskDetailModal.taskId,
+                                                //         statusId:
+                                                //             e.target.value,
+                                                //     }
+                                                // );
+
+                                                // dispatch(action);
+                                            }}
+                                        >
+                                            {arrStatus.map((status, index) => {
+                                                return (
+                                                    <option
+                                                        key={index}
+                                                        value={status.statusId}
+                                                    >
+                                                        {status.statusName}
+                                                    </option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
                                     <div className="assignees">
                                         <h6>ASSIGNEES</h6>
-                                        <div style={{ display: "flex" }}>
-                                            <div
-                                                style={{ display: "flex" }}
-                                                className="item"
-                                            >
-                                                <div className="avatar">
-                                                    <img
-                                                        src={avatar1}
-                                                        alt="avatar1"
-                                                    />
-                                                </div>
-                                                <p className="name">
-                                                    Pickle Rick
-                                                    <i
-                                                        className="fa fa-times"
-                                                        style={{
-                                                            marginLeft: 5,
-                                                        }}
-                                                    />
-                                                </p>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <i
-                                                    className="fa fa-plus"
-                                                    style={{ marginRight: 5 }}
-                                                />
-                                                <span>Add more</span>
+                                        <div className="row">
+                                            {taskDetailModal.assigness.map(
+                                                (member, index) => {
+                                                    return (
+                                                        <div className="col-6 mt-2 mb-2">
+                                                            <div
+                                                                key={index}
+                                                                style={{
+                                                                    display:
+                                                                        "flex",
+                                                                }}
+                                                                className="item"
+                                                            >
+                                                                <div className="avatar">
+                                                                    <img
+                                                                        src={
+                                                                            member.avatar
+                                                                        }
+                                                                        alt={
+                                                                            member.avatar
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                                <p className="name mt-1 ml-1">
+                                                                    {
+                                                                        member.name
+                                                                    }
+                                                                    <i
+                                                                        className="fa fa-times"
+                                                                        style={{
+                                                                            marginLeft: 5,
+                                                                        }}
+                                                                        onClick={() => {
+                                                                            dispatch(
+                                                                                {
+                                                                                    type: HANDLE_CHANGE_POST_API_SAGA,
+                                                                                    actionType:
+                                                                                        REMOVE_USER_ASSIGN,
+                                                                                    userId: member.id,
+                                                                                }
+                                                                            );
+                                                                            // dispatch(
+                                                                            //     {
+                                                                            //         type: REMOVE_USER_ASSIGN,
+                                                                            //         userId: member.id,
+                                                                            //     }
+                                                                            // );
+                                                                        }}
+                                                                    />
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+
+                                            <div className="col-6 mt-2 mb-2">
+                                                <Select
+                                                    options={projectDetail.members
+                                                        ?.filter((member) => {
+                                                            const index =
+                                                                taskDetailModal.assigness?.findIndex(
+                                                                    (user) =>
+                                                                        user.id ===
+                                                                        member.userId
+                                                                );
+                                                            // if the user is already existed in the list
+                                                            if (index !== -1) {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        })
+                                                        .map(
+                                                            (member, index) => {
+                                                                return {
+                                                                    value: member.userId,
+                                                                    label: member.name,
+                                                                };
+                                                            }
+                                                        )}
+                                                    style={{ width: "100%" }}
+                                                    optionFilterProp="label"
+                                                    name="lstUser"
+                                                    value="+ Add more"
+                                                    className="form-control"
+                                                    onSelect={(value) => {
+                                                        if (value == "0") {
+                                                            return;
+                                                        }
+                                                        let userSelected =
+                                                            projectDetail.members.find(
+                                                                (mem) =>
+                                                                    mem.userId ==
+                                                                    value
+                                                            );
+                                                        userSelected = {
+                                                            ...userSelected,
+                                                            id: userSelected.userId,
+                                                        };
+                                                        //dispatchReducer
+                                                        dispatch({
+                                                            type: HANDLE_CHANGE_POST_API_SAGA,
+                                                            actionType:
+                                                                CHANGE_ASSIGNEES,
+                                                            userSelected,
+                                                        });
+                                                        // dispatch({
+                                                        //     type: CHANGE_ASSIGNEES,
+                                                        //     userSelected,
+                                                        // });
+                                                    }}
+                                                ></Select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="reporter">
+                                    {/* <div className="reporter">
                                         <h6>REPORTER</h6>
                                         <div
                                             style={{ display: "flex" }}
@@ -290,57 +545,51 @@ export default function ModalCyberBugs() {
                                                 />
                                             </p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div
-                                        className="priority"
+                                        className="priority mt-2"
                                         style={{ marginBottom: 20 }}
                                     >
                                         <h6>PRIORITY</h6>
-                                        <select>
-                                            <option>Highest</option>
-                                            <option>Medium</option>
-                                            <option>Low</option>
-                                            <option>Lowest</option>
+                                        <select
+                                            name="priorityId"
+                                            className="form-control"
+                                            value={taskDetailModal.priorityId}
+                                            onChange={handleUpdateTask}
+                                        >
+                                            {arrPriority.map(
+                                                (priority, index) => {
+                                                    return (
+                                                        <option
+                                                            key={index}
+                                                            value={
+                                                                priority.priorityId
+                                                            }
+                                                        >
+                                                            {priority.priority}
+                                                        </option>
+                                                    );
+                                                }
+                                            )}
                                         </select>
                                     </div>
                                     <div className="estimate">
                                         <h6>ORIGINAL ESTIMATE (HOURS)</h6>
                                         <input
+                                            name="originalEstimate"
                                             type="text"
                                             className="estimate-hours"
+                                            value={
+                                                taskDetailModal.originalEstimate
+                                            }
+                                            onChange={(e) => {
+                                                handleUpdateTask(e);
+                                            }}
                                         />
                                     </div>
                                     <div className="time-tracking">
                                         <h6>TIME TRACKING</h6>
-                                        <div style={{ display: "flex" }}>
-                                            <i className="fa fa-clock" />
-                                            <div style={{ width: "100%" }}>
-                                                <div className="progress">
-                                                    <div
-                                                        className="progress-bar"
-                                                        role="progressbar"
-                                                        style={{ width: "25%" }}
-                                                        aria-valuenow={25}
-                                                        aria-valuemin={0}
-                                                        aria-valuemax={100}
-                                                    />
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        justifyContent:
-                                                            "space-between",
-                                                    }}
-                                                >
-                                                    <p className="logged">
-                                                        4h logged
-                                                    </p>
-                                                    <p className="estimate-time">
-                                                        12h estimated
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {renderTimeTracking()}
                                     </div>
                                     <div style={{ color: "#929398" }}>
                                         Create at a month ago
