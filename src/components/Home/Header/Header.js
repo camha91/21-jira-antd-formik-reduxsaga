@@ -87,6 +87,16 @@ export default function Header() {
                                 activeClassName="activeNavItem"
                                 activeStyle={{ fontWeight: "bold" }}
                                 className="nav-link"
+                                to="/dragdropdnd"
+                            >
+                                DemoDragDropDnD
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                activeClassName="activeNavItem"
+                                activeStyle={{ fontWeight: "bold" }}
+                                className="nav-link"
                                 to="/cyberbugs"
                             >
                                 Cyber Bugs
