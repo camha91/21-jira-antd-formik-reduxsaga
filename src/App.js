@@ -8,6 +8,8 @@ import Contact from "./pages/Contact/Contact";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
+import DemoDragDrop from "./pages/DemoDragDrop/DemoDragDrop";
+import DragAndDropDnD from "./pages/DragAndDropDnD/DragAndDropDnD";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
@@ -37,6 +39,12 @@ function App() {
                 <HomeTemplate exact path="/contact" Component={Contact} />
                 <LoginTemplate exact path="/login" Component={LoginCyberBugs} />
                 <HomeTemplate exact path="/register" Component={Register} />
+                <HomeTemplate exact path="/dragdrop" Component={DemoDragDrop} />
+                <HomeTemplate
+                    exact
+                    path="/dragdropdnd"
+                    Component={DragAndDropDnD}
+                />
                 <CyberBugsTemplate
                     exact
                     path="/cyberbugs"
