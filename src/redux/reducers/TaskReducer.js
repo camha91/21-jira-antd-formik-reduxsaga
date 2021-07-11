@@ -23,7 +23,15 @@ const initialState = {
                 alias: "crystal",
             },
         ],
-        lstComment: [],
+        lstComment: [
+            {
+                avatar: "https://ui-avatars.com/api/?name=Crystal",
+                commentContent: "hello",
+                id: 320,
+                idUser: 169,
+                name: "Crystal",
+            },
+        ],
         taskId: 620,
         taskName: "Edit task",
         alias: "edit-task",

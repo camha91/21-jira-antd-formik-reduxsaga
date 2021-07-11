@@ -2,10 +2,10 @@ import { all } from "redux-saga/effects";
 import * as PrioritySaga from "./CyberBugs/PrioritySaga";
 import * as ProjectCategory from "./CyberBugs/ProjectCategorySaga";
 import * as ProjectSaga from "./CyberBugs/ProjectSaga";
+import * as StatusSaga from "./CyberBugs/StatusSaga";
+import * as TaskSaga from "./CyberBugs/TaskSaga";
 import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
 import * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
-import * as TaskSaga from "./CyberBugs/TaskSaga";
-import * as StatusSaga from "./CyberBugs/StatusSaga";
 
 export function* rootSaga() {
     yield all([

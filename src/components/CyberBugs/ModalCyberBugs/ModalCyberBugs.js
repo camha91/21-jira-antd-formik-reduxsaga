@@ -304,61 +304,73 @@ export default function ModalCyberBugs(props) {
                                         </div>
                                         <div className="lastest-comment">
                                             <div className="comment-item">
-                                                <div
-                                                    className="display-comment"
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    <div className="avatar">
-                                                        <img
-                                                            src={avatar1}
-                                                            alt="avatar1"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <p
-                                                            style={{
-                                                                marginBottom: 5,
-                                                            }}
-                                                        >
-                                                            Lord Gaben{" "}
-                                                            <span>
-                                                                a month ago
-                                                            </span>
-                                                        </p>
-                                                        <p
-                                                            style={{
-                                                                marginBottom: 5,
-                                                            }}
-                                                        >
-                                                            Lorem ipsum dolor
-                                                            sit amet,
-                                                            consectetur
-                                                            adipisicing elit.
-                                                            Repellendus tempora
-                                                            ex voluptatum saepe
-                                                            ab officiis alias
-                                                            totam ad accusamus
-                                                            molestiae?
-                                                        </p>
-                                                        <div>
-                                                            <span
+                                                {taskDetailModal.lstComment.map(
+                                                    (comment, index) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className="display-comment"
                                                                 style={{
-                                                                    color: "#929398",
+                                                                    display:
+                                                                        "flex",
                                                                 }}
                                                             >
-                                                                Edit
-                                                            </span>
-                                                            •
-                                                            <span
-                                                                style={{
-                                                                    color: "#929398",
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                                <div className="avatar">
+                                                                    <img
+                                                                        src={
+                                                                            comment.avatar
+                                                                        }
+                                                                        alt={
+                                                                            comment.avatar
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <p
+                                                                        style={{
+                                                                            marginBottom: 5,
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            comment.name
+                                                                        }{" "}
+                                                                        <span>
+                                                                            a
+                                                                            month
+                                                                            ago
+                                                                        </span>
+                                                                    </p>
+                                                                    <p
+                                                                        style={{
+                                                                            marginBottom: 5,
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            comment.commentContent
+                                                                        }
+                                                                    </p>
+                                                                    <div>
+                                                                        <span
+                                                                            style={{
+                                                                                color: "#929398",
+                                                                            }}
+                                                                        >
+                                                                            Edit
+                                                                        </span>
+                                                                        •
+                                                                        <span
+                                                                            style={{
+                                                                                color: "#929398",
+                                                                            }}
+                                                                        >
+                                                                            Delete
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
                                             </div>
                                         </div>
                                     </div>
