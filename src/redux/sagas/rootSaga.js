@@ -6,6 +6,7 @@ import * as StatusSaga from "./CyberBugs/StatusSaga";
 import * as TaskSaga from "./CyberBugs/TaskSaga";
 import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
 import * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
+import * as CommentSaga from "./CyberBugs/CommentSaga";
 
 export function* rootSaga() {
     yield all([
@@ -35,5 +36,7 @@ export function* rootSaga() {
         TaskSaga.followHandleChangePostApiSaga(),
 
         StatusSaga.followGetAllStatusSaga(),
+
+        CommentSaga.followInsertCommentSaga(),
     ]);
 }

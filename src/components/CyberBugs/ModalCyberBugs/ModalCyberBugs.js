@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
+import { INSERT_COMMENT_API } from "../../../redux/constants/CommentConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import {
@@ -24,10 +25,12 @@ export default function ModalCyberBugs(props) {
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
 
     const [visibleEditor, setVisibleEditor] = useState(false);
+    const [visibleEditorComment, setVisibleEditorComment] = useState(false);
     const [historyContent, setHistoryContent] = useState(
         taskDetailModal.description
     );
     const [content, setContent] = useState(taskDetailModal.description);
+    const [comment, setComment] = useState({});
     const dispatch = useDispatch();
 
     const renderDescription = () => {
@@ -105,6 +108,92 @@ export default function ModalCyberBugs(props) {
                         }}
                     >
                         {jsxDescription}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const renderInsertComment = () => {
+        return (
+            <div>
+                {visibleEditorComment ? (
+                    <div>
+                        <Editor
+                            name="comment"
+                            init={{
+                                selector: "textarea#myTextArea",
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                    "advlist autolink lists link image charmap print preview anchor",
+                                    "searchreplace visualblocks code fullscreen",
+                                    "insertdatetime media table paste code help wordcount",
+                                ],
+                                toolbar:
+                                    "undo redo | formatselect | bold italic backcolor | \
+                                    alignleft aligncenter alignright alignjustify | \
+                                    bullist numlist outdent indent | removeformat | help",
+                            }}
+                            onEditorChange={(comment, editor) => {
+                                setComment(comment);
+                            }}
+                        />
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: INSERT_COMMENT_API,
+                                    commentObj: {
+                                        taskId: taskDetailModal.taskId,
+                                        contentComment: comment,
+                                    },
+                                });
+
+                                setVisibleEditorComment(false);
+                            }}
+                        >
+                            Save
+                        </button>
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                setVisibleEditorComment(false);
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        onClick={() => {
+                            setVisibleEditorComment(!visibleEditorComment);
+                        }}
+                    >
+                        <input type="text" placeholder="Add a comment ..." />
+                        <p>
+                            <span
+                                style={{
+                                    fontWeight: 500,
+                                    color: "gray",
+                                }}
+                            >
+                                Protip:
+                            </span>
+                            <span>
+                                press
+                                <span
+                                    style={{
+                                        fontWeight: "bold",
+                                        background: "#ecedf0",
+                                        color: "#b4bac6",
+                                    }}
+                                >
+                                    M
+                                </span>
+                                to comment
+                            </span>
+                        </p>
                     </div>
                 )}
             </div>
@@ -271,35 +360,7 @@ export default function ModalCyberBugs(props) {
                                                 />
                                             </div>
                                             <div className="input-comment">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Add a comment ..."
-                                                />
-                                                <p>
-                                                    <span
-                                                        style={{
-                                                            fontWeight: 500,
-                                                            color: "gray",
-                                                        }}
-                                                    >
-                                                        Protip:
-                                                    </span>
-                                                    <span>
-                                                        press
-                                                        <span
-                                                            style={{
-                                                                fontWeight:
-                                                                    "bold",
-                                                                background:
-                                                                    "#ecedf0",
-                                                                color: "#b4bac6",
-                                                            }}
-                                                        >
-                                                            M
-                                                        </span>
-                                                        to comment
-                                                    </span>
-                                                </p>
+                                                {renderInsertComment()}
                                             </div>
                                         </div>
                                         <div className="lastest-comment">
@@ -345,9 +406,9 @@ export default function ModalCyberBugs(props) {
                                                                             marginBottom: 5,
                                                                         }}
                                                                     >
-                                                                        {
+                                                                        {ReactHtmlParser(
                                                                             comment.commentContent
-                                                                        }
+                                                                        )}
                                                                     </p>
                                                                     <div>
                                                                         <span

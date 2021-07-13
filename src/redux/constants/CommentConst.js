@@ -1,0 +1,3 @@
+export const INSERT_COMMENT = "INSERT_COMMENT";
+
+export const INSERT_COMMENT_API = "INSERT_COMMENT_API";
