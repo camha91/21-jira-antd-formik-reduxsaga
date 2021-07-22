@@ -1,21 +1,18 @@
-import { INSERT_COMMENT } from "../constants/CommentConst";
+import { UPDATE_COMMENT } from "../constants/CommentConst";
 
 const initialState = {
-    commnentModal: {
-        id: 325,
+    commentEdit: {
+        id: 320,
         userId: 169,
-        taskId: 619,
-        contentComment: "new comment",
-        deleted: false,
-        alias: "new-comment",
+        taskId: 620,
+        contentComment: "string",
     },
 };
 
 const CommentReducer = (state = initialState, action) => {
     switch (action.type) {
-        case INSERT_COMMENT:
-            console.log("commentModal", state.commentModal);
-            return { ...state, commnentModal: action.commnentModal };
+        case UPDATE_COMMENT:
+            return { ...state, commentEdit: action.commentEditModel };
 
         default:
             return state;

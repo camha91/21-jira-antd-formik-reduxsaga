@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
-import { INSERT_COMMENT_API } from "../../../redux/constants/CommentConst";
+import {
+    DELETE_COMMENT_API,
+    GET_ALL_COMMENT_API,
+    INSERT_COMMENT_API,
+    UPDATE_COMMENT_API,
+} from "../../../redux/constants/CommentConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import {
@@ -23,14 +28,24 @@ export default function ModalCyberBugs(props) {
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
+    const { commentEdit } = useSelector((state) => state.CommentReducer);
+    console.log('commentEdit', commentEdit)
 
     const [visibleEditor, setVisibleEditor] = useState(false);
-    const [visibleEditorComment, setVisibleEditorComment] = useState(false);
     const [historyContent, setHistoryContent] = useState(
         taskDetailModal.description
     );
     const [content, setContent] = useState(taskDetailModal.description);
+
+    const [visibleEditorComment, setVisibleEditorComment] = useState(false);
+
     const [comment, setComment] = useState({});
+    const [historyContentComment, setHistoryContentComment] = useState(
+        taskDetailModal.lstComment
+    );
+
+    const [toogleUpdateMode, setToogleUpdateMode] = useState(false);
+
     const dispatch = useDispatch();
 
     const renderDescription = () => {
@@ -139,25 +154,59 @@ export default function ModalCyberBugs(props) {
                                 setComment(comment);
                             }}
                         />
+
+                        {!toogleUpdateMode ? (
+                            <button
+                                className="btn btn-primary m-2"
+                                onClick={() => {
+                                    dispatch({
+                                        type: INSERT_COMMENT_API,
+                                        commentObj: {
+                                            taskId: taskDetailModal.taskId,
+                                            contentComment: comment,
+                                        },
+                                    });
+
+                                    setVisibleEditorComment(false);
+                                }}
+                            >
+                                Save
+                            </button>
+                            
+                        ) : (
+                            <button
+                                className="btn btn-primary m-2"
+                                onClick={() => {
+                                    
+                                    dispatch({
+                                        type: UPDATE_COMMENT_API,
+                                        commentUpdate: {
+                                            id: commentEdit.id,
+                                            contentComment: comment,
+                                            taskId: commentEdit.taskId
+                                        },
+                                    });
+
+                                    setToogleUpdateMode(false);
+
+                                    setVisibleEditorComment(false);
+                                }}
+                            >
+                                Update
+                            </button>
+                        )}
+
                         <button
                             className="btn btn-primary m-2"
                             onClick={() => {
                                 dispatch({
-                                    type: INSERT_COMMENT_API,
-                                    commentObj: {
-                                        taskId: taskDetailModal.taskId,
-                                        contentComment: comment,
-                                    },
-                                });
-
-                                setVisibleEditorComment(false);
-                            }}
-                        >
-                            Save
-                        </button>
-                        <button
-                            className="btn btn-primary m-2"
-                            onClick={() => {
+                                    type: UPDATE_COMMENT_API,
+                                    commentUpdate: {
+                                            id: commentEdit.id,
+                                            contentComment: historyContentComment,
+                                            taskId: commentEdit.taskId
+                                        },
+                                })
                                 setVisibleEditorComment(false);
                             }}
                         >
@@ -167,6 +216,7 @@ export default function ModalCyberBugs(props) {
                 ) : (
                     <div
                         onClick={() => {
+                            setHistoryContentComment(commentEdit.contentComment)
                             setVisibleEditorComment(!visibleEditorComment);
                         }}
                     >
@@ -415,6 +465,17 @@ export default function ModalCyberBugs(props) {
                                                                             style={{
                                                                                 color: "#929398",
                                                                             }}
+                                                                            onClick={() => {
+                                                                                console.log(
+                                                                                    "Click edit"
+                                                                                );
+                                                                                setVisibleEditorComment(
+                                                                                    true
+                                                                                );
+                                                                                setToogleUpdateMode(
+                                                                                    true
+                                                                                );
+                                                                            }}
                                                                         >
                                                                             Edit
                                                                         </span>
@@ -422,6 +483,18 @@ export default function ModalCyberBugs(props) {
                                                                         <span
                                                                             style={{
                                                                                 color: "#929398",
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                dispatch(
+                                                                                    {
+                                                                                        type: DELETE_COMMENT_API,
+                                                                                        commentDeleteObj:
+                                                                                            {
+                                                                                                id: comment.id,
+                                                                                                taskId: taskDetailModal.taskId,
+                                                                                            },
+                                                                                    }
+                                                                                );
                                                                             }}
                                                                         >
                                                                             Delete

@@ -1,3 +1,4 @@
+import { UPDATE_COMMENT } from "../constants/CommentConst";
 import {
     CHANGE_ASSIGNEES,
     CHANGE_TASK_MODAL,
@@ -45,6 +46,13 @@ const initialState = {
         priorityId: 2,
         projectId: 677,
     },
+
+    commentEdit: {
+        id: 320,
+        userId: 169,
+        taskId: 620,
+        contentComment: "string",
+    },
 };
 
 const TaskReducer = (state = initialState, action) => {
@@ -74,6 +82,10 @@ const TaskReducer = (state = initialState, action) => {
                 ),
             ];
             return { ...state };
+        case UPDATE_COMMENT:
+            state.commentEdit = action.commentEditModel
+            console.log(state.commentEdit)
+            return { ...state }    
         default:
             return state;
     }

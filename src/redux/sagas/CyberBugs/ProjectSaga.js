@@ -105,7 +105,6 @@ function* updateProjectSaga(action) {
         const { data, status } = yield call(() =>
             cyberBugsService.updateProject(action.projectUpdate)
         );
-        console.log("dataUpdate", data);
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
