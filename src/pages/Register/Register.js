@@ -125,7 +125,7 @@ function Register(props) {
                         }}
                         className="mt-3"
                     >
-                        Login
+                        Register
                     </Button>
                 </Form.Item>
             </div>
