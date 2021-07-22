@@ -10,6 +10,7 @@ import * as StatusSaga from "./CyberBugs/StatusSaga";
 export function* rootSaga() {
     yield all([
         UserCyberBugs.followSignIn(),
+        UserCyberBugs.followSignUp(),
         UserCyberBugs.followGetUserSaga(),
         UserCyberBugs.followAddUserProjectSaga(),
         UserCyberBugs.followRemoveUserProjectSaga(),
