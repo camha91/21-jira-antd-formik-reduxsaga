@@ -5,6 +5,7 @@ import {
     STATUS_CODE,
     TOKEN,
     USER_LOGIN,
+    USER_PROFILE,
 } from "../../../utils/constants/settingSystem";
 import {
     DISPLAY_LOADING,
@@ -20,6 +21,7 @@ import {
     USER_SIGNIN_API,
     GET_USER_PROJECT_BY_ID,
     GET_USER_PROJECT_BY_ID_API,
+    USER_SIGNUP_API,
 } from "../../constants/UserCyberBugsConst";
 
 // Sign in
@@ -56,6 +58,43 @@ function* signInSaga(action) {
 
 export function* followSignIn() {
     yield takeLatest(USER_SIGNIN_API, signInSaga);
+}
+
+// Sign up
+function* signUpSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING,
+    });
+    yield delay(300);
+
+    try {
+        const { data, status } = yield call(() =>
+            cyberBugsService.signupCyberBugs(action.userRegister)
+        );
+        console.log("dataRegister", data);
+
+        // Store in localStorage after register successfully
+        localStorage.setItem(USER_PROFILE, data.content);
+        // localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
+
+        // yield put({
+        //     type: LOGIN_INFO,
+        //     userLogin: data.content,
+        // });
+
+        let history = yield select((state) => state.HistoryReducer.history);
+
+        history.push("/login");
+    } catch (error) {
+        console.log(error.response.data);
+    }
+    yield put({
+        type: HIDE_LOADING,
+    });
+}
+
+export function* followSignUp() {
+    yield takeLatest(USER_SIGNUP_API, signUpSaga);
 }
 
 // Get the list of user using keyword

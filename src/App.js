@@ -17,6 +17,7 @@ import Register from "./pages/Register/Register";
 import { CyberBugsTemplate } from "./templates/CyberBugsTemplate/CyberBugsTemplate";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
+import { RegisterTemplate } from "./templates/RegisterTemplate/RegisterTemplate";
 
 function App() {
     const history = useHistory();
@@ -38,7 +39,7 @@ function App() {
                 <HomeTemplate exact path="/about" Component={About} />
                 <HomeTemplate exact path="/contact" Component={Contact} />
                 <LoginTemplate exact path="/login" Component={LoginCyberBugs} />
-                <HomeTemplate exact path="/register" Component={Register} />
+                <RegisterTemplate exact path="/register" Component={Register} />
                 <HomeTemplate exact path="/dragdrop" Component={DemoDragDrop} />
                 <HomeTemplate
                     exact

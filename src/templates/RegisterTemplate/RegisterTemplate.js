@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 
 const { Sider, Content } = Layout;
 
-export const LoginTemplate = (props) => {
+export const RegisterTemplate = (props) => {
     const { Component, ...restRoute } = props;
 
     const [{ width, height }, setSize] = useState({

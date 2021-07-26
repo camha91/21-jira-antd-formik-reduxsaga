@@ -4,9 +4,16 @@ import { DOMAIN_CYBERBUGS, TOKEN } from "../utils/constants/settingSystem";
 export const cyberBugsService = {
     signinCyberBugs: (userLogin) => {
         return Axios({
-            url: `${DOMAIN_CYBERBUGS}/users/signin`,
+            url: `${DOMAIN_CYBERBUGS}/Users/signin`,
             method: "POST",
             data: userLogin,
+        });
+    },
+    signupCyberBugs: (userRegister) => {
+        return Axios({
+            url: `${DOMAIN_CYBERBUGS}/Users/signup`,
+            method: "POST",
+            data: userRegister,
         });
     },
     getAllProjectCategory: () => {
