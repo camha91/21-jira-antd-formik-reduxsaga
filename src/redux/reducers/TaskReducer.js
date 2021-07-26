@@ -1,3 +1,4 @@
+import { UPDATE_COMMENT } from "../constants/CommentConst";
 import {
     CHANGE_ASSIGNEES,
     CHANGE_TASK_MODAL,
@@ -23,7 +24,15 @@ const initialState = {
                 alias: "crystal",
             },
         ],
-        lstComment: [],
+        lstComment: [
+            {
+                avatar: "https://ui-avatars.com/api/?name=Crystal",
+                commentContent: "hello",
+                id: 320,
+                idUser: 169,
+                name: "Crystal",
+            },
+        ],
         taskId: 620,
         taskName: "Edit task",
         alias: "edit-task",
@@ -36,6 +45,13 @@ const initialState = {
         typeId: 2,
         priorityId: 2,
         projectId: 677,
+    },
+
+    commentEdit: {
+        id: 320,
+        userId: 169,
+        taskId: 620,
+        contentComment: "string",
     },
 };
 
@@ -66,6 +82,10 @@ const TaskReducer = (state = initialState, action) => {
                 ),
             ];
             return { ...state };
+        case UPDATE_COMMENT:
+            state.commentEdit = action.commentEditModel
+            console.log(state.commentEdit)
+            return { ...state }    
         default:
             return state;
     }

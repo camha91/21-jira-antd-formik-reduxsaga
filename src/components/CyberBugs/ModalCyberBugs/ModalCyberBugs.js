@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
+import {
+    DELETE_COMMENT_API,
+    GET_ALL_COMMENT_API,
+    INSERT_COMMENT_API,
+    UPDATE_COMMENT_API,
+} from "../../../redux/constants/CommentConst";
 import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
 import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
 import {
@@ -22,12 +28,24 @@ export default function ModalCyberBugs(props) {
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
+    const { commentEdit } = useSelector((state) => state.CommentReducer);
+    console.log('commentEdit', commentEdit)
 
     const [visibleEditor, setVisibleEditor] = useState(false);
     const [historyContent, setHistoryContent] = useState(
         taskDetailModal.description
     );
     const [content, setContent] = useState(taskDetailModal.description);
+
+    const [visibleEditorComment, setVisibleEditorComment] = useState(false);
+
+    const [comment, setComment] = useState({});
+    const [historyContentComment, setHistoryContentComment] = useState(
+        taskDetailModal.lstComment
+    );
+
+    const [toogleUpdateMode, setToogleUpdateMode] = useState(false);
+
     const dispatch = useDispatch();
 
     const renderDescription = () => {
@@ -105,6 +123,127 @@ export default function ModalCyberBugs(props) {
                         }}
                     >
                         {jsxDescription}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const renderInsertComment = () => {
+        return (
+            <div>
+                {visibleEditorComment ? (
+                    <div>
+                        <Editor
+                            name="comment"
+                            init={{
+                                selector: "textarea#myTextArea",
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                    "advlist autolink lists link image charmap print preview anchor",
+                                    "searchreplace visualblocks code fullscreen",
+                                    "insertdatetime media table paste code help wordcount",
+                                ],
+                                toolbar:
+                                    "undo redo | formatselect | bold italic backcolor | \
+                                    alignleft aligncenter alignright alignjustify | \
+                                    bullist numlist outdent indent | removeformat | help",
+                            }}
+                            onEditorChange={(comment, editor) => {
+                                setComment(comment);
+                            }}
+                        />
+
+                        {!toogleUpdateMode ? (
+                            <button
+                                className="btn btn-primary m-2"
+                                onClick={() => {
+                                    dispatch({
+                                        type: INSERT_COMMENT_API,
+                                        commentObj: {
+                                            taskId: taskDetailModal.taskId,
+                                            contentComment: comment,
+                                        },
+                                    });
+
+                                    setVisibleEditorComment(false);
+                                }}
+                            >
+                                Save
+                            </button>
+                            
+                        ) : (
+                            <button
+                                className="btn btn-primary m-2"
+                                onClick={() => {
+                                    
+                                    dispatch({
+                                        type: UPDATE_COMMENT_API,
+                                        commentUpdate: {
+                                            id: commentEdit.id,
+                                            contentComment: comment,
+                                            taskId: commentEdit.taskId
+                                        },
+                                    });
+
+                                    setToogleUpdateMode(false);
+
+                                    setVisibleEditorComment(false);
+                                }}
+                            >
+                                Update
+                            </button>
+                        )}
+
+                        <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                                dispatch({
+                                    type: UPDATE_COMMENT_API,
+                                    commentUpdate: {
+                                            id: commentEdit.id,
+                                            contentComment: historyContentComment,
+                                            taskId: commentEdit.taskId
+                                        },
+                                })
+                                setVisibleEditorComment(false);
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        onClick={() => {
+                            setHistoryContentComment(commentEdit.contentComment)
+                            setVisibleEditorComment(!visibleEditorComment);
+                        }}
+                    >
+                        <input type="text" placeholder="Add a comment ..." />
+                        <p>
+                            <span
+                                style={{
+                                    fontWeight: 500,
+                                    color: "gray",
+                                }}
+                            >
+                                Protip:
+                            </span>
+                            <span>
+                                press
+                                <span
+                                    style={{
+                                        fontWeight: "bold",
+                                        background: "#ecedf0",
+                                        color: "#b4bac6",
+                                    }}
+                                >
+                                    M
+                                </span>
+                                to comment
+                            </span>
+                        </p>
                     </div>
                 )}
             </div>
@@ -271,94 +410,101 @@ export default function ModalCyberBugs(props) {
                                                 />
                                             </div>
                                             <div className="input-comment">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Add a comment ..."
-                                                />
-                                                <p>
-                                                    <span
-                                                        style={{
-                                                            fontWeight: 500,
-                                                            color: "gray",
-                                                        }}
-                                                    >
-                                                        Protip:
-                                                    </span>
-                                                    <span>
-                                                        press
-                                                        <span
-                                                            style={{
-                                                                fontWeight:
-                                                                    "bold",
-                                                                background:
-                                                                    "#ecedf0",
-                                                                color: "#b4bac6",
-                                                            }}
-                                                        >
-                                                            M
-                                                        </span>
-                                                        to comment
-                                                    </span>
-                                                </p>
+                                                {renderInsertComment()}
                                             </div>
                                         </div>
                                         <div className="lastest-comment">
                                             <div className="comment-item">
-                                                <div
-                                                    className="display-comment"
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    <div className="avatar">
-                                                        <img
-                                                            src={avatar1}
-                                                            alt="avatar1"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <p
-                                                            style={{
-                                                                marginBottom: 5,
-                                                            }}
-                                                        >
-                                                            Lord Gaben{" "}
-                                                            <span>
-                                                                a month ago
-                                                            </span>
-                                                        </p>
-                                                        <p
-                                                            style={{
-                                                                marginBottom: 5,
-                                                            }}
-                                                        >
-                                                            Lorem ipsum dolor
-                                                            sit amet,
-                                                            consectetur
-                                                            adipisicing elit.
-                                                            Repellendus tempora
-                                                            ex voluptatum saepe
-                                                            ab officiis alias
-                                                            totam ad accusamus
-                                                            molestiae?
-                                                        </p>
-                                                        <div>
-                                                            <span
+                                                {taskDetailModal.lstComment.map(
+                                                    (comment, index) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className="display-comment"
                                                                 style={{
-                                                                    color: "#929398",
+                                                                    display:
+                                                                        "flex",
                                                                 }}
                                                             >
-                                                                Edit
-                                                            </span>
-                                                            •
-                                                            <span
-                                                                style={{
-                                                                    color: "#929398",
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                                <div className="avatar">
+                                                                    <img
+                                                                        src={
+                                                                            comment.avatar
+                                                                        }
+                                                                        alt={
+                                                                            comment.avatar
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <p
+                                                                        style={{
+                                                                            marginBottom: 5,
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            comment.name
+                                                                        }{" "}
+                                                                        <span>
+                                                                            a
+                                                                            month
+                                                                            ago
+                                                                        </span>
+                                                                    </p>
+                                                                    <p
+                                                                        style={{
+                                                                            marginBottom: 5,
+                                                                        }}
+                                                                    >
+                                                                        {ReactHtmlParser(
+                                                                            comment.commentContent
+                                                                        )}
+                                                                    </p>
+                                                                    <div>
+                                                                        <span
+                                                                            style={{
+                                                                                color: "#929398",
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                console.log(
+                                                                                    "Click edit"
+                                                                                );
+                                                                                setVisibleEditorComment(
+                                                                                    true
+                                                                                );
+                                                                                setToogleUpdateMode(
+                                                                                    true
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            Edit
+                                                                        </span>
+                                                                        •
+                                                                        <span
+                                                                            style={{
+                                                                                color: "#929398",
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                dispatch(
+                                                                                    {
+                                                                                        type: DELETE_COMMENT_API,
+                                                                                        commentDeleteObj:
+                                                                                            {
+                                                                                                id: comment.id,
+                                                                                                taskId: taskDetailModal.taskId,
+                                                                                            },
+                                                                                    }
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            Delete
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
                                             </div>
                                         </div>
                                     </div>
