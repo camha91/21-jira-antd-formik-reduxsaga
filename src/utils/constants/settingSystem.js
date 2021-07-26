@@ -4,6 +4,8 @@ export const TOKEN = "ACCESS_TOKEN";
 
 export const USER_LOGIN = "USER_LOGIN";
 
+export const USER_PROFILE = "USER_PROFILE";
+
 export const STATUS_CODE = {
     SUCCESS: 200,
     NOT_FOUND: 404,

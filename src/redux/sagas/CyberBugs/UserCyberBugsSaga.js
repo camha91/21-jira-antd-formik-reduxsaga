@@ -5,6 +5,7 @@ import {
     STATUS_CODE,
     TOKEN,
     USER_LOGIN,
+    USER_PROFILE,
 } from "../../../utils/constants/settingSystem";
 import {
     DISPLAY_LOADING,
@@ -72,8 +73,8 @@ function* signUpSaga(action) {
         );
         console.log("dataRegister", data);
 
-        // // Store in localStorage after sign in successfully
-        // localStorage.setItem(TOKEN, data.content.accessToken);
+        // Store in localStorage after register successfully
+        localStorage.setItem(USER_PROFILE, data.content);
         // localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
 
         // yield put({

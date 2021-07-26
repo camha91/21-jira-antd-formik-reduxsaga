@@ -4,12 +4,14 @@ import {
     PhoneOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Typography } from "antd";
 import { withFormik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
-import { signupCyberBugsAction } from "../../redux/actions/UserCyberBugsAction";
 import * as Yup from "yup";
+import { signupCyberBugsAction } from "../../redux/actions/UserCyberBugsAction";
+
+const { Title } = Typography;
 
 const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -32,12 +34,13 @@ function Register(props) {
                 className="d-flex flex-column justify-content-center align-items-center"
                 style={{ height: window.innerHeight }}
             >
-                <h3
+                <Title
+                    level={3}
                     className="text-center"
                     style={{ fontWeight: 300, fontSize: 35 }}
                 >
-                    Sign Up
-                </h3>
+                    Sign up
+                </Title>
                 <Form.Item
                     name="email"
                     rules={[
@@ -54,6 +57,7 @@ function Register(props) {
                         placeholder="Email"
                     />
                 </Form.Item>
+                <div className="text-danger">{errors.email}</div>
                 <Form.Item
                     name="password"
                     rules={[
@@ -74,6 +78,7 @@ function Register(props) {
                         placeholder="Password"
                     />
                 </Form.Item>
+                <div className="text-danger">{errors.password}</div>
                 <Form.Item
                     name="phoneNumber"
                     rules={[
@@ -94,6 +99,7 @@ function Register(props) {
                         placeholder="Phone Number"
                     />
                 </Form.Item>
+                <div className="text-danger">{errors.phoneNumber}</div>
                 <Form.Item
                     name="name"
                     rules={[
@@ -114,6 +120,7 @@ function Register(props) {
                         placeholder="Name"
                     />
                 </Form.Item>
+                <div className="text-danger">{errors.name}</div>
                 <Form.Item>
                     <Button
                         htmlType="submit"

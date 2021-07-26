@@ -14,6 +14,7 @@ export const signinCyberBugsAction = (email, password) => {
 };
 
 export const signupCyberBugsAction = (email, password, phoneNumber, name) => {
+    console.log("register obj", email, password, phoneNumber, name);
     return {
         type: USER_SIGNUP_API,
         userRegister: {
