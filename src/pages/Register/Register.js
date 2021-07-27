@@ -18,9 +18,6 @@ const phoneRegExp =
 
 function Register(props) {
     const { errors, handleChange, handleSubmit } = props;
-    const onFinish = (values: any) => {
-        console.log("Received values of form: ", values);
-    };
 
     return (
         <Form
@@ -28,7 +25,6 @@ function Register(props) {
             className="container"
             style={{ height: window.innerHeight }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
         >
             <div
                 className="d-flex flex-column justify-content-center align-items-center"
@@ -169,7 +165,7 @@ const RegisterWithFormik = withFormik({
         { props, setSubmitting }
     ) => {
         setSubmitting(true);
-        console.log('setSubbmitting is true');
+        console.log("setSubbmitting is true");
         props.dispatch(
             signupCyberBugsAction(email, password, phoneNumber, name)
         );
