@@ -2,7 +2,6 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import createMiddlewareSaga from "redux-saga";
 import reduxThunk from "redux-thunk";
 import LoadingReducer from "../redux/reducers/LoadingReducer";
-import CommentReducer from "./reducers/CommentReducer";
 import DrawerReducer from "./reducers/DrawerCyberBugsReducer";
 import HistoryReducer from "./reducers/HistoryReducer";
 import PriorityReducer from "./reducers/PriorityReducer";
@@ -29,7 +28,6 @@ const rootReducer = combineReducers({
     TaskTypeReducer,
     StatusReducer,
     TaskReducer,
-    CommentReducer,
 });
 
 const store = createStore(

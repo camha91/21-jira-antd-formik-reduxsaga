@@ -48,7 +48,7 @@ function* createTaskSaga(action) {
     });
 }
 
-export function* followCreateTaskSaga() {
+export function* trackingActionCreateTaskSaga() {
     yield takeLatest(CREATE_TASK_API, createTaskSaga);
 }
 
@@ -72,7 +72,7 @@ function* getTaskDetailSaga(action) {
     }
 }
 
-export function* followGetTaskDetailSaga() {
+export function* trackingActionGetTaskDetailSaga() {
     yield takeLatest(GET_TASK_DETAIL_API, getTaskDetailSaga);
 }
 
@@ -105,14 +105,14 @@ function* updateTaskStatusSaga(action) {
     }
 }
 
-export function* followUpdateTaskStatusSaga() {
+export function* trackingActionUpdateTaskStatusSaga() {
     yield takeLatest(UPDATE_TASK_STATUS_API, updateTaskStatusSaga);
 }
 
 // Update task
 function* updateTaskSaga(action) {}
 
-export function* followUpdateTaskSaga() {
+export function* trackingActionUpdateTaskSaga() {
     yield takeLatest(UPDATE_TASK_API, updateTaskSaga);
 }
 
@@ -191,6 +191,6 @@ export function* handleChangePostApi(action) {
     }
 }
 
-export function* followHandleChangePostApiSaga() {
+export function* trackingActionHandleChangePostApiSaga() {
     yield takeLatest(HANDLE_CHANGE_POST_API_SAGA, handleChangePostApi);
 }

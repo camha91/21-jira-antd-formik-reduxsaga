@@ -1,45 +1,38 @@
 import { all } from "redux-saga/effects";
-import * as CommentSaga from "./CyberBugs/CommentSaga";
+import commentTrackingActionList from "./CyberBugs/CommentSaga";
 import * as PrioritySaga from "./CyberBugs/PrioritySaga";
 import * as ProjectCategory from "./CyberBugs/ProjectCategorySaga";
 import * as ProjectSaga from "./CyberBugs/ProjectSaga";
 import * as StatusSaga from "./CyberBugs/StatusSaga";
 import * as TaskSaga from "./CyberBugs/TaskSaga";
 import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
-import * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
+import userTrackingActionList, * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
 
 export function* rootSaga() {
     yield all([
-        UserCyberBugs.followSignIn(),
-        UserCyberBugs.followSignUp(),
-        UserCyberBugs.followGetUserSaga(),
-        UserCyberBugs.followAddUserProjectSaga(),
-        UserCyberBugs.followRemoveUserProjectSaga(),
-        UserCyberBugs.followGetUserByProjectIdSaga(),
+       ...userTrackingActionList,
 
-        ProjectCategory.followGetAllProjectCategory(),
+        ProjectCategory.trackingActionGetAllProjectCategory(),
 
-        ProjectSaga.followCreateProjectSaga(),
-        ProjectSaga.followGetAllProjects(),
-        ProjectSaga.followUpdateProjectSaga(),
-        ProjectSaga.followDeleteProjectSaga(),
-        ProjectSaga.followGetProjectDetailSaga(),
-        ProjectSaga.followGetAllDropdownProject(),
+        ProjectSaga.trackingActionCreateProjectSaga(),
+        ProjectSaga.trackingActionGetAllProjects(),
+        ProjectSaga.trackingActionUpdateProjectSaga(),
+        ProjectSaga.trackingActionDeleteProjectSaga(),
+        ProjectSaga.trackingActionGetProjectDetailSaga(),
+        ProjectSaga.trackingActionGetAllDropdownProject(),
 
-        PrioritySaga.followGetAllPrioritySaga(),
+        PrioritySaga.trackingActionGetAllPrioritySaga(),
 
-        TaskTypeSaga.followGetAllTaskTypeSaga(),
+        TaskTypeSaga.trackingActionGetAllTaskTypeSaga(),
 
-        TaskSaga.followCreateTaskSaga(),
-        TaskSaga.followGetTaskDetailSaga(),
-        TaskSaga.followUpdateTaskStatusSaga(),
-        TaskSaga.followUpdateTaskSaga(),
-        TaskSaga.followHandleChangePostApiSaga(),
+        TaskSaga.trackingActionCreateTaskSaga(),
+        TaskSaga.trackingActionGetTaskDetailSaga(),
+        TaskSaga.trackingActionUpdateTaskStatusSaga(),
+        TaskSaga.trackingActionUpdateTaskSaga(),
+        TaskSaga.trackingActionHandleChangePostApiSaga(),
 
-        StatusSaga.followGetAllStatusSaga(),
+        StatusSaga.trackingActionGetAllStatusSaga(),
 
-        CommentSaga.followInsertCommentSaga(),
-        // CommentSaga.followUpdateCommentSaga(),
-        CommentSaga.followDeleteCommentSaga(),
+        ...commentTrackingActionList,
     ]);
 }

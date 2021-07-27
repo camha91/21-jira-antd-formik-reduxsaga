@@ -29,6 +29,6 @@ function* getAllProjectCategory(action) {
     }
 }
 
-export function* followGetAllProjectCategory() {
+export function* trackingActionGetAllProjectCategory() {
     yield takeLatest(GET_ALL_PROJECT_CATEGORY_SAGA, getAllProjectCategory);
 }

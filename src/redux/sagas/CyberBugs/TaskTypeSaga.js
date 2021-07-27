@@ -20,6 +20,6 @@ function* getAllTaskTypeSaga(action) {
     }
 }
 
-export function* followGetAllTaskTypeSaga() {
+export function* trackingActionGetAllTaskTypeSaga() {
     yield takeLatest(GET_ALL_TASK_TYPE_API, getAllTaskTypeSaga);
 }

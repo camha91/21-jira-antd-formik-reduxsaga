@@ -5,10 +5,6 @@ export class CommentService extends baseService {
         super();
     }
 
-    getAllComment = (taskId) => {
-        return this.get("Comment/getAll", taskId);
-    };
-
     insertComment = (commentObj) => {
         return this.post(`Comment/insertComment`, commentObj);
     };

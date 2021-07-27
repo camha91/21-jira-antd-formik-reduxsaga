@@ -169,6 +169,7 @@ const RegisterWithFormik = withFormik({
         { props, setSubmitting }
     ) => {
         setSubmitting(true);
+        console.log('setSubbmitting is true');
         props.dispatch(
             signupCyberBugsAction(email, password, phoneNumber, name)
         );

@@ -52,7 +52,7 @@ function* createProjectSaga(action) {
     });
 }
 
-export function* followCreateProjectSaga() {
+export function* trackingActionCreateProjectSaga() {
     yield takeLatest(CREATE_PROJECT_SAGA, createProjectSaga);
 }
 
@@ -88,7 +88,7 @@ function* getAllProjects(action) {
     });
 }
 
-export function* followGetAllProjects() {
+export function* trackingActionGetAllProjects() {
     yield takeLatest(GET_ALL_PROJECT_SAGA, getAllProjects);
 }
 
@@ -126,7 +126,7 @@ function* updateProjectSaga(action) {
     });
 }
 
-export function* followUpdateProjectSaga() {
+export function* trackingActionUpdateProjectSaga() {
     yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }
 
@@ -168,7 +168,7 @@ function* deleteProjectSaga(action) {
     });
 }
 
-export function* followDeleteProjectSaga() {
+export function* trackingActionDeleteProjectSaga() {
     yield takeLatest(DELETE_PROJECT_SAGA, deleteProjectSaga);
 }
 
@@ -192,7 +192,7 @@ function* getProjectDetailSaga(action) {
     }
 }
 
-export function* followGetProjectDetailSaga() {
+export function* trackingActionGetProjectDetailSaga() {
     yield takeLatest(GET_PROJECT_DETAIL_API, getProjectDetailSaga);
 }
 
@@ -215,6 +215,6 @@ function* getAllDropdownProject(action) {
     }
 }
 
-export function* followGetAllDropdownProject() {
+export function* trackingActionGetAllDropdownProject() {
     yield takeLatest(GET_PROJECT_DROPDOWN_API, getAllDropdownProject);
 }

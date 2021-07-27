@@ -17,6 +17,6 @@ function* getAllPrioritySaga(action) {
     }
 }
 
-export function* followGetAllPrioritySaga() {
+export function* trackingActionGetAllPrioritySaga() {
     yield takeLatest(GET_ALL_PRIORITY_API, getAllPrioritySaga);
 }

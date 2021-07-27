@@ -16,7 +16,7 @@ export default function Menu() {
             </div>
             <div className="control">
                 <div>
-                    <i className="fa fa-credit-card mr-1" />
+                    <i className="fas fa-columns mr-1" />
                     <NavLink
                         to="/cyberbugs"
                         className="text-dark"
@@ -27,7 +27,7 @@ export default function Menu() {
                     </NavLink>
                 </div>
                 <div>
-                    <i className="fa fa-cog" />
+                    <i className="fas fa-folder-plus mr-1" />
                     <NavLink
                         to="/createProject"
                         className="text-dark"
@@ -38,7 +38,7 @@ export default function Menu() {
                     </NavLink>
                 </div>
                 <div>
-                    <i className="fa fa-cog" />
+                    <i className="fa fa-cog mr-1" />
                     <NavLink
                         to="/projectManagement"
                         className="text-dark"
@@ -46,6 +46,17 @@ export default function Menu() {
                         activeClassName="active font-weight-bold"
                     >
                         Project Management
+                    </NavLink>
+                </div>
+                <div>
+                    <i className="fas fa-users mr-1" />
+                    <NavLink
+                        to="/userManagement"
+                        className="text-dark"
+                        activeStyle={{ color: "pink" }}
+                        activeClassName="active font-weight-bold"
+                    >
+                        User Management
                     </NavLink>
                 </div>
             </div>

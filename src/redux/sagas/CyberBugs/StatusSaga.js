@@ -18,6 +18,6 @@ function* getAllStatusSaga(action) {
     }
 }
 
-export function* followGetAllStatusSaga() {
+export function* trackingActionGetAllStatusSaga() {
     yield takeLatest(GET_ALL_STATUS_API, getAllStatusSaga);
 }
