@@ -31,6 +31,8 @@ export function* trackingActionGetAllProjectCategory() {
     yield takeLatest(GET_ALL_PROJECT_CATEGORY_SAGA, getAllProjectCategory);
 }
 
-const projectCategoryTrackingActionList = [trackingActionGetAllProjectCategory];
+const projectCategoryTrackingActionList = [
+    trackingActionGetAllProjectCategory(),
+];
 
 export default projectCategoryTrackingActionList;

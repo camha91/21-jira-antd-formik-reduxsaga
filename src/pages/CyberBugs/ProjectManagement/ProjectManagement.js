@@ -257,10 +257,7 @@ export default function ProjectManagement() {
                                             setValue(text);
                                         }}
                                         onSelect={(valueSelect, option) => {
-                                            // Set member select = option.label
                                             setValue(option.label);
-
-                                            // Call api to send data to backend
                                             dispatch({
                                                 type: ADD_USER_PROJECT_SAGA,
                                                 userProject: {
@@ -274,12 +271,11 @@ export default function ProjectManagement() {
                                             if (searchRef.current) {
                                                 clearTimeout(searchRef.current);
                                             }
-
                                             searchRef.current = setTimeout(
                                                 () => {
                                                     dispatch({
                                                         type: GET_USER_SAGA,
-                                                        keyword: value,
+                                                        keyWord: value,
                                                     });
                                                 },
                                                 300
