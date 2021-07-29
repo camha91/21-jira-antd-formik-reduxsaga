@@ -18,6 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ![project photo](projectManagement.png)
 ![project photo](projectDetail.png)
 ![project photo](createTask.png)
+![project photo](taskDetail.png)
 ![project photo](user.png)
 ![project photo](editUser.png)
 
