@@ -32,8 +32,8 @@ export default function DragAndDropDnD(props) {
 
     const handleDragEnd = (result) => {
         const { destination, source } = result;
-        console.log("destination", destination);
-        console.log("source", source);
+        // console.log("destination", destination);
+        // console.log("source", source);
 
         // If dont drag the task into non-existed destination, return to the original position
         if (!destination) {
@@ -50,20 +50,20 @@ export default function DragAndDropDnD(props) {
 
         // Create 1 tag drag
         const itemCopy = { ...state[source.droppableId].items[source.index] };
-        console.log("itemCopy", itemCopy);
+        // console.log("itemCopy", itemCopy);
 
         // Droppable start to drag the item
         const index = state[source.droppableId].items.findIndex(
             (item) => item.id === itemCopy.id
         );
-        console.log("dropSource Index", index);
+        // console.log("dropSource Index", index);
 
         // Remove the item that already dragged to different position
         state[source.droppableId].items.splice(index, 1);
 
         // Droppable drop the item
         const dropDestination = state[destination.droppableId].items;
-        console.log("dropDestination", dropDestination);
+        // console.log("dropDestination", dropDestination);
 
         dropDestination.splice(destination.index, 0, itemCopy);
 

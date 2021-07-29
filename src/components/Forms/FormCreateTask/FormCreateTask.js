@@ -5,14 +5,14 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { SET_SUBMIT_EDIT_PROJECT } from "../../../redux/constants/DrawerCyberBugsConst";
-import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
-import { GET_PROJECT_DROPDOWN_API } from "../../../redux/constants/ProjectCyberBugsConst";
-import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
-import { CREATE_TASK_API } from "../../../redux/constants/TaskConst";
-import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
+import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/PriorityConst";
+import { GET_PROJECT_DROPDOWN_SAGA } from "../../../redux/constants/ProjectCyberBugsConst";
+import { GET_ALL_STATUS_SAGA } from "../../../redux/constants/StatusConst";
+import { CREATE_TASK_SAGA } from "../../../redux/constants/TaskConst";
+import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/TaskTypeConst";
 import {
-    GET_USER_API,
-    GET_USER_PROJECT_BY_ID_API,
+    GET_USER_SAGA,
+    GET_USER_PROJECT_BY_ID_SAGA,
 } from "../../../redux/constants/UserCyberBugsConst";
 
 const { Option } = Select;
@@ -32,11 +32,11 @@ function FormCreateTask(props) {
     });
 
     useEffect(() => {
-        dispatch({ type: GET_PROJECT_DROPDOWN_API });
-        dispatch({ type: GET_ALL_PRIORITY_API });
-        dispatch({ type: GET_ALL_TASK_TYPE_API });
-        dispatch({ type: GET_USER_API, keyword: "" });
-        dispatch({ type: GET_ALL_STATUS_API });
+        dispatch({ type: GET_PROJECT_DROPDOWN_SAGA });
+        dispatch({ type: GET_ALL_PRIORITY_SAGA });
+        dispatch({ type: GET_ALL_TASK_TYPE_SAGA });
+        dispatch({ type: GET_USER_SAGA, keyword: "" });
+        dispatch({ type: GET_ALL_STATUS_SAGA });
         // Put handle submit function to drawer reducer to submit
         dispatch({
             type: SET_SUBMIT_EDIT_PROJECT,
@@ -66,7 +66,7 @@ function FormCreateTask(props) {
                         // Dispatch value to change arrUser
                         const { value } = e.target;
                         dispatch({
-                            type: GET_USER_PROJECT_BY_ID_API,
+                            type: GET_USER_PROJECT_BY_ID_SAGA,
                             idProject: value,
                         });
 
@@ -298,11 +298,9 @@ const CreateTaskForm = withFormik({
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
         props.dispatch({
-            type: CREATE_TASK_API,
+            type: CREATE_TASK_SAGA,
             taskObject: values,
         });
-
-        console.log("createTask value", values);
     },
 
     displayName: "CreateTaskFormik",

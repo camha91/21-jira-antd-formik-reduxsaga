@@ -5,19 +5,19 @@ import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import avatar1 from "../../../assets/img/avatar1.jfif";
 import {
-    DELETE_COMMENT_API,
-    INSERT_COMMENT_API,
-    UPDATE_COMMENT_API,
+    DELETE_COMMENT_SAGA,
+    INSERT_COMMENT_SAGA,
+    UPDATE_COMMENT_SAGA,
 } from "../../../redux/constants/CommentConst";
-import { GET_ALL_PRIORITY_API } from "../../../redux/constants/PriorityConst";
-import { GET_ALL_STATUS_API } from "../../../redux/constants/StatusConst";
+import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/PriorityConst";
+import { GET_ALL_STATUS_SAGA } from "../../../redux/constants/StatusConst";
 import {
     CHANGE_ASSIGNEES,
     CHANGE_TASK_MODAL,
     HANDLE_CHANGE_POST_API_SAGA,
     REMOVE_USER_ASSIGN,
 } from "../../../redux/constants/TaskConst";
-import { GET_ALL_TASK_TYPE_API } from "../../../redux/constants/TaskTypeConst";
+import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/TaskTypeConst";
 
 const { Option } = Select;
 
@@ -27,6 +27,9 @@ export default function ModalCyberBugs(props) {
     const { arrPriority } = useSelector((state) => state.PriorityReducer);
     const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
+    const userLogin = useSelector(
+        (state) => state.UserCyberBugsReducer.userLogin
+    );
 
     const [visibleEditor, setVisibleEditor] = useState(false);
     const [historyContent, setHistoryContent] = useState(
@@ -40,13 +43,15 @@ export default function ModalCyberBugs(props) {
 
     const [activeComment, setActiveComment] = useState({});
 
-    const [historyContentComment, setHistoryContentComment] = useState(
-        taskDetailModal.lstComment
-    );
-
     const [toogleUpdateMode, setToogleUpdateMode] = useState(false);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({ type: GET_ALL_STATUS_SAGA });
+        dispatch({ type: GET_ALL_PRIORITY_SAGA });
+        dispatch({ type: GET_ALL_TASK_TYPE_SAGA });
+    }, []);
 
     const renderDescription = () => {
         const jsxDescription = ReactHtmlParser(taskDetailModal.description);
@@ -161,7 +166,7 @@ export default function ModalCyberBugs(props) {
                                 className="btn btn-primary m-2"
                                 onClick={() => {
                                     dispatch({
-                                        type: INSERT_COMMENT_API,
+                                        type: INSERT_COMMENT_SAGA,
                                         commentObj: {
                                             taskId: taskDetailModal.taskId,
                                             contentComment: comment,
@@ -178,7 +183,7 @@ export default function ModalCyberBugs(props) {
                                 className="btn btn-primary m-2"
                                 onClick={() => {
                                     dispatch({
-                                        type: UPDATE_COMMENT_API,
+                                        type: UPDATE_COMMENT_SAGA,
                                         commentUpdate: {
                                             id: activeComment.id,
                                             contentComment: comment,
@@ -198,14 +203,6 @@ export default function ModalCyberBugs(props) {
                         <button
                             className="btn btn-primary m-2"
                             onClick={() => {
-                                dispatch({
-                                    type: UPDATE_COMMENT_API,
-                                    commentUpdate: {
-                                        id: activeComment.id,
-                                        contentComment: historyContentComment,
-                                        taskId: taskDetailModal.taskId,
-                                    },
-                                });
                                 setVisibleEditorComment(false);
                             }}
                         >
@@ -215,9 +212,6 @@ export default function ModalCyberBugs(props) {
                 ) : (
                     <div
                         onClick={() => {
-                            setHistoryContentComment(
-                                activeComment.commentContent
-                            );
                             setVisibleEditorComment(!visibleEditorComment);
                         }}
                     >
@@ -307,12 +301,6 @@ export default function ModalCyberBugs(props) {
             </div>
         );
     };
-
-    useEffect(() => {
-        dispatch({ type: GET_ALL_STATUS_API });
-        dispatch({ type: GET_ALL_PRIORITY_API });
-        dispatch({ type: GET_ALL_TASK_TYPE_API });
-    }, []);
 
     const handleUpdateTask = (e) => {
         const { name, value } = e.target;
@@ -406,8 +394,8 @@ export default function ModalCyberBugs(props) {
                                         >
                                             <div className="avatar">
                                                 <img
-                                                    src={avatar1}
-                                                    alt="avatar1"
+                                                    src={userLogin?.avatar}
+                                                    alt="user-avatar"
                                                 />
                                             </div>
                                             <div className="input-comment">
@@ -467,9 +455,6 @@ export default function ModalCyberBugs(props) {
                                                                                 color: "#929398",
                                                                             }}
                                                                             onClick={() => {
-                                                                                console.log(
-                                                                                    "Click edit"
-                                                                                );
                                                                                 setVisibleEditorComment(
                                                                                     true
                                                                                 );
@@ -491,7 +476,7 @@ export default function ModalCyberBugs(props) {
                                                                             onClick={() => {
                                                                                 dispatch(
                                                                                     {
-                                                                                        type: DELETE_COMMENT_API,
+                                                                                        type: DELETE_COMMENT_SAGA,
                                                                                         commentDeleteObj:
                                                                                             {
                                                                                                 id: comment.id,
@@ -523,7 +508,7 @@ export default function ModalCyberBugs(props) {
                                             onChange={(e) => {
                                                 handleUpdateTask(e);
                                                 // const action = {
-                                                //     type: UPDATE_TASK_STATUS_API,
+                                                //     type: UPDATE_TASK_STATUS_SAGA,
                                                 //     taskStatusUpdate: {
                                                 //         taskId: taskDetailModal.taskId,
                                                 //         statusId:

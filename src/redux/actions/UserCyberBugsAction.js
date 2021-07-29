@@ -1,11 +1,11 @@
 import {
-    USER_SIGNIN_API,
-    USER_SIGNUP_API,
+    USER_SIGNIN_SAGA,
+    USER_SIGNUP_SAGA,
 } from "../constants/UserCyberBugsConst";
 
 export const signinCyberBugsAction = (email, password) => {
     return {
-        type: USER_SIGNIN_API,
+        type: USER_SIGNIN_SAGA,
         userLogin: {
             email: email,
             password: password,
@@ -14,10 +14,9 @@ export const signinCyberBugsAction = (email, password) => {
 };
 
 export const signupCyberBugsAction = (email, password, phoneNumber, name) => {
-    console.log("register obj", email, password, phoneNumber, name);
     return {
-        type: USER_SIGNUP_API,
-        userRegister: {
+        type: USER_SIGNUP_SAGA,
+        userSignUp: {
             email: email,
             password: password,
             phoneNumber: phoneNumber,

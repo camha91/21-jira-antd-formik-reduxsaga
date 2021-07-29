@@ -7,17 +7,17 @@ import {
     DISPLAY_LOADING,
     HIDE_LOADING,
 } from "../../constants/LoadingConstants";
-import { GET_PROJECT_DETAIL_API } from "../../constants/ProjectConst";
+import { GET_PROJECT_DETAIL_SAGA } from "../../constants/ProjectConst";
 import {
     CHANGE_ASSIGNEES,
     CHANGE_TASK_MODAL,
-    CREATE_TASK_API,
+    CREATE_TASK_SAGA,
     GET_TASK_DETAIL,
-    GET_TASK_DETAIL_API,
+    GET_TASK_DETAIL_SAGA,
     HANDLE_CHANGE_POST_API_SAGA,
     REMOVE_USER_ASSIGN,
-    UPDATE_TASK_API,
-    UPDATE_TASK_STATUS_API,
+    UPDATE_TASK_SAGA,
+    UPDATE_TASK_STATUS_SAGA,
 } from "../../constants/TaskConst";
 
 function* createTaskSaga(action) {
@@ -33,7 +33,6 @@ function* createTaskSaga(action) {
         );
 
         if (status === STATUS_CODE.SUCCESS) {
-            console.log(data);
         }
         yield put({
             type: CLOSE_DRAWER,
@@ -49,7 +48,7 @@ function* createTaskSaga(action) {
 }
 
 export function* trackingActionCreateTaskSaga() {
-    yield takeLatest(CREATE_TASK_API, createTaskSaga);
+    yield takeLatest(CREATE_TASK_SAGA, createTaskSaga);
 }
 
 // Get task detail
@@ -60,7 +59,6 @@ function* getTaskDetailSaga(action) {
         );
 
         if (status === STATUS_CODE.SUCCESS) {
-            console.log(data);
         }
 
         yield put({
@@ -73,7 +71,7 @@ function* getTaskDetailSaga(action) {
 }
 
 export function* trackingActionGetTaskDetailSaga() {
-    yield takeLatest(GET_TASK_DETAIL_API, getTaskDetailSaga);
+    yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetailSaga);
 }
 
 // Update task status
@@ -88,15 +86,13 @@ function* updateTaskStatusSaga(action) {
 
         // After calling api successfully, call getProjectDetail saga to organize all task info
         if (status === STATUS_CODE.SUCCESS) {
-            console.log(data);
-
             yield put({
-                type: GET_PROJECT_DETAIL_API,
+                type: GET_PROJECT_DETAIL_SAGA,
                 projectId: taskStatusUpdate.projectId,
             });
 
             yield put({
-                type: GET_TASK_DETAIL_API,
+                type: GET_TASK_DETAIL_SAGA,
                 taskId: taskStatusUpdate.taskId,
             });
         }
@@ -106,18 +102,17 @@ function* updateTaskStatusSaga(action) {
 }
 
 export function* trackingActionUpdateTaskStatusSaga() {
-    yield takeLatest(UPDATE_TASK_STATUS_API, updateTaskStatusSaga);
+    yield takeLatest(UPDATE_TASK_STATUS_SAGA, updateTaskStatusSaga);
 }
 
 // Update task
 function* updateTaskSaga(action) {}
 
 export function* trackingActionUpdateTaskSaga() {
-    yield takeLatest(UPDATE_TASK_API, updateTaskSaga);
+    yield takeLatest(UPDATE_TASK_SAGA, updateTaskSaga);
 }
 
 export function* handleChangePostApi(action) {
-    console.log("abc", action);
     // Call action to change taskDetailModal
     switch (action.actionType) {
         case CHANGE_TASK_MODAL:
@@ -174,15 +169,13 @@ export function* handleChangePostApi(action) {
         );
 
         if (status === STATUS_CODE.SUCCESS) {
-            console.log(data);
-
             yield put({
-                type: GET_PROJECT_DETAIL_API,
+                type: GET_PROJECT_DETAIL_SAGA,
                 projectId: taskUpdateApi.projectId,
             });
 
             yield put({
-                type: GET_TASK_DETAIL_API,
+                type: GET_TASK_DETAIL_SAGA,
                 taskId: taskUpdateApi.taskId,
             });
         }
@@ -194,3 +187,13 @@ export function* handleChangePostApi(action) {
 export function* trackingActionHandleChangePostApiSaga() {
     yield takeLatest(HANDLE_CHANGE_POST_API_SAGA, handleChangePostApi);
 }
+
+const taskTrackingActionList = [
+    trackingActionCreateTaskSaga(),
+    trackingActionGetTaskDetailSaga(),
+    trackingActionUpdateTaskStatusSaga(),
+    trackingActionUpdateTaskSaga(),
+    trackingActionHandleChangePostApiSaga(),
+];
+
+export default taskTrackingActionList;

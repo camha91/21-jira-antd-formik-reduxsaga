@@ -28,9 +28,9 @@ export default function DemoDragDrop() {
     };
 
     const handleDragStart = (e, task, index) => {
-        console.log("tag", e.target);
-        console.log("task", task);
-        console.log("index", index);
+        // console.log("tag", e.target);
+        // console.log("task", task);
+        // console.log("index", index);
         // Save the value of the task that is dragging
         tagDrag.current = task;
     };
@@ -44,9 +44,9 @@ export default function DemoDragDrop() {
     };
 
     const handleDragEnter = (e, taskDragEnter, index) => {
-        console.log("dragEnterTag", e.target);
-        console.log("targertOver", taskDragEnter);
-        console.log("index", index);
+        // console.log("dragEnterTag", e.target);
+        // console.log("targertOver", taskDragEnter);
+        // console.log("index", index);
 
         // Save the value of the task that is passed by
         set({ bottom: 0 });
@@ -85,7 +85,7 @@ export default function DemoDragDrop() {
             }}
             onDrop={(e) => {
                 tagDrag.current = {};
-                console.log("dragEnd");
+                // console.log("dragEnd");
                 setTaskList([...taskList]);
             }}
         >

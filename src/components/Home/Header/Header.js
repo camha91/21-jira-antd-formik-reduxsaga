@@ -69,7 +69,7 @@ export default function Header() {
                                 className="nav-link"
                                 to="/register"
                             >
-                                Register
+                                SignUp
                             </NavLink>
                         </li>
                         <li className="nav-item">

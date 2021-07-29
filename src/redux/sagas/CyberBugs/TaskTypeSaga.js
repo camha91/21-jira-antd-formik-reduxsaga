@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { taskTypeService } from "../../../services/TaskTypeService";
 import {
     GET_ALL_TASK_TYPE,
-    GET_ALL_TASK_TYPE_API,
+    GET_ALL_TASK_TYPE_SAGA,
 } from "../../constants/TaskTypeConst";
 
 function* getAllTaskTypeSaga(action) {
@@ -21,5 +21,9 @@ function* getAllTaskTypeSaga(action) {
 }
 
 export function* trackingActionGetAllTaskTypeSaga() {
-    yield takeLatest(GET_ALL_TASK_TYPE_API, getAllTaskTypeSaga);
+    yield takeLatest(GET_ALL_TASK_TYPE_SAGA, getAllTaskTypeSaga);
 }
+
+const taskTypeTrackingActionList = [trackingActionGetAllTaskTypeSaga()];
+
+export default taskTypeTrackingActionList;

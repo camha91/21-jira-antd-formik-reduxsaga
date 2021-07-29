@@ -9,11 +9,11 @@ export const cyberBugsService = {
             data: userLogin,
         });
     },
-    signupCyberBugs: (userRegister) => {
+    signupCyberBugs: (userSignUp) => {
         return Axios({
             url: `${DOMAIN_CYBERBUGS}/Users/signup`,
             method: "POST",
-            data: userRegister,
+            data: userSignUp,
         });
     },
     getAllProjectCategory: () => {

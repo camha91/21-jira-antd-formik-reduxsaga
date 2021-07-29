@@ -12,16 +12,7 @@ function FormEditProject(props) {
         (state) => state.ProjectCategoryReducer.arrProjectCategory
     );
     const dispatch = useDispatch();
-    const {
-        values,
-        touched,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setValues,
-        setFieldValue,
-    } = props;
+    const { values, handleChange, handleSubmit, setFieldValue } = props;
 
     // const submitForm = (e) => {
     //     e.preventDefault();
@@ -138,7 +129,6 @@ const EditProjectForm = withFormik({
 
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
-        console.log(values);
         props.dispatch({
             type: UPDATE_PROJECT_SAGA,
             projectUpdate: values,

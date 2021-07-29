@@ -99,7 +99,6 @@ const EditUserForm = withFormik({
 
     handleSubmit: (values, { props, setSubmitting }) => {
         // Submit updated data to backend through api
-        console.log(values);
         props.dispatch({
             type: UPDATE_USER_SAGA,
             userUpdate: values,

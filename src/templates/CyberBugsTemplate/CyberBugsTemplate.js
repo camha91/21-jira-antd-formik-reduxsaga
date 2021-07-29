@@ -4,6 +4,7 @@ import Menu from "../../components/CyberBugs/Menu";
 import ModalCyberBugs from "../../components/CyberBugs/ModalCyberBugs/ModalCyberBugs";
 import SideBar from "../../components/CyberBugs/SideBar";
 import "../../index.css";
+import CyberBugPageHeader from "./CyberBugPageHeader";
 
 export const CyberBugsTemplate = (props) => {
     const { Component, ...restParam } = props;
@@ -14,6 +15,8 @@ export const CyberBugsTemplate = (props) => {
             render={(propsRoute) => {
                 return (
                     <>
+                        <CyberBugPageHeader />
+
                         <div className="jira">
                             <SideBar />
                             <Menu />

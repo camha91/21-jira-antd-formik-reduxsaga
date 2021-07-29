@@ -14,11 +14,12 @@ import DragAndDropDnD from "./pages/DragAndDropDnD/DragAndDropDnD";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
-import Register from "./pages/Register/Register";
+import SignUp from "./pages/SignUp/SignUp";
 import { CyberBugsTemplate } from "./templates/CyberBugsTemplate/CyberBugsTemplate";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { LoginTemplate } from "./templates/LoginTemplate/LoginTemplate";
-import { RegisterTemplate } from "./templates/RegisterTemplate/RegisterTemplate";
+import { SignUpTemplate } from "./templates/SignUpTemplate/SignUpTemplate";
+import "./App.css";
 
 function App() {
     const history = useHistory();
@@ -40,7 +41,7 @@ function App() {
                 <HomeTemplate exact path="/about" Component={About} />
                 <HomeTemplate exact path="/contact" Component={Contact} />
                 <LoginTemplate exact path="/login" Component={LoginCyberBugs} />
-                <RegisterTemplate exact path="/register" Component={Register} />
+                <SignUpTemplate exact path="/register" Component={SignUp} />
                 <HomeTemplate exact path="/dragdrop" Component={DemoDragDrop} />
                 <HomeTemplate
                     exact

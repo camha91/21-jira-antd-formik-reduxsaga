@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { priorityService } from "../../../services/PriorityService";
 import {
     GET_ALL_PRIORITY,
-    GET_ALL_PRIORITY_API,
+    GET_ALL_PRIORITY_SAGA,
 } from "../../constants/PriorityConst";
 
 function* getAllPrioritySaga(action) {
@@ -18,5 +18,9 @@ function* getAllPrioritySaga(action) {
 }
 
 export function* trackingActionGetAllPrioritySaga() {
-    yield takeLatest(GET_ALL_PRIORITY_API, getAllPrioritySaga);
+    yield takeLatest(GET_ALL_PRIORITY_SAGA, getAllPrioritySaga);
 }
+
+const priorityTrackingActionList = [trackingActionGetAllPrioritySaga()];
+
+export default priorityTrackingActionList;

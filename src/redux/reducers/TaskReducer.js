@@ -62,7 +62,6 @@ const TaskReducer = (state = initialState, action) => {
 
         case CHANGE_TASK_MODAL:
             const { name, value } = action;
-            console.log("value", value);
             return {
                 ...state,
                 taskDetailModal: { ...state.taskDetailModal, [name]: value },
@@ -83,9 +82,8 @@ const TaskReducer = (state = initialState, action) => {
             ];
             return { ...state };
         case UPDATE_COMMENT:
-            state.commentEdit = action.commentEditModel
-            console.log(state.commentEdit)
-            return { ...state }    
+            state.commentEdit = action.commentEditModel;
+            return { ...state };
         default:
             return state;
     }

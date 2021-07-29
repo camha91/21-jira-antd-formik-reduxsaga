@@ -5,20 +5,18 @@ import HeaderMain from "../../components/CyberBugs/Main/HeaderMain";
 import InfoMain from "../../components/CyberBugs/Main/InfoMain";
 import { USER_LOGIN } from "../../utils/constants/settingSystem";
 import { useSelector, useDispatch } from "react-redux";
-import { GET_PROJECT_DETAIL_API } from "../../redux/constants/ProjectConst";
+import { GET_PROJECT_DETAIL_SAGA } from "../../redux/constants/ProjectConst";
 
 export default function ProjectDetail(props) {
     const { projectDetail } = useSelector((state) => state.ProjectReducer);
     const dispatch = useDispatch();
-
-    console.log("projectDetail", projectDetail);
 
     useEffect(() => {
         // When user uses link to this page using NavLink or user type in url then
         // we use params from url to call saga action
         const { projectId } = props.match.params;
         dispatch({
-            type: GET_PROJECT_DETAIL_API,
+            type: GET_PROJECT_DETAIL_SAGA,
             projectId,
         });
     }, []);

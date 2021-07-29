@@ -7,8 +7,6 @@ import {
 } from "../../constants/ProjectCategoryConst";
 
 function* getAllProjectCategory(action) {
-    console.log("actionSaga", action);
-
     try {
         // Call api to get data
         const { data, status } = yield call(() =>
@@ -32,3 +30,7 @@ function* getAllProjectCategory(action) {
 export function* trackingActionGetAllProjectCategory() {
     yield takeLatest(GET_ALL_PROJECT_CATEGORY_SAGA, getAllProjectCategory);
 }
+
+const projectCategoryTrackingActionList = [trackingActionGetAllProjectCategory];
+
+export default projectCategoryTrackingActionList;

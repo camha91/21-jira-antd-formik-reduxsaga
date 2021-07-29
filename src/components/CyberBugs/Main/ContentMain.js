@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
-    GET_TASK_DETAIL_API,
-    UPDATE_TASK_STATUS_API,
+    GET_TASK_DETAIL_SAGA,
+    UPDATE_TASK_STATUS_SAGA,
 } from "../../../redux/constants/TaskConst";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
@@ -12,8 +12,6 @@ export default function ContentMain(props) {
 
     const handleDragEnd = (result) => {
         const { projectId, taskId } = JSON.parse(result.draggableId);
-
-        console.log({ projectId, taskId });
 
         const { destination, source } = result;
 
@@ -30,7 +28,7 @@ export default function ContentMain(props) {
 
         // Call api to update the task status
         dispatch({
-            type: UPDATE_TASK_STATUS_API,
+            type: UPDATE_TASK_STATUS_SAGA,
             taskStatusUpdate: {
                 taskId: taskId,
                 statusId: destination.droppableId,
@@ -96,7 +94,7 @@ export default function ContentMain(props) {
                                                                         onClick={() => {
                                                                             dispatch(
                                                                                 {
-                                                                                    type: GET_TASK_DETAIL_API,
+                                                                                    type: GET_TASK_DETAIL_SAGA,
                                                                                     taskId: task.taskId,
                                                                                 }
                                                                             );

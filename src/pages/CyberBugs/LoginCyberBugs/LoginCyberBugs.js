@@ -37,7 +37,7 @@ function LoginCyberBugs(props) {
                         style={{ width: "100%", minWidth: 300 }}
                         name="email"
                         size="large"
-                        placeholder="large size"
+                        placeholder="Email"
                         prefix={<UserOutlined />}
                     />
                 </div>
@@ -48,7 +48,7 @@ function LoginCyberBugs(props) {
                         style={{ width: "100%", minWidth: 300 }}
                         name="password"
                         size="large"
-                        placeholder="large size"
+                        placeholder="Password"
                         prefix={<LockOutlined />}
                     />
                 </div>
@@ -82,6 +82,9 @@ function LoginCyberBugs(props) {
                         icon={<TwitterOutlined />}
                     ></Button>
                 </div>
+                <button className="mt-3">
+                    <a href="/register">Create New Account</a>
+                </button>
             </div>
         </form>
     );

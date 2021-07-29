@@ -1,37 +1,28 @@
 import { all } from "redux-saga/effects";
 import commentTrackingActionList from "./CyberBugs/CommentSaga";
-import * as PrioritySaga from "./CyberBugs/PrioritySaga";
-import * as ProjectCategory from "./CyberBugs/ProjectCategorySaga";
-import * as ProjectSaga from "./CyberBugs/ProjectSaga";
-import * as StatusSaga from "./CyberBugs/StatusSaga";
-import * as TaskSaga from "./CyberBugs/TaskSaga";
-import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
-import userTrackingActionList, * as UserCyberBugs from "./CyberBugs/UserCyberBugsSaga";
+import priorityTrackingActionList from "./CyberBugs/PrioritySaga";
+import projectCategoryTrackingActionList from "./CyberBugs/ProjectCategorySaga";
+import projectTrackingActionList from "./CyberBugs/ProjectSaga";
+import statusTrackingActionList from "./CyberBugs/StatusSaga";
+import taskTrackingActionList from "./CyberBugs/TaskSaga";
+import taskTypeTrackingActionList from "./CyberBugs/TaskTypeSaga";
+import userTrackingActionList from "./CyberBugs/UserCyberBugsSaga";
 
 export function* rootSaga() {
     yield all([
-       ...userTrackingActionList,
+        ...userTrackingActionList,
 
-        ProjectCategory.trackingActionGetAllProjectCategory(),
+        ...projectCategoryTrackingActionList,
 
-        ProjectSaga.trackingActionCreateProjectSaga(),
-        ProjectSaga.trackingActionGetAllProjects(),
-        ProjectSaga.trackingActionUpdateProjectSaga(),
-        ProjectSaga.trackingActionDeleteProjectSaga(),
-        ProjectSaga.trackingActionGetProjectDetailSaga(),
-        ProjectSaga.trackingActionGetAllDropdownProject(),
+        ...projectTrackingActionList,
 
-        PrioritySaga.trackingActionGetAllPrioritySaga(),
+        ...priorityTrackingActionList,
 
-        TaskTypeSaga.trackingActionGetAllTaskTypeSaga(),
+        ...taskTypeTrackingActionList,
 
-        TaskSaga.trackingActionCreateTaskSaga(),
-        TaskSaga.trackingActionGetTaskDetailSaga(),
-        TaskSaga.trackingActionUpdateTaskStatusSaga(),
-        TaskSaga.trackingActionUpdateTaskSaga(),
-        TaskSaga.trackingActionHandleChangePostApiSaga(),
+        ...taskTrackingActionList,
 
-        StatusSaga.trackingActionGetAllStatusSaga(),
+        ...statusTrackingActionList,
 
         ...commentTrackingActionList,
     ]);

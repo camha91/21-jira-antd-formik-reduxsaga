@@ -14,15 +14,15 @@ import {
     DELETE_PROJECT_SAGA,
     GET_ALL_PROJECT_SAGA,
     GET_PROJECT_DETAIL,
-    GET_PROJECT_DETAIL_API,
+    GET_PROJECT_DETAIL_SAGA,
     UPDATE_PROJECT_SAGA,
 } from "../../constants/ProjectConst";
 import {
-    GET_ALL_PROJECTS_API,
+    GET_ALL_PROJECTS_SAGA,
     GET_PROJECT_DROPDOWN,
-    GET_PROJECT_DROPDOWN_API,
+    GET_PROJECT_DROPDOWN_SAGA,
 } from "../../constants/ProjectCyberBugsConst";
-import { GET_USER_PROJECT_BY_ID_API } from "../../constants/UserCyberBugsConst";
+import { GET_USER_PROJECT_BY_ID_SAGA } from "../../constants/UserCyberBugsConst";
 
 // Create Project
 function* createProjectSaga(action) {
@@ -40,7 +40,6 @@ function* createProjectSaga(action) {
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
-            console.log(data);
 
             history.push("/projectManagement");
         }
@@ -71,13 +70,13 @@ function* getAllProjects(action) {
 
         if (status === STATUS_CODE.SUCCESS) {
             yield put({
-                type: GET_ALL_PROJECTS_API,
+                type: GET_ALL_PROJECTS_SAGA,
                 projectList: data.content,
             });
         }
 
         yield put({
-            type: GET_USER_PROJECT_BY_ID_API,
+            type: GET_USER_PROJECT_BY_ID_SAGA,
             idProject: data.content[0].id,
         });
     } catch (error) {
@@ -108,7 +107,6 @@ function* updateProjectSaga(action) {
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
-            console.log(data);
         }
 
         yield put({
@@ -146,7 +144,6 @@ function* deleteProjectSaga(action) {
 
         if (status === STATUS_CODE.SUCCESS) {
             // After calling api successfull then dispatch to reducer using put
-            console.log(data);
             notifiFunction("success", "Delete project successfully!");
         } else {
             notifiFunction("error", "Delete project fail!");
@@ -181,7 +178,6 @@ function* getProjectDetailSaga(action) {
         );
 
         // After calling api successfull then dispatch to reducer using put
-        console.log(data);
         yield put({
             type: GET_PROJECT_DETAIL,
             projectDetail: data.content,
@@ -193,7 +189,7 @@ function* getProjectDetailSaga(action) {
 }
 
 export function* trackingActionGetProjectDetailSaga() {
-    yield takeLatest(GET_PROJECT_DETAIL_API, getProjectDetailSaga);
+    yield takeLatest(GET_PROJECT_DETAIL_SAGA, getProjectDetailSaga);
 }
 
 //Get All Projects for Dropdown
@@ -205,7 +201,6 @@ function* getAllDropdownProject(action) {
         );
 
         // After calling api successfull then dispatch to reducer using put
-        console.log(data);
         yield put({
             type: GET_PROJECT_DROPDOWN,
             arrProject: data.content,
@@ -216,5 +211,16 @@ function* getAllDropdownProject(action) {
 }
 
 export function* trackingActionGetAllDropdownProject() {
-    yield takeLatest(GET_PROJECT_DROPDOWN_API, getAllDropdownProject);
+    yield takeLatest(GET_PROJECT_DROPDOWN_SAGA, getAllDropdownProject);
 }
+
+const projectTrackingActionList = [
+    trackingActionCreateProjectSaga(),
+    trackingActionGetAllProjects(),
+    trackingActionUpdateProjectSaga(),
+    trackingActionDeleteProjectSaga(),
+    trackingActionGetProjectDetailSaga(),
+    trackingActionGetAllDropdownProject(),
+];
+
+export default projectTrackingActionList;

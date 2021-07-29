@@ -14,17 +14,17 @@ import {
 } from "../../constants/LoadingConstants";
 import { GET_ALL_PROJECT_SAGA } from "../../constants/ProjectConst";
 import {
-    ADD_USER_PROJECT_API,
+    ADD_USER_PROJECT_SAGA,
     DELETE_USER_SAGA,
-    GET_USER_API,
     GET_USER_PROJECT_BY_ID,
-    GET_USER_PROJECT_BY_ID_API,
+    GET_USER_PROJECT_BY_ID_SAGA,
+    GET_USER_SAGA,
     GET_USER_SEARCH,
     LOGIN_INFO,
-    REMOVE_USER_PROJECT_API,
+    REMOVE_USER_PROJECT_SAGA,
     UPDATE_USER_SAGA,
-    USER_SIGNIN_API,
-    USER_SIGNUP_API,
+    USER_SIGNIN_SAGA,
+    USER_SIGNUP_SAGA,
 } from "../../constants/UserCyberBugsConst";
 
 // Sign in
@@ -50,7 +50,7 @@ function* signInSaga(action) {
 
         let history = yield select((state) => state.HistoryReducer.history);
 
-        history.push("/home");
+        history.push("/");
     } catch (error) {
         console.log(error.response.data);
     }
@@ -60,7 +60,7 @@ function* signInSaga(action) {
 }
 
 export function* trackingActionSignIn() {
-    yield takeLatest(USER_SIGNIN_API, signInSaga);
+    yield takeLatest(USER_SIGNIN_SAGA, signInSaga);
 }
 
 // Sign up
@@ -72,9 +72,8 @@ function* signUpSaga(action) {
 
     try {
         const { data, status } = yield call(() =>
-            cyberBugsService.signupCyberBugs(action.userRegister)
+            cyberBugsService.signupCyberBugs(action.userSignUp)
         );
-        console.log("dataRegister", data);
 
         // Store in localStorage after register successfully
         localStorage.setItem(USER_PROFILE, data.content);
@@ -97,7 +96,7 @@ function* signUpSaga(action) {
 }
 
 export function* trackingActionSignUp() {
-    yield takeLatest(USER_SIGNUP_API, signUpSaga);
+    yield takeLatest(USER_SIGNUP_SAGA, signUpSaga);
 }
 
 // Get the list of user using keyword
@@ -106,7 +105,6 @@ function* getUserSaga(action) {
         const { data, status } = yield call(() =>
             userService.getUser(action.keyword)
         );
-        console.log("data", data);
         const listOfUserTransform = data.content.map((elem) => {
             return {
                 id: elem.userId.toString(),
@@ -126,7 +124,7 @@ function* getUserSaga(action) {
 }
 
 export function* trackingActionGetUserSaga() {
-    yield takeLatest(GET_USER_API, getUserSaga);
+    yield takeLatest(GET_USER_SAGA, getUserSaga);
 }
 
 // Assign users to a project
@@ -145,7 +143,7 @@ function* addUserSaga(action) {
 }
 
 export function* trackingActionAddUserProjectSaga() {
-    yield takeLatest(ADD_USER_PROJECT_API, addUserSaga);
+    yield takeLatest(ADD_USER_PROJECT_SAGA, addUserSaga);
 }
 
 // Remove users to a project
@@ -164,19 +162,17 @@ function* removeUserSaga(action) {
 }
 
 export function* trackingActionRemoveUserProjectSaga() {
-    yield takeLatest(REMOVE_USER_PROJECT_API, removeUserSaga);
+    yield takeLatest(REMOVE_USER_PROJECT_SAGA, removeUserSaga);
 }
 
 // Get user by projectId
 function* getUserByProjectIdSaga(action) {
     const { idProject } = action;
-    console.log("action", idProject);
 
     try {
         const { data, status } = yield call(() =>
             userService.getUserByProjectId(idProject)
         );
-        console.log("checkData", data);
 
         if (status === STATUS_CODE.SUCCESS) {
             yield put({
@@ -196,7 +192,7 @@ function* getUserByProjectIdSaga(action) {
 }
 
 export function* trackingActionGetUserByProjectIdSaga() {
-    yield takeLatest(GET_USER_PROJECT_BY_ID_API, getUserByProjectIdSaga);
+    yield takeLatest(GET_USER_PROJECT_BY_ID_SAGA, getUserByProjectIdSaga);
 }
 
 // Update user
@@ -209,7 +205,7 @@ function* updateUserSaga(action) {
         );
 
         if (status === STATUS_CODE.SUCCESS) {
-            yield put({ type: GET_USER_API, keyword: "" });
+            yield put({ type: GET_USER_SAGA, keyword: "" });
             yield put({ type: CLOSE_DRAWER });
         }
     } catch (error) {
@@ -231,7 +227,7 @@ function* deleteUserSaga(action) {
         if (status === STATUS_CODE.SUCCESS) {
             yield put({ type: DISPLAY_LOADING });
             yield delay(500);
-            yield put({ type: GET_USER_API, keyword: "" });
+            yield put({ type: GET_USER_SAGA, keyword: "" });
             yield put({ type: HIDE_LOADING });
         }
     } catch (error) {

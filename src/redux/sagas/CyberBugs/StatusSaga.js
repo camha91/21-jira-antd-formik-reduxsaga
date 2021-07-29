@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { statusService } from "../../../services/StatusService";
 import {
     GET_ALL_STATUS,
-    GET_ALL_STATUS_API,
+    GET_ALL_STATUS_SAGA,
 } from "../../constants/StatusConst";
 
 function* getAllStatusSaga(action) {
@@ -19,5 +19,9 @@ function* getAllStatusSaga(action) {
 }
 
 export function* trackingActionGetAllStatusSaga() {
-    yield takeLatest(GET_ALL_STATUS_API, getAllStatusSaga);
+    yield takeLatest(GET_ALL_STATUS_SAGA, getAllStatusSaga);
 }
+
+const statusTrackingActionList = [trackingActionGetAllStatusSaga()];
+
+export default statusTrackingActionList;

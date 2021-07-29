@@ -7,7 +7,7 @@ import FormEditUser from "../../../components/Forms/FormEditUser/FormEditUser";
 import {
     DELETE_USER_SAGA,
     EDIT_USER,
-    GET_USER_API,
+    GET_USER_SAGA,
     OPEN_FORM_EDIT_USER,
 } from "../../../redux/constants/UserCyberBugsConst";
 
@@ -17,7 +17,7 @@ export default function UserManagement() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch({ type: GET_USER_API, keyword: "" });
+        dispatch({ type: GET_USER_SAGA, keyword: "" });
     }, []);
 
     const columns = [
@@ -70,8 +70,6 @@ export default function UserManagement() {
                     <Popconfirm
                         title="Are you sure to delete this user?"
                         onConfirm={() => {
-                            console.log("record1", record);
-
                             dispatch({
                                 type: DELETE_USER_SAGA,
                                 userId: record.id,
@@ -91,12 +89,10 @@ export default function UserManagement() {
     ];
 
     const handleKeyDown = (e) => {
-        // if (e.key === 'Enter') {
         dispatch({
-            type: GET_USER_API,
+            type: GET_USER_SAGA,
             keyword: e.target.value,
         });
-        // }
     };
 
     return (

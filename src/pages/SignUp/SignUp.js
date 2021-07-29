@@ -16,15 +16,15 @@ const { Title } = Typography;
 const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-function Register(props) {
+function SignUp(props) {
     const { errors, handleChange, handleSubmit } = props;
 
     return (
         <Form
-            onSubmit={handleSubmit}
+            onFinish={handleSubmit}
             className="container"
             style={{ height: window.innerHeight }}
-            initialValues={{ remember: true }}
+            // initialValues={{ remember: true }}
         >
             <div
                 className="d-flex flex-column justify-content-center align-items-center"
@@ -128,15 +128,22 @@ function Register(props) {
                         }}
                         className="mt-3"
                     >
-                        Register
+                        Sign Up
                     </Button>
+
+                    <div
+                        className="mt-3"
+                        style={{ textDecoration: "underline" }}
+                    >
+                        <a href="/login"> Or Login now!</a>
+                    </div>
                 </Form.Item>
             </div>
         </Form>
     );
 }
 
-const RegisterWithFormik = withFormik({
+const SignUpWithFormik = withFormik({
     mapPropsToValues: () => ({
         email: "",
         password: "",
@@ -165,13 +172,13 @@ const RegisterWithFormik = withFormik({
         { props, setSubmitting }
     ) => {
         setSubmitting(true);
-        console.log("setSubbmitting is true");
+
         props.dispatch(
             signupCyberBugsAction(email, password, phoneNumber, name)
         );
     },
 
     displayName: "Signup CyberBugs",
-})(Register);
+})(SignUp);
 
-export default connect()(RegisterWithFormik);
+export default connect()(SignUpWithFormik);
