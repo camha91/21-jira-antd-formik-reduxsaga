@@ -163,8 +163,8 @@ const SignUpWithFormik = withFormik({
             "Phone number is not valid"
         ),
         name: Yup.string()
-            .min(6, "Password must have min 6 characters!")
-            .max(32, "Password have max 32 characters!"),
+            .min(6, "Name must have min 6 characters!")
+            .max(32, "Name have max 32 characters!"),
     }),
 
     handleSubmit: (
